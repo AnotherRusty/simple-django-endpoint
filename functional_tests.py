@@ -23,3 +23,16 @@ class TestUserLogsIn(TestCase):
         )
 
         self.assertEqual(user, auth.get_user(self.client))
+
+
+class TestUserLogsOut(TestCase):
+    def test_successfully(self):
+        user = User.objects.create_user(
+            "student", "student@basecampcodingacademy.org", "studentpassword"
+        )
+
+        self.client.force_login(user)
+
+        self.client.get("/logout/")
+
+        self.assertFalse(auth.get_user(self.client).is_authenticated)
