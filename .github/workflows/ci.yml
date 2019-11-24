@@ -1,0 +1,16 @@
+name: CI
+
+on:
+  pull_request:
+    branches: 
+      - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - run: pipenv install --dev
+    - run: pipenv run test
