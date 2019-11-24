@@ -12,5 +12,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - run: pipenv install --dev
-    - run: pipenv run test
+    - run: python3.7 -m pip install pipenv
+    - run: python3.7 -m pipenv install --dev
+    - run: python3.7 -m pipenv run test
