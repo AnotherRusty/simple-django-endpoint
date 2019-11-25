@@ -27,4 +27,8 @@
 <input type="hidden" name="next" value="{{ next }}">
 </form>
 
+<p>Forgot your password?
+    <a href="{% url 'magic-link:create' %}">Request a magic link</a>
+</p>
+
 {% endblock %}
