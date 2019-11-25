@@ -53,3 +53,15 @@ a {
 main {
   padding: 1rem;
 }
+
+label {
+  display: block;
+}
+
+input {
+  display: block;
+  border: none;
+  border-bottom: 1px solid grey;
+  padding: 8px;
+  margin-bottom: 1rem;
+}
