@@ -7,6 +7,6 @@ from shoutouts.forms import ShoutoutForm
 class Shoutouts(View):
     def get(self, request):
         return render(request, "shoutouts.html")
-    def post(self, request):
-        shoutout = ShoutoutForm.objects.all()
-        pass
+    # def post(self, request):
+    #     shoutout = ShoutoutForm.objects.all()
+    #     pass

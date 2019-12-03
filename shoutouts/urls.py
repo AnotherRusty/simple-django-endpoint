@@ -4,5 +4,5 @@ from shoutouts.views import Shoutouts
 
 app_name = "shoutouts"
 
-urlpatterns = [path("", Shoutouts.as_view(), name="shoutouts")]
+urlpatterns = [path("", Shoutouts.as_view(), name="home")]
 
