@@ -1,2 +1,8 @@
 from django.urls import path
-from app import views
+from showcase import views
+
+app_name = "showcase"
+
+urlpatterns = [
+    path("sign-up/" views.sign_up, name="sign-up")
+]
