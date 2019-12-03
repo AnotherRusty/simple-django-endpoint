@@ -3,6 +3,5 @@ from . import views
 
 app_name = "reflections"
 
-urlpatterns = [
-]
+urlpatterns = [path("", views.home, name="home")]
 

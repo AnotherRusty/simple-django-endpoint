@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
 Hello Reflections
+{% if user.is_superuser %}
+    <p>Hello, admin.</p>
+{% else %}
+    <p>Hello, ordinary visitor.</p>
+{% endif %}
 {% endblock content %}
