@@ -25,8 +25,7 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ["DEBUG"] == "ON"
 
-ALLOWED_HOSTS = ["bcca-ascent.herokuapp.com",
-"127.0.0.1"]
+ALLOWED_HOSTS = [] if "HOST" not in os.environ else [os.environ["HOST"]]
 
 # Application definition
 
@@ -107,7 +106,9 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+if not DEBUG and ALLOWED_HOSTS != []:
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 DEFAULT_FROM_EMAIL = "no-reply@basecampcodingacademy.org"
