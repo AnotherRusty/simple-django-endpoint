@@ -8,6 +8,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      SECRET_KEY: cikey
+      DEBUG: ON  
 
     steps:
       - uses: actions/checkout@v1
