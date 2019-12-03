@@ -21,10 +21,11 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", TemplateView.as_view(template_name="home.html"), name="home"),
-    path("/reflections", TemplateView.as_view(template_name="reflection-base.html"), name="reflections-home"),
+    
     path(
         "login/", auth_views.LoginView.as_view(template_name="login.html"), name="login"
     ),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path("magic-link/", include("magic_links.urls"), name="magic-link"),
+    path("reflections/",include("reflections.urls"), name="reflections"),
 ]
