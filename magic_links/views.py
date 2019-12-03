@@ -1,7 +1,7 @@
 from django.views.generic import CreateView, View
 from .models import MagicLink
 from .forms import NewMagicLinkForm
-from django.shortcuts import redirect
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import login

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<form action="{% url 'shoutouts' %}" method="POST">
+    {% csrf_token %}
+    <label for="recipient">Recipient: </label>
+    <input type="text" name="shoutout" id="shoutout" placeholder="Shoutout here..."></textarea>
+    <button>Submit</button>
+</form>
+{% endblock content %}
