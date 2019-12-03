@@ -25,7 +25,7 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ["DEBUG"] == "ON"
 
-ALLOWED_HOSTS = ["bcca-ascent.herokuapp.com"]
+ALLOWED_HOSTS = [] if "HOST" not in os.environ else [os.environ["HOST"]]
 
 # Application definition
 
