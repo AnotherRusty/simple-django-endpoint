@@ -6,3 +6,6 @@ from django.contrib.auth import login
 
 class SignUp(forms.ModelForm):
     email = forms.EmailField()
+    headline = forms.CharField()
+    bio = forms.CharField()
+    
