@@ -9,8 +9,8 @@ class Shoutout(models.Model):
         User, related_name="shoutouts_received", on_delete=models.PROTECT
     )
     content = models.TextField()
+    datetime = models.DateTimeField()
     user = models.ForeignKey(
         User, related_name="shoutouts_given", on_delete=models.PROTECT
     )
-    datetime = models.DateTimeField()
     likes = models.IntegerField()

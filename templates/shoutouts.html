@@ -1,9 +1,99 @@
 {% extends 'base.html' %}
 {% block content %}
-<form action="{% url 'shoutouts:home' %}" method="POST">
-    {% csrf_token %}
-    <label for="recipient">Recipient: </label>
-    <input type="text" name="shoutout" id="shoutout" placeholder="Shoutout here..."></textarea>
-    <button>Submit</button>
-</form>
+<div id="shoutout-form-container">
+    <form action="{% url 'shoutouts:home' %}" method="POST">
+        {% csrf_token %}
+        <!-- <label for="recipient">Recipient: <div class="dropdown"> -->
+        <div class="dropdown">
+            <button class="recipient-btn">Recipient</button>
+            <div class="recipient">
+                <p>Angie Unda</p>
+                <p>Christian Guzman</p>
+                <p>Dakota Nichols</p>
+                <p>Derek Stegall</p>
+                <p>Destiny Malone</p>
+                <p>Devin Booker</p>
+                <p>Dylan Melton</p>
+                <p>Gillian Floyd</p>
+                <p>JD Gault</p>
+                <p>Oscar Guzman</p>
+                <p>Patton Burge</p>
+                <p>Tyler Irving</p>
+                <p>William Warren</p>
+            </div>
+        </div>
+        </label>
+        <textarea name="shoutout" placeholder="Shoutout here..."></textarea>
+        <button class="submit-btn">Submit</button>
+    </form>
+</div>
+<!-- <div id="shoutouts-container">
+    <label>Shoutouts:</label>
+    <ul id="shoutout-list">
+        {% for shoutout in shoutouts %}
+        <li class="shoutout">
+            <h4>{{ shoutouts.recipient }} was shouted out for {{ shoutouts.content }}!</h4>
+            <p>{{ shoutouts.datetime }}, from {{ shoutouts.user }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+</div> -->
+<style>
+    textarea {
+        width: 15rem;
+        height: 10rem;
+    }
+
+    .submit-btn {
+        background-color: var(--blue);
+        color: white;
+        padding: 5px;
+        font-size: 16px;
+        border-radius: 2px;
+    }
+
+    .recipient-btn {
+        background-color: var(--blue);
+        color: white;
+        padding: 10px;
+        border-radius: 2px;
+        font-size: 16px;
+        border: none;
+        /*  */
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .recipient {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 120px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    .recipient p {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        font-size: 15px;
+    }
+
+    .recipient p:hover {
+        background-color: #ddd;
+    }
+
+    .dropdown:hover .recipient {
+        display: block;
+    }
+
+    .dropdown:hover .recipientbtn {
+        background-color: #3e8e41;
+    }
+</style>
 {% endblock content %}
