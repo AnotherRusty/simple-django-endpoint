@@ -1,3 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.utils import timezone
 
-# Create your models here.
+
+class Checkin(models.Model):
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
+    datetime = models.DateTimeField(default=timezone.now)
+    checked_in = models.BooleanField()
