@@ -4,5 +4,6 @@ from showcase import views
 app_name = "showcase"
 
 urlpatterns = [
-    path("sign-up/", views.sign_up, name="create-profile")
+    path("create-profile/", views.sign_up, name="create-profile"),
+    path("user-profile", views.user_profiles, name="user-profile"),
 ]
