@@ -1,3 +1,6 @@
+
+
+
 const toastsContainer = document.createElement("div");
 document.body.appendChild(toastsContainer)
 const toastButtons = document.querySelectorAll(".button");
@@ -18,6 +21,7 @@ function createToast(message, duration) {
     const toast = document.createElement("div");
     toast.classList.add("toast")
     toast.textContent = message;
+    console.log(message)
     toastsContainer.appendChild(toast);
     setTimeout(function () {
         toastsContainer.removeChild(toast);
