@@ -17,7 +17,6 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 from django.contrib.auth import views as auth_views
-from app import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -27,4 +26,5 @@ urlpatterns = [
     ),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path("magic-link/", include("magic_links.urls"), name="magic-link"),
+    path("showcase", include("showcase.urls"), name="showcase")
 ]
