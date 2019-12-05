@@ -8,6 +8,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      SECRET_KEY: cikey
+      DEBUG: ON
+      DATABASE_URL: sqlite:///db.sqlite3
 
     steps:
       - uses: actions/checkout@v1
@@ -17,4 +21,5 @@ jobs:
           python-version: "3.7"
       - run: python -m pip install pipenv
       - run: python -m pipenv install --dev
+      - run: python -m pipenv run ./manage.py collectstatic --no-input
       - run: python -m pipenv run pytest

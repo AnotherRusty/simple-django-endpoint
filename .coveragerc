@@ -3,6 +3,7 @@ omit=
   **/wsgi.py
   **/apps.py
   manage.py
+  ascent/settings.py
 
 [report]
 fail_under=100
