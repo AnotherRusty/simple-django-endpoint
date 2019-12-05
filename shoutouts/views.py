@@ -10,17 +10,21 @@ from datetime import datetime
 class Shoutouts(View):
     def get(self, request):
         shoutouts = Shoutout.objects.all()
-        return render(request, "shoutouts.html", {"shoutouts": shoutouts})
+        return render(
+            request, "shoutouts.html", {"form": ShoutoutForm(), "shoutouts": shoutouts}
+        )
 
     def post(self, request):
         form = ShoutoutForm(request.POST)
         if form.is_valid():
             recipient = form.cleaned_data["recipient"]
             content = form.cleaned_data["content"]
-            datetime = form.cleaned_data["datetime"]
-            user = form.cleaned_data["user"]
             create_new_shoutout = Shoutout.objects.create(
-                recipient=recipient, content=content, datetime=datetime.now(), user=user
+                recipient=recipient,
+                content=content,
+                datetime=datetime.now(),
+                user=request.user,
+                likes=0,
             )
             return redirect("home")
         elif not form.is_valid():

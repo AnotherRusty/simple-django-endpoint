@@ -1,55 +1,72 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div id="shoutout-form-container">
-    <div class="dropdown">
-        <button class="recipient-btn">Recipient</button>
-
-        <form action="{% url 'shoutouts:home' %}" method="POST">
-            {% csrf_token %}
-            <div class="recipient">
-                <p>Angie Unda</p>
-                <p>Christian Guzman</p>
-                <p>Dakota Nichols</p>
-                <p>Derek Stegall</p>
-                <p>Destiny Malone</p>
-                <p>Devin Booker</p>
-                <p>Dylan Melton</p>
-                <p>Gillian Floyd</p>
-                <p>JD Gault</p>
-                <p>Oscar Guzman</p>
-                <p>Patton Burge</p>
-                <p>Tyler Irving</p>
-                <p>William Warren</p>
-            </div>
-    </div>
-    <textarea name="shoutout" placeholder="Shoutout here..."></textarea>
-    <button class="submit-btn">Submit</button>
+<div class="form-container">
+    <form action="{% url 'shoutouts:home' %}" method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <button class="submit-btn">Submit</button>
     </form>
+
 </div>
 
-<!-- <div id="shoutouts-container">
-    <label>Shoutouts:</label>
+
+
+<div id="shoutouts-container">
+    <label id="shoutout-label">Shoutouts:</label>
     <ul id="shoutout-list">
         {% for shoutout in shoutouts %}
         <li class="shoutout">
-            <h4>{{ shoutouts.recipient }} was shouted out for {{ shoutouts.content }}!</h4>
-            <p>{{ shoutouts.datetime }}, from {{ shoutouts.user }}</p>
+            <p>To {{ shoutout.recipient }}:</p>
+            <p id="content">{{ shoutout.content }}</p>
+            <p id="likes">{{ shoutout.likes }} <button>👍</button></p>
+            <p>From, {{ shoutout.user }} on {{ shoutout.datetime }}</p>
         </li>
         {% endfor %}
     </ul>
-</div> -->
+</div>
 
 <style>
-    #shoutout-form-container {
-        display: flex;
-        flex-direction: column;
-        padding: 16px;
+    select {
+        width: 10rem;
+    }
+
+    label {
+        font-size: 28px;
+    }
+
+    #likes {
+        font-size: 18px;
+    }
+
+    #content {
+        font-size: 20px;
+    }
+
+    #shoutout-label {
+        text-align: center;
+        margin-bottom: 2rem;
+        margin-top: 2rem;
+    }
+
+    #shoutout-list {
+        list-style-type: none;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin-left: 7rem;
     }
 
     textarea {
-        width: 15rem;
-        height: 10rem;
+        padding: 5px;
+        font-size: 12px;
+        width: 20rem;
+    }
+
+    .form-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 35px;
     }
 
     .submit-btn {
@@ -58,50 +75,6 @@
         padding: 5px;
         font-size: 16px;
         border-radius: 2px;
-        border: none;
-    }
-
-    .recipient-btn {
-        background-color: var(--blue);
-        color: white;
-        padding: 10px;
-        border-radius: 2px;
-        font-size: 16px;
-        border: none;
-    }
-
-    .dropdown {
-        position: relative;
-        display: inline-block;
-    }
-
-    .recipient {
-        display: none;
-        position: absolute;
-        background-color: #f1f1f1;
-        min-width: 120px;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-        z-index: 1;
-    }
-
-    .recipient p {
-        color: black;
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-        font-size: 15px;
-    }
-
-    .recipient p:hover {
-        background-color: #ddd;
-    }
-
-    .dropdown:hover .recipient {
-        display: block;
-    }
-
-    .dropdown:hover .recipientbtn {
-        background-color: #3e8e41;
     }
 </style>
 {% endblock content %}

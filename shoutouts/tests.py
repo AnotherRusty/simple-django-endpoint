@@ -11,7 +11,7 @@ class TestStudentCreatesShoutout(TestCase):
         self.client.force_login(shouter)
 
         self.client.post(
-            reverse("shoutouts:create"),
+            reverse("shoutouts:home"),
             {"recipient": shoutee.id, "content": "jane is soooo dutiful"},
         )
 
