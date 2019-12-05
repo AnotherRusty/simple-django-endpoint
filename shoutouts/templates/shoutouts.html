@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
+
 <div id="shoutout-form-container">
-    <form action="{% url 'shoutouts:home' %}" method="POST">
-        {% csrf_token %}
-        <!-- <label for="recipient">Recipient: <div class="dropdown"> -->
-        <div class="dropdown">
-            <button class="recipient-btn">Recipient</button>
+    <div class="dropdown">
+        <button class="recipient-btn">Recipient</button>
+
+        <form action="{% url 'shoutouts:home' %}" method="POST">
+            {% csrf_token %}
             <div class="recipient">
                 <p>Angie Unda</p>
                 <p>Christian Guzman</p>
@@ -21,12 +22,12 @@
                 <p>Tyler Irving</p>
                 <p>William Warren</p>
             </div>
-        </div>
-        </label>
-        <textarea name="shoutout" placeholder="Shoutout here..."></textarea>
-        <button class="submit-btn">Submit</button>
+    </div>
+    <textarea name="shoutout" placeholder="Shoutout here..."></textarea>
+    <button class="submit-btn">Submit</button>
     </form>
 </div>
+
 <!-- <div id="shoutouts-container">
     <label>Shoutouts:</label>
     <ul id="shoutout-list">
@@ -38,7 +39,14 @@
         {% endfor %}
     </ul>
 </div> -->
+
 <style>
+    #shoutout-form-container {
+        display: flex;
+        flex-direction: column;
+        padding: 16px;
+    }
+
     textarea {
         width: 15rem;
         height: 10rem;
@@ -50,6 +58,7 @@
         padding: 5px;
         font-size: 16px;
         border-radius: 2px;
+        border: none;
     }
 
     .recipient-btn {
@@ -59,7 +68,6 @@
         border-radius: 2px;
         font-size: 16px;
         border: none;
-        /*  */
     }
 
     .dropdown {
