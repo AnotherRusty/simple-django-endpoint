@@ -10,13 +10,18 @@ class TestStudentCreatesInitiative(TestCase):
 
         self.client.post(
             reverse("initiatives:create"),
-            {"title": "recycling", "description": "reduce! reuse! recycle!"},
+            {
+                "title": "recycling",
+                "description": "reduce! reuse! recycle!",
+                # "team_leader": "Des Mal",
+            },
         )
 
         self.assertEqual(user.initiative_set.count(), 1)
-        
+
         initiative = user.initiative_set.first()
 
         self.assertEqual(initiative.title, "recycling")
         self.assertEqual(initiative.description, "reduce! reuse! recycle!")
-        
+        # self.assertEqual(initiative.team_leader, "user@basecampcodingacademy.org")
+
