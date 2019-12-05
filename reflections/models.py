@@ -8,12 +8,6 @@ class Question(models.Model):
     answer = models.TextField()
 
 
-class Reflection(models.Model):
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
-    question = models.ForeignKey(Question, on_delete=models.PROTECT)
-    day_of_reflection = models.DateField()
-
-
 class Submission(models.Model):
     question = models.ForeignKey(Question, on_delete=models.PROTECT)
     answer = models.TextField()

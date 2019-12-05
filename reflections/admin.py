@@ -5,8 +5,8 @@ from .models import Submission
 from .models import QuestionSubmission
 
 
-class ReflectionAdmin(admin.ModelAdmin):
-    pass
+# class ReflectionAdmin(admin.ModelAdmin):
+#     pass
 
 
 admin.site.register(Reflection, ReflectionAdmin)

@@ -1,9 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
 Hello Reflections
-{% if user.is_superuser %}
-    <p>Hello, admin.</p>
-{% else %}
-    <p>Hello, ordinary visitor.</p>
-{% endif %}
+    <ul>
+    {% for reflection  in reflections %}
+
+    <li>
+    {{reflection.question}}
+    {{reflection.day_of_reflection}},
+    {{reflection.user}}
+     </li>
+    {% endfor %}
+    </ul>
 {% endblock content %}
