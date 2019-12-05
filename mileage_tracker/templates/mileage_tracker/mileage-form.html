@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<form action="{% url 'mileage_tracker:set_commute' %}" method="post">
+    {% csrf_token %}
+    <label for="miles">
+        How many miles do you drive a day?
+        <input type="number" name="mileage" id="">
+        <button>Submit</button>
+    </label>
+</form>
+{% endblock content %}
