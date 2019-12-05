@@ -1,16 +1,20 @@
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
-from mileage_tracker.forms import MileageForm
+from django.shortcuts import render, redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import CreateView
 from mileage_tracker.models import DistanceToWork
 
-# Create your views here.
-@login_required(login_url='login/')
-def set_commute(request):
-    if request.method == 'POST':
-        form = MileageForm(request.POST)
-        if form.is_valid():
-            miles = form.cleaned_data["miles"]
-            DistanceToWork.objects.create(user=request.user, miles=miles)
-        return render(request, "home.html")
-    else:
-        return render(request, 'mileage_tracker/mileage-form.html')
+class DistanceToWorkCreateView(LoginRequiredMixin, CreateView):
+    model = DistanceToWork
+    fields = ["miles"]
+    template_name = "mileage_tracker/mileage-form.html"
+
+    def form_valid(self, form):
+        try:
+            self.request.user.distancetowork.miles = form.cleaned_data["miles"]
+            self.request.user.distancetowork.save()
+        except DistanceToWork.DoesNotExist:
+            DistanceToWork.objects.create(
+                user=self.request.user,
+                miles=form.cleaned_data["miles"]
+            )
+        return redirect("mileage_tracker:set_commute")
