@@ -1,0 +1,33 @@
+h1 {
+    display: flex;
+    justify-content: center;
+}
+.style {
+    display: flex;
+    justify-content: center;
+}
+.score {
+    margin-left: 1rem;
+} 
+.players {
+    display: flex;
+}
+.score{
+    display: flex;
+}
+.make-pretty {
+    display: flex;
+    justify-content: center;
+}
+button {
+    height: 2rem;
+    width: 3rem;
+    background-color: rgb(51, 51, 51);
+    color: skyblue;
+    font-size: 16px;
+    border-radius: 10px;
+}
+button:hover {
+    background-color: gray;
+    
+}
