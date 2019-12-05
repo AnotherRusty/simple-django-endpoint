@@ -7,12 +7,12 @@ from datetime import datetime
 
 
 class Reflection(models.Model):
-    day_of_reflection = models.DateField()
+    date = models.DateField()
 
 
 class Question(models.Model):
     reflection = models.ForeignKey(Reflection, on_delete=models.PROTECT)
-    content = models.TextField()
+    prompt = models.TextField()
 
 
 class Submission(models.Model):
