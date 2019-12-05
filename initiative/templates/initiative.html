@@ -1,37 +1,19 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% block content %}
+<form action="" method="POST" class="input-form">
+    {% csrf_token %}
+    {{ form }}
+    <button>Submit</button>
+</form>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{% static 'initiative.css' %}">
-    <title>Ascent</title>
-</head>
-
-<body>
-    <form action="" method="POST" class="input-form">
-        {% csrf_token %}
-        <label>Initiative: <input type="text" name="title"></label>
-        <label>Leader: <input type="text" name="team_leader"></label>
-        <label>Detail: <input type="text" name="description"></label>
-        {% comment %} <label>Timeline: <input type="text" name="timeline"></label>  {% endcomment %}
-        {% comment %} <label>Goal Date: <input type="date" name="goal_date"></label> {% endcomment %}
-        <button>Submit</button>
-        {% if form %}
-        <p> {{ form.errors }} </p>
-        {% endif %}
-    </form>
-
-    {% for initiative in initiatives %}
-    <div class="initiative">
-        <p> {{ initiative.name }} </p>
-        <p> Leader ~ {{ initiative.team_leader }} </p>
-        <p> Goal: {{ initiative.goal_date }}</p>
-        <p> Team: {{ initiative.team }}</p>
-    </div>
-    {% endfor %}
-</body>
-
-</html>
+{% for initiative in initiatives %}
+<div class="initiative">
+    <p> {{ initiative.name }} </p>
+    <p> Leader ~ {{ initiative.team_leader }} </p>
+    <p> Goal: {{ initiative.title }}</p>
+    <p> Description: {{ initiative.description }}</p>
+    {% comment %} <p> Visual: {{ initiative.visual }}</p> {% endcomment %}
+</div>
+{% endfor %}
+{% endblock content %}
+    
