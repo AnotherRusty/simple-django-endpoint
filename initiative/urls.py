@@ -4,8 +4,6 @@ from django.views.generic import TemplateView
 from django.contrib.auth import views as auth_views
 from initiative.views import InitiativeView
 
-app_name = "initiative"
+app_name = "initiatives"
 
-urlpatterns = [
-    path("", InitiativeView.as_view(), name="initiatives")
-]
+urlpatterns = [path("", InitiativeView.as_view(), name="create")]

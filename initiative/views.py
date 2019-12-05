@@ -3,6 +3,7 @@ from django import views
 from initiative.models import Initiative
 from initiative.forms import InitiativeForm
 
+
 class InitiativeView(views.View):
     def get(self, request):
         initiatives = Initiative.objects.all()
@@ -13,12 +14,14 @@ class InitiativeView(views.View):
         initiatives = Initiative.objects.all()
         if form.is_valid():
             Initiative.objects.create(
-                name = form.cleaned_data["name"],
-                team_leader = form.cleaned_data["team_leader"],
-                goal_date = form.cleaned_data["goal_date"],
-                team = form.cleaned_data["team"],
-                timeline = form.cleaned_data["timeline"]
+                title=form.cleaned_data["title"],
+                description=form.cleaned_data["description"],
+                team_leader=form.cleaned_data["team_leader"],
             )
+            form.save()
             return redirect("initiatives")
         else:
-            return render(request, "initiative.html", {"initiatives": initiatives, "form": form})
+            return render(
+                request, "initiative.html", {"initiatives": initiatives, "form": form}
+            )
+

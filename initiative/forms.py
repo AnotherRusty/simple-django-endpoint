@@ -1,8 +1,10 @@
 from django import forms
 
+
 class InitiativeForm(forms.Form):
-    name = forms.CharField()
-    team_leader = forms.CharField()
-    goal_date = forms.DateField()
-    team = forms.CharField()
-    timeline = forms.CharField()
+    title = forms.CharField()
+    description = forms.CharField()
+    team_leader = forms.ModelChoiceField(queryset=None)
+
+    def __init__(self, *args, **kwargs):
+        super(InitiativeForm, self).__init__(*args, **kwargs)

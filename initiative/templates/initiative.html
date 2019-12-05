@@ -13,11 +13,11 @@
 <body>
     <form action="" method="POST" class="input-form">
         {% csrf_token %}
-        <label>Initiative: <input type="text" name="name"></label>
+        <label>Initiative: <input type="text" name="title"></label>
         <label>Leader: <input type="text" name="team_leader"></label>
-        <label>Members: <input type="text" name="team"></label>
-        <label>Timeline: <input type="text" name="timeline"></label>
-        <label>Goal Date: <input type="date" name="goal_date"></label>
+        <label>Detail: <input type="text" name="description"></label>
+        {% comment %} <label>Timeline: <input type="text" name="timeline"></label>
+        <label>Goal Date: <input type="date" name="goal_date"></label> {% endcomment %}
         <button>Submit</button>
         {% if form %}
         <p> {{ form.errors }} </p>
