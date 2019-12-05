@@ -1,10 +1,7 @@
 from django.urls import path
-from mileage_tracker.views import set_commute
+from . import views
 
 app_name = "mileage_tracker"
 
-urlpatterns = [
-    path("", set_commute, name="set_commute")
-]
+urlpatterns = [path("", views.DistanceToWorkCreateView.as_view(), name="set_commute")]
 
-    
