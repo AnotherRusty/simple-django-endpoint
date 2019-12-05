@@ -11,9 +11,9 @@
 <body>
     <form action="{% url 'showcase:create-profile' %}" method="POST">
         {% csrf_token %}
-        <label>New Profile</label>
+        <label>New Headline</label>
         <input type="text" name="profile">
-
+        <button>Submit</button>
     </form>
 </body>
 
