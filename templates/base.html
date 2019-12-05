@@ -11,7 +11,7 @@
 <body>
     <nav id="main-nav">
         <a href="{% url 'home' %}" id="main-nav__brand">Ascent</a>
-        {% comment %} <a href="{% url 'reflections:home' %}" id="main-nav__brand">Reflections</a> {% endcomment %}
+        <a href="{% url 'reflections:home' %}" id="main-nav__brand">Reflections</a>
         {% if user.is_authenticated %}
         <a href="{% url 'logout' %}" id="main-nav__login">Logout</a>
         {% else %}

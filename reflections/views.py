@@ -1,7 +1,14 @@
 from django.shortcuts import render
-# from .models import Reflection,Submission
+from .models import Reflection,Submission,Question
 
-# def home(request):
-#     reflections = Reflection.objects.all()
-#     submissions = Submission.objects.all()
-#     return render(request, "reflections/base.html", {"reflections": reflections, "submissions": submissions})
+def home(request):
+    reflections = Reflection.objects.all()
+    questions = Question.objects.all()
+    return render(request, "reflections/base.html", {"reflections": reflections, "questions":questions})
+
+def submit_reflection(request,submit_id):
+    reflection = Reflection.objects.get(id=submit_id)
+    Submission.objects.create(
+        reflection=reflection , user=request.user
+    )
+    return render(request, "reflections/base.html")
