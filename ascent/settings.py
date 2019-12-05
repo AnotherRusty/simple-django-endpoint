@@ -114,4 +114,5 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 DEFAULT_FROM_EMAIL = "no-reply@basecampcodingacademy.org"
 
 LOGIN_REDIRECT_URL = "/"
+LOGIN_URL = "/login/"
 LOGOUT_REDIRECT_URL = "/"
