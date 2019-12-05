@@ -7,7 +7,6 @@ from datetime import datetime
 
 class Submission(models.Model):
     question = models.ForeignKey(Question, on_delete=models.PROTECT)
-    answer = models.TextField()
     user = models.ForeignKey(User, on_delete=models.PROTECT)
 
 
