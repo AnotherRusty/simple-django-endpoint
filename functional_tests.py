@@ -14,21 +14,6 @@ class TestUserVisitsHomePage(TestCase):
         self.assertContains(response, "<title>Ascent</title>", html=True)
 
 
-class TestUserLogsIn(TestCase):
-    def test_successfully(self):
-        user = User.objects.create_user(
-            "student", "student@basecampcodingacademy.org", "studentpassword"
-        )
-
-        self.client.get("/login/")
-
-        response = self.client.post(
-            "/login/", {"username": "student", "password": "studentpassword"}
-        )
-
-        self.assertEqual(user, auth.get_user(self.client))
-
-
 class TestUserLogsOut(TestCase):
     def test_successfully(self):
         user = User.objects.create_user(
@@ -45,11 +30,6 @@ class TestUserLogsOut(TestCase):
 class TestUserLogsInViaMagicLink(TestCase):
     def test_successfully(self):
         self.user = User.objects.create_user("nate", "natec425@gmail.com")
-
-        with self.subTest("login page shows link to request magic link"):
-            response = self.client.get("/login/")
-
-            self.assertContains(response, "Request a magic link")
 
         with self.subTest("user can request a magic link via email"):
             response = self.client.post(
