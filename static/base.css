@@ -71,16 +71,6 @@ p {
   margin-bottom: 1rem;
 }
 
-.card-body {
-  border: 2px solid rgb(158, 158, 158);
-  border-radius: 19px;
-  padding: 10px;
-  margin: 15px;
-  width: 35rem;
-  background-color: whitesmoke;
-  height: 12rem;
-  box-shadow: rgb(136, 134, 134) 5px 5px 5px 5px;
-}
 h1 {
   font-size: 1.7rem;
 }
@@ -100,3 +90,6 @@ h1 {
   height: 30px;
 }
 
+div.card-body {
+  display: inline-flex;
+}
