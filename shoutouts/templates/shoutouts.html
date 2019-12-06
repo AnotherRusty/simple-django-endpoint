@@ -4,7 +4,7 @@
 <div class="form-container">
     <form action="{% url 'shoutouts:home' %}" method="POST">
         {% csrf_token %}
-        {{ form }}
+        <div id="form">{{ form }}</div>
         <button class="submit-btn">Submit</button>
     </form>
 
@@ -13,14 +13,14 @@
 
 
 <div id="shoutouts-container">
-    <label id="shoutout-label">Shoutouts:</label>
+    <!-- <label id="shoutout-label">Shoutouts:</label> -->
     <ul id="shoutout-list">
         {% for shoutout in shoutouts %}
         <li class="shoutout">
             <p>To {{ shoutout.recipient }}:</p>
             <p id="content">{{ shoutout.content }}</p>
             <p id="likes">{{ shoutout.likes }} <button>👍</button></p>
-            <p>From, {{ shoutout.user }} on {{ shoutout.datetime }}</p>
+            <p id="shoutout-detail">From, {{ shoutout.user }} on {{ shoutout.datetime }}</p>
         </li>
         {% endfor %}
     </ul>
@@ -43,6 +43,16 @@
         font-size: 20px;
     }
 
+    .shoutout {
+        overflow-wrap: break-word;
+        border: black 1px solid;
+        border-radius: 1rem;
+        padding: 1rem;
+        width: 12.5rem;
+        margin: 1rem;
+        background-color: rgba(155, 152, 152, 0.26);
+    }
+
     #shoutout-label {
         text-align: center;
         margin-bottom: 2rem;
@@ -53,7 +63,7 @@
         list-style-type: none;
         display: grid;
         grid-template-columns: 1fr 1fr;
-        margin-left: 7rem;
+        margin-left: 8.5rem;
     }
 
     textarea {
@@ -64,9 +74,19 @@
 
     .form-container {
         display: flex;
+        justify-content: center;
         flex-direction: column;
         align-items: flex-start;
         padding: 35px;
+        margin: auto;
+    }
+
+    .form-container form {
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
     }
 
     .submit-btn {
@@ -76,5 +96,9 @@
         font-size: 16px;
         border-radius: 2px;
     }
+
+    #shoutout-detail {
+        font-size: 12pt;
+    }
 </style>
-{% endblock content %}
+{% endblock content %}å
