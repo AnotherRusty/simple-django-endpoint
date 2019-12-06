@@ -5,11 +5,6 @@ from datetime import datetime
 # Create your models here.
 
 
-class Submission(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.PROTECT)
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
-
-
 class Reflection(models.Model):
     date = models.DateField()
 
@@ -17,6 +12,11 @@ class Reflection(models.Model):
 class Question(models.Model):
     reflection = models.ForeignKey(Reflection, on_delete=models.PROTECT)
     prompt = models.TextField()
+
+
+class Submission(models.Model):
+    reflection = models.ForeignKey(Reflection, on_delete=models.PROTECT)
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
 
 
 class QuestionSubmission(models.Model):
