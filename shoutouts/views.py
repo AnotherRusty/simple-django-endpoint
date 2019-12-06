@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import View
 from shoutouts.forms import ShoutoutForm
 from shoutouts.models import Shoutout
-from datetime import datetime
+from django.utils import timezone
 
 # Create your views here.
 
@@ -22,7 +22,7 @@ class Shoutouts(View):
             create_new_shoutout = Shoutout.objects.create(
                 recipient=recipient,
                 content=content,
-                datetime=datetime.now(),
+                datetime=timezone.now(),
                 user=request.user,
                 likes=0,
             )
