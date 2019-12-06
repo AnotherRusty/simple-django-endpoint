@@ -13,7 +13,8 @@ def sign_up(request):
         if form.is_valid():
             user = request.user
             headline = form.cleaned_data["headline"]
-            profile = Profile.objects.create(user=user, headline=headline)
+            bio = form.cleaned_data["bio"]
+            profile = Profile.objects.create(user=user, headline=headline, bio=bio)
             return redirect("showcase:profile-list")
         else:
             return render(request, "create-profile.html", {"form": form})
