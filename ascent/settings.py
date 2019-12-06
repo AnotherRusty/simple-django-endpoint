@@ -110,7 +110,15 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 if not DEBUG and ALLOWED_HOSTS != []:
     STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+if "SENDGRID_API_KEY" in os.environ:
+    EMAIL_HOST = "smtp.sendgrid.net"
+    EMAIL_HOST_USER = "apikey"
+    EMAIL_HOST_PASSWORD = os.environ["SENDGRID_API_KEY"]
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+else:
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
 DEFAULT_FROM_EMAIL = "no-reply@basecampcodingacademy.org"
 
 LOGIN_REDIRECT_URL = "/"
