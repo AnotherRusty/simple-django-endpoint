@@ -14,7 +14,6 @@ gunicorn = "*"
 pytest = "*"
 pytest-django = "*"
 pytest-cov = "*"
-v = {editable = true,version = "*"}
 
 [requires]
 python_version = "3.7"

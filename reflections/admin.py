@@ -1,5 +1,8 @@
 from django.contrib import admin
-from .models import Reflection, Question, QuestionSubmission, Submission
+from .models import Reflection
+from .models import Question
+from .models import QuestionSubmission
+from .models import Submission
 
 
 class ReflectionAdmin(admin.ModelAdmin):
