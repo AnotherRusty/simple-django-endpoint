@@ -15,7 +15,10 @@
         <li class="shoutout">
             <p>To <a class="recipient-name" href="">{{ shoutout.recipient }}</a>:</p>
             <p id="content">{{ shoutout.content }}</p>
-            <p id="likes">{{ shoutout.likes }} <button id="likeButton">👍</button></p>
+            <form action="{% url 'shoutouts:likes' shoutout.id %}" method="POST">
+                {% csrf_token %}
+                <p id="likes">{{ shoutout.likes }} <button id="likeButton">👍</button></p>
+            </form>
             <p id="shoutout-detail">From, {{ shoutout.user }} on {{ shoutout.datetime }}</p>
         </li>
         {% endfor %}

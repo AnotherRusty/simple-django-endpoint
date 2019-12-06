@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from shoutouts.forms import ShoutoutForm
-from shoutouts.models import Shoutout
+from shoutouts.models import Shoutout, ShoutoutLike
 from django.utils import timezone
 
 # Create your views here.
@@ -10,9 +10,8 @@ from django.utils import timezone
 class Shoutouts(View):
     def get(self, request):
         shoutouts = Shoutout.objects.all()
-        return render(
-            request, "shoutouts.html", {"form": ShoutoutForm(), "shoutouts": shoutouts}
-        )
+        form = ShoutoutForm(request.POST)
+        return render(request, "shoutouts.html", {"form": form, "shoutouts": shoutouts})
 
     def post(self, request):
         shoutouts = Shoutout.objects.all()
@@ -32,3 +31,10 @@ class Shoutouts(View):
             return render(
                 request, "shoutouts.html", {"form": form, "shoutouts": shoutouts}
             )
+
+
+class ShoutoutLikes(View):
+    def post(self, request, id):
+        shoutout_likes = ShoutoutLike.objects.all()
+        # create new row for likes, likes.count
+        return redirect("home", shoutout.id)
