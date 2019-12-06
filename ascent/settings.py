@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     "magic_links",
     "pingpong",
     "reflections",
-    "mileage_tracker"
+    "mileage_tracker",
+    "shoutouts"
 ]
 
 MIDDLEWARE = [
