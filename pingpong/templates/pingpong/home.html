@@ -6,53 +6,8 @@
 
 <form action="{% url 'pingpong:create-match' %}" method="POST">
 {% csrf_token %}
-<div class="style">
-    <label> Player 1:
-    <select name="player1" id="player1">
-        <option value="2">Dylan Melton</option>
-        <option value="3">Derek Stegall</option>
-        <option value="4">Gillian Floyd</option>
-        <option value="5">Patton Burge</option>
-        <option value="6">JD Gault</option>
-        <option value="7">Devin Booker</option>
-        <option value="8">Oscar Guzman</option>
-        <option value="9">Christian Guzman</option>
-        <option value="10">Angie Unda</option>
-        <option value="11">Dakota Nichols</option>
-        <option value="12">Destiny Malone</option>
-        <option value="13">William Warren</option>
-        <option value="14">Tyler Irving</option>
-    </select>
-    </label>
-    <label class="score"> Score:
-    <input type="number" name="player1_score">
-    </label>
-</div>
-<div class="style">
-    <label> Player 2:
-    <select name="player2" id="player2">
-        <option value="2">Dylan Melton</option>
-        <option value="3">Derek Stegall</option>
-        <option value="4">Gillian Floyd</option>
-        <option value="5">Patton Burge</option>
-        <option value="6">JD Gault</option>
-        <option value="7">Devin Booker</option>
-        <option value="8">Oscar Guzman</option>
-        <option value="9">Christian Guzman</option>
-        <option value="10">Angie Unda</option>
-        <option value="11">Dakota Nichols</option>
-        <option value="12">Destiny Malone</option>
-        <option value="13">William Warren</option>
-        <option value="14">Tyler Irving</option>
-    </select>
-    </label>
-    <label class="score"> Score:
-    <input type="number" name="player2_score">
-    </label>
-</div>
-<div class="make-pretty">
-    <button>Submit</button>
-</div>
+{{ form }}
+<button>New Match</button>
 </form>
 {% for match in matches  %}
 <div class='players'>

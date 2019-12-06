@@ -1,4 +1,6 @@
 from django.contrib import admin
 from pingpong.models import Match
-# Register your models here.
-admin.site.register(Match)
+
+@admin.register(Match)
+class MatchAdmin(admin.ModelAdmin):
+    pass

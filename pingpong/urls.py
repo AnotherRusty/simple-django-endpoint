@@ -5,6 +5,6 @@ app_name = "pingpong"
 
 urlpatterns = [
     path("", views.home, name="home"),
-    path("create/", views.create_match, name="create-match")
+    path("create/", views.MatchCreateView.as_view(), name="create-match"),
 ]
 
