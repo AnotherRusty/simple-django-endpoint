@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
+{% if user.is_authenticated %}
 <div class="form-container">
     <form action="{% url 'shoutouts:home' %}" method="POST">
         {% csrf_token %}
@@ -8,7 +9,19 @@
         <button class="submit-btn">Submit</button>
     </form>
 </div>
-
+<div id="shoutouts-container">
+    <ul id="shoutout-list">
+        {% for shoutout in shoutouts %}
+        <li class="shoutout">
+            <p>To <a class="recipient-name" href="">{{ shoutout.recipient }}</a>:</p>
+            <p id="content">{{ shoutout.content }}</p>
+            <p id="likes">{{ shoutout.likes }} <button id="likeButton">👍</button></p>
+            <p id="shoutout-detail">From, {{ shoutout.user }} on {{ shoutout.datetime }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% else %}
 <div id="shoutouts-container">
     <ul id="shoutout-list">
         {% for shoutout in shoutouts %}
@@ -21,6 +34,7 @@
         {% endfor %}
     </ul>
 </div>
+{% endif %}
 
 <style>
     select {
