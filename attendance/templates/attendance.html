@@ -14,12 +14,13 @@
 </head>
 
 <body>
-    <p>Good Morning, Welcome to Base Camp Coding Academy</p>
+    <div> <p>Good Morning, Welcome to Base Camp Coding Academy</p>
 
 <form action="{% url 'attendance:check-in' %}" method="POST">
 {% csrf_token %}
    <p> Please Click the <button id="button">Check In</button> to Check In! </p>
 </form>
+   </div>
 
 </body>
 </html>
