@@ -15,6 +15,7 @@ class Shoutouts(View):
         )
 
     def post(self, request):
+        shoutouts = Shoutout.objects.all()
         form = ShoutoutForm(request.POST)
         if form.is_valid():
             recipient = form.cleaned_data["recipient"]
@@ -28,4 +29,6 @@ class Shoutouts(View):
             )
             return redirect("home")
         elif not form.is_valid():
-            return render(request, "shoutouts.html", {"form": form})
+            return render(
+                request, "shoutouts.html", {"form": form, "shoutouts": shoutouts}
+            )

@@ -7,14 +7,13 @@
         <div id="form">{{ form }}</div>
         <button class="submit-btn">Submit</button>
     </form>
-
 </div>
 
 <div id="shoutouts-container">
     <ul id="shoutout-list">
         {% for shoutout in shoutouts %}
         <li class="shoutout">
-            <p>To {{ shoutout.recipient }}:</p>
+            <p>To <a class="recipient-name" href="">{{ shoutout.recipient }}</a>:</p>
             <p id="content">{{ shoutout.content }}</p>
             <p id="likes">{{ shoutout.likes }} <button>👍</button></p>
             <p id="shoutout-detail">From, {{ shoutout.user }} on {{ shoutout.datetime }}</p>
@@ -97,5 +96,10 @@
     #shoutout-detail {
         font-size: 12pt;
     }
+
+    .recipient-name {
+        color: black;
+        text-decoration: underline;
+    }
 </style>
-{% endblock content %}å
+{% endblock content %}

@@ -45,7 +45,7 @@ class TestStudentsCanSeeShoutouts(TestCase):
         shouter.shoutouts_given.create(
             recipient=shoutee,
             content="jane is totes the dutifulest",
-            likes=1,
+            likes=0,
             datetime=timezone.now(),
         )
 
