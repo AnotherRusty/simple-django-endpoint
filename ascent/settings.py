@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "magic_links",
     "reflections",
-    "mileage_tracker"
+    "mileage_tracker",
+    "shoutouts"
 ]
 
 MIDDLEWARE = [
