@@ -6,7 +6,7 @@ from initiative.forms import InitiativeForm
 from django.utils import timezone
 
 
-class InitiativeView(LoginRequiredMixin, views.View):
+class InitiativeView(views.View):
     def get(self, request):
         initiatives = Initiative.objects.all()
         return render(
@@ -15,6 +15,8 @@ class InitiativeView(LoginRequiredMixin, views.View):
             {"initiatives": initiatives, "form": InitiativeForm()},
         )
 
+
+class InitiativeCreateView(LoginRequiredMixin, views.View):
     def post(self, request):
         form = InitiativeForm(request.POST)
         initiatives = Initiative.objects.all()
@@ -22,11 +24,10 @@ class InitiativeView(LoginRequiredMixin, views.View):
             Initiative.objects.create(
                 title=form.cleaned_data["title"],
                 description=form.cleaned_data["description"],
-                # visual=form.cleaned_data["visual"],
                 team_leader=request.user,
                 date=timezone.now(),
             )
-            return redirect("initiatives:create")
+            return redirect("initiatives:home")
         else:
             return render(
                 request, "initiative.html", {"initiatives": initiatives, "form": form}

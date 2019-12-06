@@ -1,10 +1,10 @@
-{% load static %}
 {% extends 'base.html' %}
+{% load static %}
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'initiative.css' %}">
 {% endblock extra_css %}
 {% block content %}
-<form action="" method="POST" class="input-form">
+<form action="{% url 'initiatives:create' %}" method="POST" class="input-form">
     {% csrf_token %}
     {{ form }}
     <button>Submit</button>

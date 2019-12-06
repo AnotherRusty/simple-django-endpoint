@@ -31,4 +31,14 @@ class TestStudentCreatesInitiative(TestCase):
 
         self.assertEqual(user.initiative_set.count(), 0)
 
-        self.assertContains(response, "title is required")
+        self.assertContains(response, "is required")
+
+
+class TestUserSeesInitiatives(TestCase):
+    def test_successfully(self):
+        user = User.objects.create_user("selfstartersuz")
+        user.initiative_set.create(title="BLOAW", description="Doing big things!")
+
+        response = self.client.get(reverse("initiatives:home"))
+
+        self.assertContains(response, "BLOAW")
