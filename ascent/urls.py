@@ -26,6 +26,7 @@ urlpatterns = [
     ),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path("magic-link/", include("magic_links.urls"), name="magic-link"),
+    path("pingpong/", include("pingpong.urls"), name="pingpong"),
     path("reflections/", include("reflections.urls"), name="reflections"),
     path("mileage_tracker/", include("mileage_tracker.urls"), name="mileage_tracker"),
     path("shoutouts", include("shoutouts.urls"), name="shoutouts")
