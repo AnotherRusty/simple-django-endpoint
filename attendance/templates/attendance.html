@@ -10,16 +10,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <script src="{% static 'attendance.js' %}" defer></script>
+    <link rel="stylesheet" href="{% static 'attendance.css' %}">
 </head>
 
 <body>
     <p>Good Morning, Welcome to Base Camp Coding Academy</p>
-    <p>Please Sign In</p>
-    <button class="button">Check in</button>
+
+<form action="{% url 'attendance:check-in' %}" method="POST">
+{% csrf_token %}
+   <p> Please Click the <button id="button">Check In</button> to Check In! </p>
+</form>
 
 </body>
-
-
 </html>
 {% endblock content %}
