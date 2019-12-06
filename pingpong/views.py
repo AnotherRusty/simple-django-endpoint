@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView
 from django.urls import reverse_lazy
 from pingpong.models import Match
 
 
-def home(request):
-    matches = Match.objects.all()
-    return render(request, "pingpong/home.html", {"matches": matches})
+class Home(ListView):
+    model = Match
+    template_name = "pingpong/home.html"
+    context_object_name = "matches"
 
 class MatchCreateView(CreateView):
     model = Match
