@@ -12,5 +12,5 @@ class Home(ListView):
 class MatchCreateView(CreateView):
     model = Match
     fields = ["player1", "player2", "player1_score", "player2_score"]
-    template_name = "pingpong/home.html"
+    template_name = "pingpong/create-match.html"
     success_url = reverse_lazy('pingpong:home')
