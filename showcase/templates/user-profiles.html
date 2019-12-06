@@ -1,6 +1,5 @@
 {% extends "base.html" %}
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-  integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
   integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
@@ -10,16 +9,27 @@
 {% block content %}
 
 <div class="user-body">
-  {% for profile in profiles  %}
-  <div class="card" style="width: 18rem;">
-    <div class="card-body">
-      <h1 class="card-title">
-        <div class="profile-pic"></div>User: {{ profile.user.username}}
-      </h1>
-      <p class="card-text">Headline: {{profile.headline}}</p>
-      <div class="btn btn-primary">Bio: {{profile.bio}}</div>
+  <div class="row">
+    {% for profile in profiles  %}
+    <div class="col col-lg-4 col-sm-6">
+      <div class="card">
+        <div class="card-header">
+          {{ profile.user.username}}
+        </div>
+        <div class="card-body">
+          <div>
+            <img class="w-75 rounded-circle border border-primary"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTT9MmOp5TcW6fY622cSYjpz06DAd5A1PAo4s-MWKK6iQJRThq8">
+          </div>
+          <div>
+            <h5 class="card-title">{{profile.headline}}</h5>
+            <p class="card-text">{{profile.bio}}</p>
+            <a href="#" class="btn btn-primary">See details</a>
+          </div>
+        </div>
+      </div>
     </div>
+    {% endfor %}
   </div>
-
-  {% endfor %}
-  {% endblock content %}</div>
+</div>
+{% endblock content %}
