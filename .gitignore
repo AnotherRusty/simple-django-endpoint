@@ -9,3 +9,4 @@ attendance/migrations/0001_initial.py
 attendance/migrations/0002_checkin_checked_in.py
 attendance/migrations/0003_remove_checkin_checked_in.py
 attendance/static/attendance.css
+.DS_Store
