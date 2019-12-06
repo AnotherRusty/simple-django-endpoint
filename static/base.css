@@ -70,3 +70,33 @@ p {
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
+
+.card-body {
+  border: 2px solid rgb(158, 158, 158);
+  border-radius: 19px;
+  padding: 10px;
+  margin: 15px;
+  width: 35rem;
+  background-color: whitesmoke;
+  height: 12rem;
+  box-shadow: rgb(136, 134, 134) 5px 5px 5px 5px;
+}
+h1 {
+  font-size: 1.7rem;
+}
+.user-body {
+  display: block;
+}
+
+.profile-pic {
+  height: 70px;
+  width: 70px;
+  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTT9MmOp5TcW6fY622cSYjpz06DAd5A1PAo4s-MWKK6iQJRThq8");
+  background-size: cover, contain;
+
+}
+.button-sub {
+  width: 4rem;
+  height: 30px;
+}
+
