@@ -6,4 +6,3 @@ from django.utils import timezone
 class Checkin(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE)
     datetime = models.DateTimeField(default=timezone.now)
-    checked_in = models.BooleanField()
