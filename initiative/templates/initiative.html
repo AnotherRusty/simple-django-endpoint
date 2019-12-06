@@ -1,4 +1,8 @@
+{% load static %}
 {% extends 'base.html' %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'initiative.css' %}">
+{% endblock extra_css %}
 {% block content %}
 <form action="" method="POST" class="input-form">
     {% csrf_token %}
@@ -6,13 +10,15 @@
     <button>Submit</button>
 </form>
 
-{% for initiative in initiatives %}
-<div class="initiative">
-    <p> {{ initiative.name }} </p>
-    <p> Leader ~ {{ initiative.team_leader }} </p>
-    <p> Goal: {{ initiative.title }}</p>
-    <p> Description: {{ initiative.description }}</p>
+<div class="container">
+    {% for initiative in initiatives %}
+    <div class="initiative">
+        <p> {{ initiative.name }} </p>
+        <p> Leader ~ {{ initiative.team_leader }} </p>
+        <p> Goal: {{ initiative.title }}</p>
+        <p> Description: {{ initiative.description }}</p>
+    </div>
+    {% endfor %}
 </div>
-{% endfor %}
 {% endblock content %}
     
