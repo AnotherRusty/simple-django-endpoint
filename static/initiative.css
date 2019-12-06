@@ -33,3 +33,11 @@
     border: 3px solid burlywood;
     border-radius: 15px;
 }
+p {
+    display: block;
+    align-content: space-between;
+    border: 2px solid red;
+    margin: 1rem;
+    background-color: aqua;
+    color: black;
+}
