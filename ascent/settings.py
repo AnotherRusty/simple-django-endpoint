@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "crispy_forms",
     "magic_links",
     "pingpong",
     "reflections",
@@ -79,6 +80,8 @@ TEMPLATES = [
         },
     }
 ]
+
+CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 WSGI_APPLICATION = "ascent.wsgi.application"
 
