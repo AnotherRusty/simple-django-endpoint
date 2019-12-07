@@ -27,6 +27,14 @@ DEBUG = os.environ["DEBUG"] == "ON"
 
 ALLOWED_HOSTS = [] if "HOST" not in os.environ else [os.environ["HOST"]]
 
+if "SENTRY_DSN" in os.environ:
+    import sentry_sdk
+    from sentry_sdk.integrations.django import DjangoIntegration
+
+    sentry_sdk.init(
+        dsn=os.environ["SENTRY_DSN"], integrations=[DjangoIntegration()],
+    )
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -40,7 +48,7 @@ INSTALLED_APPS = [
     "pingpong",
     "reflections",
     "mileage_tracker",
-    "shoutouts"
+    "shoutouts",
 ]
 
 MIDDLEWARE = [
