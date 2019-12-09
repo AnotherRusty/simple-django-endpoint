@@ -70,3 +70,26 @@ p {
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
+
+h1 {
+  font-size: 1.7rem;
+}
+.user-body {
+  display: block;
+}
+
+.profile-pic {
+  height: 70px;
+  width: 70px;
+  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTT9MmOp5TcW6fY622cSYjpz06DAd5A1PAo4s-MWKK6iQJRThq8");
+  background-size: cover, contain;
+
+}
+.button-sub {
+  width: 4rem;
+  height: 30px;
+}
+
+div.card-body {
+  display: inline-flex;
+}

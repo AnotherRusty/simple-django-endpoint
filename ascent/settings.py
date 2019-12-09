@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "crispy_forms",
     "magic_links",
+    "showcase",     
     "initiative",
     "mileage_tracker",
     "pingpong",
