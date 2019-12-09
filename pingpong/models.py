@@ -11,4 +11,4 @@ class Match(models.Model):
     )
     player1_score = models.IntegerField()
     player2_score = models.IntegerField()
-
+    winner = models.TextField()
