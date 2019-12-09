@@ -27,6 +27,14 @@ DEBUG = os.environ["DEBUG"] == "ON"
 
 ALLOWED_HOSTS = [] if "HOST" not in os.environ else [os.environ["HOST"]]
 
+if "SENTRY_DSN" in os.environ:
+    import sentry_sdk
+    from sentry_sdk.integrations.django import DjangoIntegration
+
+    sentry_sdk.init(
+        dsn=os.environ["SENTRY_DSN"], integrations=[DjangoIntegration()],
+    )
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -36,7 +44,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "crispy_forms",
     "magic_links",
+    "pingpong",
+    "reflections",
+    "mileage_tracker",
+    "shoutouts",
 ]
 
 MIDDLEWARE = [
@@ -67,6 +80,8 @@ TEMPLATES = [
         },
     }
 ]
+
+CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 WSGI_APPLICATION = "ascent.wsgi.application"
 
