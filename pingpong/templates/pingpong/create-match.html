@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<a href={% url 'pingpong:home' %}>Home</a>
+
+<form action="{% url 'pingpong:create-match' %}" method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <button>Create Match</button>
+</form>
+{% endblock content %}

@@ -9,6 +9,8 @@ dj-database-url = "*"
 psycopg2-binary = "*"
 whitenoise = "*"
 gunicorn = "*"
+sentry-sdk = "*"
+django-crispy-forms = "*"
 
 [dev-packages]
 pytest = "*"
