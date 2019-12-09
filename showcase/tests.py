@@ -1,6 +1,7 @@
-from django.test import TestCase
+from django.test import TestCase, SimpleTestCase
 from django.contrib.auth.models import User
 from django.urls import reverse
+from .models import Profile
 
 # Create your tests here.
 class TestStudentCreatesProfile(TestCase):
@@ -29,7 +30,6 @@ class TestStudentCreatesProfile(TestCase):
         self.assertTemplateUsed(response, "create-profile.html")
         self.assertIn("form", response.context)
 
-    
     def test_form_errors_are_rendered_on_invalid_post(self):
         user = User.objects.create_user("jimbob")
         self.client.force_login(user)
@@ -57,4 +57,8 @@ class TestUserSeesExistingProfiles(TestCase):
             self.assertContains(response, p.headline)
 
 
+class TestProfileStrShowsHeadline(SimpleTestCase):
+    def test_example(self):
+        profile = Profile(headline="totes my headline")
 
+        self.assertEqual(str(profile), "totes my headline")
