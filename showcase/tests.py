@@ -11,10 +11,14 @@ class TestStudentCreatesProfile(TestCase):
 
         self.client.post(
             reverse("showcase:create-profile"),
-            {"headline": "I like code and such you know"},
+            {
+                "headline": "I like code and such you know",
+                "bio": "I'm from a small town and such, ya know",
+            },
         )
 
         self.assertEqual(user.profile.headline, "I like code and such you know")
+        self.assertEqual(user.profile.bio, "I'm from a small town and such, ya know")
 
     def test_form_is_rendered_on_create_profile_page(self):
         user = User.objects.create_user("jimbob")
