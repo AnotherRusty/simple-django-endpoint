@@ -13,3 +13,7 @@ class Shoutout(models.Model):
     user = models.ForeignKey(
         User, related_name="shoutouts_given", on_delete=models.PROTECT
     )
+    likes = models.IntegerField()
+
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.PROTECT)

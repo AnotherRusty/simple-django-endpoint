@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from shoutouts.forms import ShoutoutForm
-from shoutouts.models import Shoutout
+from shoutouts.models import Shoutout, Like
 from django.utils import timezone
 
 # Create your views here.
@@ -24,9 +24,38 @@ class Shoutouts(View):
                 content=content,
                 datetime=timezone.now(),
                 user=request.user,
+                likes=0,
             )
-            return redirect("home")
+            return redirect("shoutouts:home")
         elif not form.is_valid():
             return render(
                 request, "shoutouts.html", {"form": form, "shoutouts": shoutouts}
             )
+
+
+class ViewStudentShoutouts(View):
+    def get(self, request, shoutout_id):
+        individual_shoutout = Shoutout.objects.get(id=shoutout_id)
+        individual_name = individual_shoutout.recipient
+        individual_shoutouts = Shoutout.objects.filter(recipient=individual_name)
+        return render(
+            request,
+            "individual-shoutouts.html",
+            {"individual_shoutouts": individual_shoutouts, "individual_name": individual_name},
+        )
+
+
+class LikeShoutout(View):
+    def post(self, request, shoutout_id):
+        new_like, created = Like.objects.get_or_create(
+            user=request.user, shoutout_id=shoutout_id
+        )
+        if not created:
+            new_like += 1
+            return redirect("shoutouts:home", shoutout_id)
+        else:
+            return redirect("shoutouts:home")
+
+    def shoutout_detail(request, id):
+        shoutout = get_object_or_404(Shoutout, pk=id)
+        user_likes_this = shoutout.like_set.filter(user=request.user) and True or False

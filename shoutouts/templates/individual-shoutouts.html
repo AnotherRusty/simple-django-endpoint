@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ individual_name }}'s Shoutouts</h2>
+<div id="shoutouts-container">
+    <ul id="shoutout-list"></ul>
+    {% for shoutouts in individual_shoutouts %}
+    <li class="shoutout">
+        <p id="content">{{ shoutouts.content }}</p>
+        <p id="shoutout-detail">From, {{ shoutouts.user }}</p>
+        <p id="likes">{{ shoutouts.likes }}<button>👍</button></p>
+    </li>
+    </ul>
+</div>
+{% endfor %}
+<style>
+    #likes {
+        font-size: 18px;
+    }
+
+    #content {
+        font-size: 20px;
+    }
+
+    .shoutout {
+        overflow-wrap: break-word;
+        border: black 1px solid;
+        border-radius: 1rem;
+        padding: 1rem;
+        width: 12.5rem;
+        margin: 1rem;
+        background-color: rgba(155, 152, 152, 0.26);
+    }
+
+    #shoutout-label {
+        text-align: center;
+        margin-bottom: 2rem;
+        margin-top: 2rem;
+    }
+
+    #shoutout-list {
+        list-style-type: none;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin-left: 8.5rem;
+    }
+
+    #shoutout-detail {
+        font-size: 12pt;
+    }
+
+    .recipient-name {
+        color: black;
+        text-decoration: underline;
+    }
+</style>
+{% endblock content %}

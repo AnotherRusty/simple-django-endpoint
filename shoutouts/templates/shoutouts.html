@@ -13,13 +13,11 @@
     <ul id="shoutout-list">
         {% for shoutout in shoutouts %}
         <li class="shoutout">
-            <p>To <a class="recipient-name" href="">{{ shoutout.recipient }}</a>:</p>
+            <p>To <a class="recipient-name"
+                    href="{% url 'shoutouts:individual_shoutouts' shoutout.id %}">{{ shoutout.recipient }}</a>:</p>
             <p id="content">{{ shoutout.content }}</p>
-            <form action="{% url 'shoutouts:likes' shoutout.id %}" method="POST">
-                {% csrf_token %}
-                <!-- <p id="likes">{{ shoutout.likes }} <button id="likeButton">👍</button></p> -->
-            </form>
             <p id="shoutout-detail">From, {{ shoutout.user }} on {{ shoutout.datetime }}</p>
+            <p id="likes">{{ shoutout.likes }}<button>👍</button></p>
         </li>
         {% endfor %}
     </ul>
@@ -31,7 +29,6 @@
         <li class="shoutout">
             <p>To <a class="recipient-name" href="">{{ shoutout.recipient }}</a>:</p>
             <p id="content">{{ shoutout.content }}</p>
-            <!-- <p id="likes">{{ shoutout.likes }} <button>👍</button></p> -->
             <p id="shoutout-detail">From, {{ shoutout.user }} on {{ shoutout.datetime }}</p>
         </li>
         {% endfor %}
