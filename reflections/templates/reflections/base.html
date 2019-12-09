@@ -1,30 +1,30 @@
 {% extends 'base.html' %}
 {% block content %}
 {% if user.is_authenticated %}
-<ul>
-<li style= "list-style: none">
+ <div class="container">
+    <div class="card text-white bg-dark mt-3 mb-3" style="max-width: 30rem;">
+        <div class="card text-white bg-dark mt-3 mb-3" style="max-width: 30rem;">
+            <div class="card-header"> Reflection-Date: {{ reflection.date }}</div>
+            <div class="card-body">
+                <p class="card-text">
+                    {% for question in questions %}
+                    <p>Question: {{quesiton.id}}:</p>
+                    <p><small>{{question}}</small></p>
+                    <div class="form-group">
+                        <label class="col-form-label" for="inputDefault">Default input</label>
+                            <input type="text" class="form-control" name="answer" style="max-width: 25rem;" placeholder="Default input" id="inputDefault">
+                    </div>
+                {% endfor %}
 
-<form action="{% url 'reflections:submit_reflection' reflection.id%}" method="POST">
-{% csrf_token %}
-    Reflection-Date: {{ reflection.date }}
-    <label style="font-size: 16px;"> Name: 
-    <input type="text" name="name" id="" style="height: 50px; width: 400px; outline-width: 0;">
-    </label>
-    {% for question in questions %}
-        <p>{{question}}<br>
-        <label style="font-size: 16px;"> Answer: 
-            <input type="text" name="answer" id="" style="height: 50px; width: 400px; outline-width: 0;">
+        <label style="font-size: 16px;"> Name: 
+            <input type="text" name="name" id="" style="height: 50px; width: 400px; outline-width: 0;">
         </label>
-        </p>
-    {% endfor %}
-    <button 
-        style="padding: 15px; height: 50px; width: 80px; 
-                background-color: #81d5f1; font-size: 16px">
-        Submit
-    </button>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
 
-    </form>
-</li>
-</ul>
+
 {% endif %}
 {% endblock content %}
