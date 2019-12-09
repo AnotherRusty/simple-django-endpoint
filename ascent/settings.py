@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "magic_links",
     "initiative",
-    "mileage_tracker"
+    "mileage_tracker",
     "pingpong",
     "reflections",
     "shoutouts",
