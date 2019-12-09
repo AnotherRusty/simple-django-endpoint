@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
 {% if user.distancetowork %}
-    <p>Current Commute Distance: {{ user.distancetowork.miles }} miles</p>
+<p>Current round trip distance: {{ user.distancetowork.miles }} miles</p>
 {% endif %}
 
-<form action="{% url 'mileage_tracker:set_commute' %}" method="post">
+<form action="{% url 'mileage_tracker:set_distance' %}" method="post">
     {% csrf_token %}
     {{ form }}
     <button>Submit</button>
