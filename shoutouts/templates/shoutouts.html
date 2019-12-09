@@ -14,7 +14,8 @@
         {% for shoutout in shoutouts %}
         <li class="shoutout">
             <p>To <a class="recipient-name"
-                    href="{% url 'shoutouts:individual_shoutouts' shoutout.id %}">{{ shoutout.recipient }}</a>:</p>
+                    href="{% url 'shoutouts:individual_shoutouts' shoutout.recipient.id %}">{{ shoutout.recipient }}</a>:
+            </p>
             <p id="content">{{ shoutout.content }}</p>
             <p id="shoutout-detail">From, {{ shoutout.user }} on {{ shoutout.datetime }}</p>
             <p id="likes">{{ shoutout.likes }}<button>👍</button></p>

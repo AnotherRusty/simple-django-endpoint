@@ -1,17 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>{{ individual_name }}'s Shoutouts</h2>
+<h2>{{ recipient.username }}'s Shoutouts</h2>
 <div id="shoutouts-container">
     <ul id="shoutout-list"></ul>
-    {% for shoutouts in individual_shoutouts %}
+    {% for shoutout in recipient.shoutouts_received.all %}
     <li class="shoutout">
-        <p id="content">{{ shoutouts.content }}</p>
-        <p id="shoutout-detail">From, {{ shoutouts.user }}</p>
-        <p id="likes">{{ shoutouts.likes }}<button>👍</button></p>
+        <p id="content">{{ shoutout.content }}</p>
+        <p id="shoutout-detail">From, {{ shoutout.user }}</p>
+        <p id="likes">{{ shoutout.likes }}<button>👍</button></p>
     </li>
+    {% endfor %}
     </ul>
 </div>
-{% endfor %}
+{% endblock content %}
+{% block extra_css %}
 <style>
     #likes {
         font-size: 18px;
@@ -53,4 +55,4 @@
         text-decoration: underline;
     }
 </style>
-{% endblock content %}
+{% endblock extra_css %}

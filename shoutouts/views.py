@@ -3,6 +3,7 @@ from django.views.generic import View
 from shoutouts.forms import ShoutoutForm
 from shoutouts.models import Shoutout, Like
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -34,14 +35,12 @@ class Shoutouts(View):
 
 
 class ViewStudentShoutouts(View):
-    def get(self, request, shoutout_id):
-        individual_shoutout = Shoutout.objects.get(id=shoutout_id)
-        individual_name = individual_shoutout.recipient
-        individual_shoutouts = Shoutout.objects.filter(recipient=individual_name)
+    def get(self, request, recipient_id):
+        recipient = User.objects.get(id=recipient_id)
         return render(
             request,
             "individual-shoutouts.html",
-            {"individual_shoutouts": individual_shoutouts, "individual_name": individual_name},
+            {"recipient": recipient},
         )
 
 
