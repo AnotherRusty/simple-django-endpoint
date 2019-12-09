@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if user.distancetowork %}
+<p>Current Commute Distance: {{ user.distancetowork.miles }} miles</p>
+{% endif %}
+<form action="{% url 'mileage_tracker:did_commute' %}" method="post">
+    {% csrf_token %}
+    <label for="date_for_commute">
+        <input type="date" name="date" id="" required>
+    </label>
+    <button>Submit</button>
+</form>
+{% endblock content %}
