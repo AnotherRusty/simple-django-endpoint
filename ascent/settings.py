@@ -27,6 +27,14 @@ DEBUG = os.environ["DEBUG"] == "ON"
 
 ALLOWED_HOSTS = [] if "HOST" not in os.environ else [os.environ["HOST"]]
 
+if "SENTRY_DSN" in os.environ:
+    import sentry_sdk
+    from sentry_sdk.integrations.django import DjangoIntegration
+
+    sentry_sdk.init(
+        dsn=os.environ["SENTRY_DSN"], integrations=[DjangoIntegration()],
+    )
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -36,8 +44,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "crispy_forms",
     "magic_links",
-    "mileage_tracker"
+    "pingpong",
+    "reflections",
+    "mileage_tracker",
+    "shoutouts",
 ]
 
 MIDDLEWARE = [
@@ -68,6 +80,8 @@ TEMPLATES = [
         },
     }
 ]
+
+CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 WSGI_APPLICATION = "ascent.wsgi.application"
 
@@ -111,7 +125,15 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 if not DEBUG and ALLOWED_HOSTS != []:
     STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+if "SENDGRID_API_KEY" in os.environ:
+    EMAIL_HOST = "smtp.sendgrid.net"
+    EMAIL_HOST_USER = "apikey"
+    EMAIL_HOST_PASSWORD = os.environ["SENDGRID_API_KEY"]
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+else:
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
 DEFAULT_FROM_EMAIL = "no-reply@basecampcodingacademy.org"
 
 LOGIN_REDIRECT_URL = "/"
