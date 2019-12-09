@@ -1,0 +1,46 @@
+.input-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: .5rem;
+    background-color: lightgrey;
+    border-radius: 15px;
+    width: 16rem;
+}
+
+.input-form > label {
+    display: flex;
+    justify-content: space-between;
+    width: 15rem;
+    margin: .25rem 0 0 0;
+}
+
+.input-form > button {
+    margin: .25rem 0 .25rem 0;
+}
+
+
+.initiative {
+    width: 15rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    border: 1px solid black;
+    margin: .5rem;
+    background-color: lightblue;
+    border: 3px solid red;
+    border-radius: 15px;
+    padding: .25rem;
+}
+.initiative > p {
+    margin: .5rem;
+    color: black;
+    text-align: center;
+}
+
+.container {
+    display: inline-flex;
+    margin-left: -.5rem;
+}

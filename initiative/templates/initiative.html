@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'initiative.css' %}">
+{% endblock extra_css %}
+{% block content %}
+<form action="{% url 'initiatives:create' %}" method="POST" class="input-form">
+    {% csrf_token %}
+    {{ form }}
+    <button>Submit</button>
+</form>
+
+<div class="container">
+    {% for initiative in initiatives %}
+    <div class="initiative">
+        <p> {{ initiative.name }} </p>
+        <p> Leader ~ {{ initiative.team_leader }} </p>
+        <p> Goal: {{ initiative.title }}</p>
+        <p> Description: {{ initiative.description }}</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}
+    
