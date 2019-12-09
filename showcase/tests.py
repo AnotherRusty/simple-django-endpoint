@@ -27,7 +27,7 @@ class TestStudentCreatesProfile(TestCase):
         response = self.client.get(reverse("showcase:create-profile"))
 
         self.assertTemplateUsed(response, "create-profile.html")
-        self.assertIn('form', response.context)
+        self.assertIn("form", response.context)
 
     
     def test_form_errors_are_rendered_on_invalid_post(self):
@@ -37,7 +37,24 @@ class TestStudentCreatesProfile(TestCase):
         response = self.client.post(reverse("showcase:create-profile"))
 
         self.assertTemplateUsed(response, "create-profile.html")
-        self.assertTrue(response.context['form'].errors)
+        self.assertTrue(response.context["form"].errors)
+
+
+class TestUserSeesExistingProfiles(TestCase):
+    def test_successfully(self):
+        profiles = [
+            Profile.objects.create(
+                headline=f"Headline #{i}",
+                bio=f"I'm from small town #{i}",
+                user=User.objects.create_user(f"tob{i}as"),
+            )
+            for i in range(3)
+        ]
+
+        response = self.client.get(reverse("showcase:profile-list"))
+
+        for p in profiles:
+            self.assertContains(response, p.headline)
 
 
 
