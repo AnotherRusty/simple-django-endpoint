@@ -11,4 +11,12 @@ class Match(models.Model):
     )
     player1_score = models.IntegerField()
     player2_score = models.IntegerField()
-    winner = models.TextField()
+
+    def winner(self):
+        if self.player1_score - 1 != self.player2_score:
+            if self.player1_score >= 11:
+                winner = self.player1
+        elif self.player2_score - 1 != self.player1_score:
+            if self.player2_score >= 11:
+                winner = self.player2
+        return winner

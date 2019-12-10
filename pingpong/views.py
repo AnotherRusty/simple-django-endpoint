@@ -4,11 +4,24 @@ from django.urls import reverse_lazy
 from pingpong.models import Match
 from django.contrib.auth.models import User
 
+def compute_leaderboard(request):
+    matches = Match.objects.all()
+    wins = {}
+    for match in matches:
+        wins[match.winner()] = wins.get(match.winner(), 0) + 1
+        wins[match.loser()] = wins.get(match.loser(), 0)
+    return wins
+                
 
 class Home(ListView):
     model = Match
     template_name = "pingpong/home.html"
     context_object_name = "matches"
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        context["leaderboard"] = compute_leaderboard(Match.objects.all())
+        return context
 
 
 class MatchCreateView(CreateView):
@@ -17,17 +30,5 @@ class MatchCreateView(CreateView):
     template_name = "pingpong/create-match.html"
     success_url = reverse_lazy("pingpong:home")
 
-    # def post(self, request):
-    #     if model["player1_score"] - 1 != model["player2_score"]:
-    #         if model["player1_score"] >= 11:
-    #             winner = model["player1"]
-    #     elif model["player2_score"] - 1 != model["player1_score"]:
-    #         if model["player2_score"] >= 11:
-    #             winner = model["player1"]
 
 
-class LeaderBoard(ListView):
-    model = User
-    matches = Match
-    template_name = "pingpong/leaderboard.html"
-    context_object_name = "users"
