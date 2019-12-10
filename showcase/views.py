@@ -24,3 +24,9 @@ def sign_up(request):
 def user_profiles(request):
     profiles = Profile.objects.all()
     return render(request, "user-profiles.html", {"profiles": profiles})
+
+
+def profile_page(request, id):
+    profile = Profile.objects.get(id=id)
+    return render(request, "profile-page.html", {"profile": profile})
+
