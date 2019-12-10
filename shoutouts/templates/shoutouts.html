@@ -9,19 +9,21 @@
         <button class="submit-btn">Submit</button>
     </form>
 </div>
-<div id="shoutouts-container">
-    <ul id="shoutout-list">
-        {% for shoutout in shoutouts %}
-        <li class="shoutout">
-            <p>To <a class="recipient-name"
-                    href="{% url 'shoutouts:individual_shoutouts' shoutout.recipient.id %}">{{ shoutout.recipient }}</a>:
-            </p>
-            <p id="content">{{ shoutout.content }}</p>
-            <p id="shoutout-detail">From, {{ shoutout.user }} on {{ shoutout.datetime }}</p>
-            <p id="likes">{{ shoutout.likes }}<button>👍</button></p>
-        </li>
-        {% endfor %}
-    </ul>
+<div id="shoutouts-container" class="row">
+    {% for shoutout in shoutouts %}
+    <div class="col col-lg-4 col-sm-12 m-auto">
+        <div class="card">
+            <div class="card-body">
+            <h5 class="card-title">To <a class="recipient-name"
+                    href="{% url 'shoutouts:individual_shoutouts' shoutout.recipient.id %}">{{ shoutout.recipient }}</a></h5>
+                <p class="card-text">{{ shoutout.content }}</p>
+                <a href="#" class="card-link">From, {{ shoutout.user }} on {{ shoutout.datetime }}</a>
+                <a href="#" class="card-link btn btn-primary">{{ shoutout.likes }} 👍</a>
+                
+            </div>
+        </div>
+    </div>
+    {% endfor %}
 </div>
 {% else %}
 <div id="shoutouts-container">

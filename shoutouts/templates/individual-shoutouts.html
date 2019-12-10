@@ -1,58 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2>{{ recipient.username }}'s Shoutouts</h2>
-<div id="shoutouts-container">
-    <ul id="shoutout-list"></ul>
+<div id="shoutouts-container" class="row">
     {% for shoutout in recipient.shoutouts_received.all %}
-    <li class="shoutout">
-        <p id="content">{{ shoutout.content }}</p>
-        <p id="shoutout-detail">From, {{ shoutout.user }}</p>
-        <p id="likes">{{ shoutout.likes }}<button>👍</button></p>
-    </li>
+    <div class="col col-lg-4 col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <p class="card-text">{{ shoutout.content }}</p>
+                <a href="{% url 'shoutouts:likes' shoutout.id %}" class="card-link btn btn-primary">{{ shoutout.likes }} 👍</a>
+            </div>
+        </div>
+    </div>
     {% endfor %}
-    </ul>
 </div>
 {% endblock content %}
-{% block extra_css %}
-<style>
-    #likes {
-        font-size: 18px;
-    }
-
-    #content {
-        font-size: 20px;
-    }
-
-    .shoutout {
-        overflow-wrap: break-word;
-        border: black 1px solid;
-        border-radius: 1rem;
-        padding: 1rem;
-        width: 12.5rem;
-        margin: 1rem;
-        background-color: rgba(155, 152, 152, 0.26);
-    }
-
-    #shoutout-label {
-        text-align: center;
-        margin-bottom: 2rem;
-        margin-top: 2rem;
-    }
-
-    #shoutout-list {
-        list-style-type: none;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        margin-left: 8.5rem;
-    }
-
-    #shoutout-detail {
-        font-size: 12pt;
-    }
-
-    .recipient-name {
-        color: black;
-        text-decoration: underline;
-    }
-</style>
-{% endblock extra_css %}

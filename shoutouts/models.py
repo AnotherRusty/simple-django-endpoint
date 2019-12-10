@@ -16,4 +16,5 @@ class Shoutout(models.Model):
     likes = models.IntegerField()
 
 class Like(models.Model):
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    shoutout = models.ForeignKey(Shoutout, on_delete=models.PROTECT)
+    Shoutout.likes += 1

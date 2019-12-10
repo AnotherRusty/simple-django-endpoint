@@ -44,17 +44,8 @@ class ViewStudentShoutouts(View):
         )
 
 
-class LikeShoutout(View):
-    def post(self, request, shoutout_id):
-        new_like, created = Like.objects.get_or_create(
-            user=request.user, shoutout_id=shoutout_id
-        )
-        if not created:
-            new_like += 1
-            return redirect("shoutouts:home", shoutout_id)
-        else:
-            return redirect("shoutouts:home")
-
-    def shoutout_detail(request, id):
-        shoutout = get_object_or_404(Shoutout, pk=id)
-        user_likes_this = shoutout.like_set.filter(user=request.user) and True or False
+class LikeUpVote(View):
+    def get(self, request, shoutout_id):
+        shoutout = Shoutout.object.get(id=shoutout_id)
+        return render(request, "shoutouts.html")
+    
