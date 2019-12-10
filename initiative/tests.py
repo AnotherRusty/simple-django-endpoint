@@ -42,3 +42,28 @@ class TestUserSeesInitiatives(TestCase):
         response = self.client.get(reverse("initiatives:home"))
 
         self.assertContains(response, "BLOAW")
+        
+class TestInitiativeLeaderPostsAStatusReport(TestCase):
+    def test_successfully(self):
+        user = User.objects.create_user("selfstartersuz")
+        initiative = user.initiative_set.create(
+            title="RESTfulness",
+            description="JSON! Not naps!"
+        )
+
+        self.client.force_login(user)
+
+        self.client.post(
+            reverse("initiatives:status-report-create", args=[initiative.id]),
+            {"title": "Hello JSON",
+             "content": "Today we talked about using JSON to repre......"}
+        )
+
+        self.assertEqual(initiative.statusreport_set.count(), 1)
+
+        status_report = initiative.statusreport_set.first()
+
+        self.assertEqual(status_report.title, "Hello JSON")
+        self.assertEqual(status_report.content, "Today we talked about using JSON to repre......")
+        
+

@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django import views
 from initiative.models import Initiative
@@ -33,3 +34,23 @@ class InitiativeCreateView(LoginRequiredMixin, views.View):
                 request, "initiative.html", {"initiatives": initiatives, "form": form}
             )
 
+
+class InitiativeStatusReportView(LoginRequiredMixin, views.View):
+    def edit_post(self, request, id):
+        post = Post.objects.get(id=id)
+        if request.method == 'POST':
+            form = InitiativeForm(request.POST, instance=post)
+            if form.is_valid():
+                form.save()
+                url = reverse('initiatives:home', kwargs={'id': id})
+                return render(request, 'edit_done.html', {'url': url})
+            else:
+                form = InitiativeForm(instance=post)
+        else:
+            form = InitiativeForm(instance=post)
+        return render(request, 'edit.html', {'form':form, 'post':post})
+
+    def del_post(request, key):
+        post = Initiative.objects.get(id=id)
+        post.delete()
+        return render(request, 'del_done.html')
