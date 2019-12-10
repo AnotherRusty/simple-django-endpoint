@@ -14,15 +14,18 @@
 </head>
 
 <body>
-    <div> <p>Good Morning, Welcome to Base Camp Coding Academy</p>
+    <div>
+        <p>Good Morning, Welcome to Base Camp Coding Academy</p>
 
-<form action="{% url 'attendance:check-in' %}" method="POST">
-{% csrf_token %}
-
-   <p> Please Click the <button id="button">Check In</button> to Check In! </p>
-</form>
-   </div>
-
+        {% if not user_is_checked_in %}
+            <form action="{% url 'attendance:check-in' %}" method="POST">
+                {% csrf_token %}
+                <p> Please Click the <button id="button">Check In</button> to Check In! </p>
+            </form>
+        {% else %}
+            <p> {{user.username}}, you have already checked in for today!</p>
+        {% endif %}
+    </div>
 </body>
 </html>
 {% endblock content %}
