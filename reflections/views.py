@@ -1,18 +1,20 @@
 from django.shortcuts import render, redirect
-from .models import Reflection, Submission, Question
-from django.utils import timezone,dateformat
+from .models import Reflection, Submission, Question, QuestionSubmission
+from django.utils import timezone, dateformat
 from datetime import datetime
 
 
 def home(request):
-    reflections = Reflection.objects.all()
-    for reflection in reflections:
-        if reflection.date == datetime.utcnow().date():
-            questions = Question.objects.filter(reflection=reflection)
-            return render(request, "reflections/base.html", {"reflection": reflection,"questions": questions})
-        else:
-            return render(request, "reflections/base.html", {"reflection": reflection})
+    try:
+        reflection = Reflection.objects.get(date=timezone.now())
+    except Reflection.DoesNotExist:
+        reflection = None
+    return render(request, "reflections/base.html", {"reflection": reflection})
 
-def submit_reflection(request,id):
-    question = Question.objects.get(id=id)
-    return render(request, "reflections/base.html",{"question": question})
+
+def submit_reflection(request, id):
+    # Process form
+    #submission = Submission.objects.create(reflection=Reflection, user=User)
+    #for submission in submissions:
+        #QuestionSubmission.objects.create(question=reflection.question_set(), submission=)
+    #return redirect("reflections:home"
