@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Welcome to PING PONG</h1>
+    
+<a href="{% url 'pingpong:create-match' %}">New Match</a>
+
+<h2>Matches</h2>
+
+<ul class='row col-offset-1'>
+{% for match in matches %}
+<li class='card card-body col-3 m-2'>
+    <h3 class="card-title" style="font-size: 1rem">{{match.player1}} vs {{match.player2}}</h3>
+    <p class="card-text">{{match.player1_score}} - {{match.player2_score}}</p>
+</li>
+{% endfor %}
+</ul>
+
+{% endblock content %}
