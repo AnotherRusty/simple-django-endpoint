@@ -3,10 +3,11 @@ from django.contrib.auth.models import User
 from datetime import datetime
 
 # Create your models here.
-
+def today_utc():
+    return datetime.utcnow().date()
 
 class Reflection(models.Model):
-    date = models.DateField()
+    date = models.DateField(default=today_utc)
 
 
 class Question(models.Model):

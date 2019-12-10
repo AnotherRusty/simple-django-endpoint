@@ -1,29 +1,35 @@
 {% extends 'base.html' %}
 {% block content %}
 {% if user.is_authenticated %}
- <div class="container">
-    <div class="card text-white bg-dark mt-3 mb-3" style="max-width: 30rem;">
-        <div class="card text-white bg-dark mt-3 mb-3" style="max-width: 30rem;">
-            <div class="card-header"> Reflection-Date: {{ reflection.date }}</div>
-            <div class="card-body">
-                <p class="card-text">
-                    {% for question in questions %}
-                    <p>Question: {{quesiton.id}}:</p>
-                    <p><small>{{question}}</small></p>
-                    <div class="form-group">
-                        <label class="col-form-label" for="inputDefault">Default input</label>
-                            <input type="text" class="form-control" name="answer" style="max-width: 25rem;" placeholder="Default input" id="inputDefault">
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    <div class="card text-white bg-dark mt-3 mb-3" style="max-width: 30rem;">
+                        <div class="card-header">Reflection {{reflection.date}} </div>
+                        <div class="card-body">
+                        <p class="card-text">
+                            {% comment %} <form action="{% url 'reflections:submit_reflection' question.id %}" method="POST">
+                            {% csrf_token %} {% endcomment %}
+                            <label style="font-size: 16px;"> Name: 
+                                <input type="text" name="name" class="form-control" style="max-width: 25rem;" id="inputDefault">
+                            </label>
+                            {% for question in questions %} 
+                            <form action="{% url 'reflections:submit_reflection' question.id %}" method="POST">
+                            {% csrf_token %}
+                                <p>Quesiton {{ forloop.counter }}:</p>
+                                <p><small>{{question.prompt}}</small></p>
+                                <div class="form-group">
+                                    <label class="col-form-label" for="inputDefault">Answer:</label>
+                                    <input type="text" class="form-control" style="max-width: 25rem;" id="inputDefault">
+                                </div>
+                            {% endfor %}
+                            <button type="button" style="background-color:#81d5f1; min-width:20rem" class="btn">Submit</button>
+                            </form>                       
+                        </div>
                     </div>
-                {% endfor %}
-
-        <label style="font-size: 16px;"> Name: 
-            <input type="text" name="name" id="" style="height: 50px; width: 400px; outline-width: 0;">
-        </label>
-                </p>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
 
 {% endif %}
