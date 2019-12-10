@@ -5,24 +5,9 @@
 {% endblock extra_css %}
 {% block content %}
 
-<div class='modal' id='delModal'>
-    <div class='modal-dialog'>
-        <div class='modal-content'>
-            <div class='modal-body bg-danger text-white'>
-                Delete this post?
-            </div>
-            <div class='modal-footer'>
-                <button type='button' data-dismiss='modal'>Cancel</button>
-                <a href='{% url "delete" post.id %}'>
-                    <button type='button'>Delete</button>
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div>
+{% comment %} <div>
     <form method='POST'>
+        {% csrf_token %}
         {% for initiative in initiatives %}
         <label for={{initiative.title}}>{{initiative.description}}</label>
         {{ initiative }}
@@ -30,15 +15,52 @@
         <button type='submit'>Update</button>
         <button type='button' id='delete'>Delete</button>
     </form>
-</div>
+</div> {% endcomment %}
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+{% if post %}
+<div class="initiative">
+    <p> Goal: {{ post.title }}</p>
+    <p> Leader ~ {{ post.team_leader }} </p>
+    <p> Description: {{ post.description }}</p>
+</div>
+<form action="{% url 'initiatives:update' post.id %}" method='POST'>
+    {% csrf_token %}
+    <label> Leader: <input name="leader"></label>
+    <label> Goal: <input name="goal"></label>
+    <label> Desc: <input name="desc"></label>
+    <button>Submit</button>
+</form>
+{% endif %}
+{% comment %} <div class='modal' id='delModal'>
+    <div class='modal-dialog'>
+        <div class='modal-content'>
+            <div class='modal-body bg-danger text-white'>
+                Delete this post?
+            </div>
+            <div class='modal-footer'>
+                <button type='button' data-dismiss='modal'>Cancel</button>
+                <a href='{% url "home" %}'>
+                    <button type='button'>Delete</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div> {% endcomment %}
+{% endblock content %}
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
 
 <script>
-    $(document).ready(function(){
-        $('#delete').click(function(){
+    $(document).ready(function () {
+        $('#delete').click(function () {
             $('#delModal').modal('show');
         });
     });

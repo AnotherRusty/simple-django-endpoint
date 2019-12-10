@@ -16,10 +16,11 @@
     {% csrf_token %}
     Are you sure you want to delete this post? 
     <input type="submit" value="Yes"/>
-    <a href="home/{{ initiative.id }}/">Cancel </a>
+    <a href="delete/{{ initiative.id }}/">Cancel </a>
 </form>
 {% endif %}
 
 {% if request.user.username != creator %}
 <h1>You can not delete this entry</h1>
 {% endif %}
+{% endblock content %}

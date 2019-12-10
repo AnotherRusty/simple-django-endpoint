@@ -50,7 +50,23 @@ class InitiativeStatusReportView(LoginRequiredMixin, views.View):
             form = InitiativeForm(instance=post)
         return render(request, "edit.html", {"form": form, "post": post})
 
-    def del_post(request, key):
+
+class InitiativeUpdateView(LoginRequiredMixin, views.View):
+    def get(self, request, id):
+        post = Initiative.objects.get(id=id)
+        return render(request, "edit.html", {"post": post})
+
+    def post(self, request, id):
+        post = Initiative.objects.get(id=id)
+        post.title = request.POST["goal"]
+        post.leader = request.POST["leader"]
+        post.description = request.POST["desc"]
+        post.save()
+        return redirect("initiatives:home")
+
+
+class InitiativeDeleteView(LoginRequiredMixin, views.View):
+    def post(self, request, id):
         post = Initiative.objects.get(id=id)
         post.delete()
-        return render(request, "del_done.html")
+        return redirect("initiatives:home")
