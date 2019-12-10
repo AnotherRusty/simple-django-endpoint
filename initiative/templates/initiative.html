@@ -17,14 +17,14 @@
         <p> Leader ~ {{ initiative.team_leader }} </p>
         <p> Goal: {{ initiative.title }}</p>
         <p> Description: {{ initiative.description }}</p>
-        <button>
+        <button class="initiative-button">
             <a href="{% url 'initiatives:update' initiative.id %}">
                 Update
             </a>
         </button>
         <form action="{% url 'initiatives:delete' initiative.id %}" method="POST">
             {% csrf_token %}
-            <button>
+            <button class="initiative-button">
                 Delete
             </button>
         </form>
