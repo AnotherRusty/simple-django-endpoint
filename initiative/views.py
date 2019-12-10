@@ -38,19 +38,19 @@ class InitiativeCreateView(LoginRequiredMixin, views.View):
 class InitiativeStatusReportView(LoginRequiredMixin, views.View):
     def edit_post(self, request, id):
         post = Post.objects.get(id=id)
-        if request.method == 'POST':
+        if request.method == "POST":
             form = InitiativeForm(request.POST, instance=post)
             if form.is_valid():
                 form.save()
-                url = reverse('initiatives:home', kwargs={'id': id})
-                return render(request, 'edit_done.html', {'url': url})
+                url = reverse("initiatives:home", {"id": id})
+                return render(request, "edit_done.html", {"url": url})
             else:
                 form = InitiativeForm(instance=post)
         else:
             form = InitiativeForm(instance=post)
-        return render(request, 'edit.html', {'form':form, 'post':post})
+        return render(request, "edit.html", {"form": form, "post": post})
 
     def del_post(request, key):
         post = Initiative.objects.get(id=id)
         post.delete()
-        return render(request, 'del_done.html')
+        return render(request, "del_done.html")
