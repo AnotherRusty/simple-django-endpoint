@@ -3,7 +3,8 @@ from attendance.models import Checkin
 
 
 class CheckinAdmin(admin.ModelAdmin):
-    pass
+    list_display = ("student", "datetime", "verified")
+    date_hierarchy = "datetime"
 
 
 admin.site.register(Checkin, CheckinAdmin)
