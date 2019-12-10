@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django import views
+from django.views.generic import DeleteView, UpdateView
 from initiative.models import Initiative
-from initiative.forms import InitiativeForm
+from initiative.forms import InitiativeForm, InitiativeUpdateForm
 from django.utils import timezone
 
 
@@ -35,38 +36,15 @@ class InitiativeCreateView(LoginRequiredMixin, views.View):
             )
 
 
-class InitiativeStatusReportView(LoginRequiredMixin, views.View):
-    def edit_post(self, request, id):
-        post = Post.objects.get(id=id)
-        if request.method == "POST":
-            form = InitiativeForm(request.POST, instance=post)
-            if form.is_valid():
-                form.save()
-                url = reverse("initiatives:home", {"id": id})
-                return render(request, "edit_done.html", {"url": url})
-            else:
-                form = InitiativeForm(instance=post)
-        else:
-            form = InitiativeForm(instance=post)
-        return render(request, "edit.html", {"form": form, "post": post})
+class InitiativeUpdateView(LoginRequiredMixin, UpdateView):
+    model = Initiative
+    form_class = InitiativeUpdateForm
+    pk_url_kwarg = "id"
+    template_name = "edit.html"
+    success_url = reverse_lazy("initiatives:home")
 
 
-class InitiativeUpdateView(LoginRequiredMixin, views.View):
-    def get(self, request, id):
-        post = Initiative.objects.get(id=id)
-        return render(request, "edit.html", {"post": post})
-
-    def post(self, request, id):
-        post = Initiative.objects.get(id=id)
-        post.title = request.POST["goal"]
-        post.leader = request.POST["leader"]
-        post.description = request.POST["desc"]
-        post.save()
-        return redirect("initiatives:home")
-
-
-class InitiativeDeleteView(LoginRequiredMixin, views.View):
-    def post(self, request, id):
-        post = Initiative.objects.get(id=id)
-        post.delete()
-        return redirect("initiatives:home")
+class InitiativeDeleteView(LoginRequiredMixin, DeleteView):
+    model = Initiative
+    pk_url_kwarg = "id"
+    success_url = reverse_lazy("initiatives:home")
