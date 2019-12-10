@@ -15,7 +15,11 @@ def sign_up(request):
             user = request.user
             headline = form.cleaned_data["headline"]
             bio = form.cleaned_data["bio"]
-            profile = Profile.objects.create(user=user, headline=headline, bio=bio)
+            codepen = form.cleaned_data["codepen"]
+            github = form.cleaned_data["github"]
+            profile = Profile.objects.create(
+                user=user, headline=headline, bio=bio, codepen=codepen, github=github
+            )
             return redirect("showcase:profile-list")
         else:
             return render(request, "create-profile.html", {"form": form})
@@ -27,6 +31,6 @@ def user_profiles(request):
 
 
 def profile_page(request, id):
-    profile = Profile.objects.get(id=id)
-    return render(request, "profile-page.html", {"profile": profile})
-
+    if request.method == "GET":
+        profile = Profile.objects.get(id=id)
+        return render(request, "profile-page.html", {"profile": profile})
