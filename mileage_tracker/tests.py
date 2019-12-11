@@ -19,7 +19,7 @@ class TestStudentSpecifiesCommuteDistance(TestCase):
             self.client.force_login(user)
 
             self.client.post(
-                reverse("mileage_tracker:set_distance"), {"miles": example["miles"]}
+                reverse("mileage_tracker:home"), {"miles": example["miles"]}
             )
 
             self.assertEqual(user.distancetowork.miles, example["miles"])
@@ -30,7 +30,7 @@ class TestStudentSpecifiesCommuteDistance(TestCase):
 
         self.client.force_login(user)
 
-        self.client.post(reverse("mileage_tracker:set_distance"), {"miles": 42})
+        self.client.post(reverse("mileage_tracker:home"), {"miles": 42})
 
         user.distancetowork.refresh_from_db()
 
@@ -44,7 +44,7 @@ class TestStudentSeesTheirCommuteDistance(TestCase):
 
         self.client.force_login(user)
 
-        response = self.client.get(reverse("mileage_tracker:set_distance"))
+        response = self.client.get(reverse("mileage_tracker:home"))
 
         self.assertContains(response, "500 miles")
 
@@ -64,11 +64,9 @@ class TestStudentSubmitsCommuteForTheDay(TestCase):
 
         self.assertEqual(drive.distance, 300)
 
+
 class TestDriveToWork(TestCase):
     def test_str(self):
         now = timezone.now()
-        drive = models.DriveToWork(
-            date=now,
-            distance=42
-        )
+        drive = models.DriveToWork(date=now, distance=42)
         self.assertEqual(str(drive), f"{now} | 42")

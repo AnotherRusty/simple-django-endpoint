@@ -38,7 +38,7 @@
         <div class="collapse navbar-collapse" id="mainNavContent">
             <div class="navbar-nav">
                 {% if user.is_authenticated %}
-                <a href="{% url 'mileage_tracker:set_commute' %}" class="nav-item nav-link">Mileage Tracker</a>
+                <a href="{% url 'mileage_tracker:home' %}" class="nav-item nav-link">Mileage Tracker</a>
                 {% endif %}
                 <a href="{% url 'shoutouts:home' %}" class="nav-item nav-link">Shoutouts</a>
                 <a href="{% url 'initiatives:home' %}" class="nav-item nav-link">Initiatives</a>

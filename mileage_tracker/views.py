@@ -21,7 +21,7 @@ class DistanceToWorkCreateView(LoginRequiredMixin, CreateView):
             DistanceToWork.objects.create(
                 user=self.request.user, miles=form.cleaned_data["miles"]
             )
-        return redirect("mileage_tracker:set_distance")
+        return redirect("mileage_tracker:home")
 
 
 class DriveToWorkView(LoginRequiredMixin, View):

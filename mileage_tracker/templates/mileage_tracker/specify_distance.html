@@ -4,7 +4,7 @@
 <p>Current round trip distance: {{ user.distancetowork.miles }} miles</p>
 {% endif %}
 
-<form action="{% url 'mileage_tracker:set_distance' %}" method="post">
+<form action="{% url 'mileage_tracker:home' %}" method="post">
     {% csrf_token %}
     {{ form }}
     <button>Submit</button>
