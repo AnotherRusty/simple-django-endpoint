@@ -20,24 +20,27 @@
                 <p class="card-content">{{ shoutout.content }}</p>
                 <p class="total-likes"> {{ shoutout.likes }} <button class="like-button">👍</button></p>
                 <p class="card-detail">From, {{ shoutout.user }} on {{ shoutout.datetime }}</p>
-                
-                
             </div>
         </div>
     </div>
     {% endfor %}
 </div>
 {% else %}
-<div id="shoutouts-container">
-    <ul id="shoutout-list">
-        {% for shoutout in shoutouts %}
-        <li class="shoutout">
-            <p>To <a class="recipient-name" href="">{{ shoutout.recipient }}</a>:</p>
-            <p id="content">{{ shoutout.content }}</p>
-            <p id="shoutout-detail">From, {{ shoutout.user }} on {{ shoutout.datetime }}</p>
-        </li>
-        {% endfor %}
-    </ul>
+<div id="shoutouts-container" class="row">
+    {% for shoutout in shoutouts %}
+    <div class="col col-lg-4 col-sm-12 m-auto">
+        <div class="card">
+            <div class="card-body">
+            <h4 class="card-title">To <a class="recipient-name"
+                    href="{% url 'shoutouts:individual_shoutouts' shoutout.recipient.id %}">{{ shoutout.recipient }}</a></h4>
+                <p class="card-content">{{ shoutout.content }}</p>
+                <p class="total-likes"> {{ shoutout.likes }} <button class="like-button">👍</button></p>
+                <p class="card-detail">From, {{ shoutout.user }} on {{ shoutout.datetime }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
 {% endif %}
 </div>
 <style>

@@ -45,7 +45,7 @@ class ViewStudentShoutouts(View):
 
 
 class LikeUpVote(View):
-    def get(self, request, shoutout_id):
-        shoutout = Shoutout.object.get(id=shoutout_id)
-        return render(request, "shoutouts.html")
-    
+    def post(self, request, shoutout_id):
+        shoutout = get_object_or_404(Shoutout, pk=shoutout_id)
+        shoutout.like_set.create(user=request.user)
+        return redirect("shoutouts:likes")

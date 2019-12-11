@@ -54,3 +54,27 @@ class TestStudentsCanSeeShoutouts(TestCase):
         response = self.client.get(reverse("shoutouts:home"))
 
         self.assertContains(response, "jane is totes the dutifulest")
+
+
+class TestStudentLikesAShoutout(TestCase):
+    def test_successfully(self):
+        shouter = User.objects.create_user("happy joe")
+        shoutee = User.objects.create_user("dutiful jane")
+        liker = User.objects.create_user("lucy")
+
+        shoutout = shouter.shoutouts_given.create(
+            recipient=shoutee,
+            content="jane is totes the dutifulest",
+            likes=0,
+            datetime=timezone.now(),
+        )
+
+        self.client.force_login(liker)
+
+        self.client.post(reverse("shoutouts:likes", arg=[shoutout.id]))
+
+        self.assertEqual(shoutout.like_set.count(), 1)
+
+        like = shoutout.like_set.first()
+
+        self.assertEqual(like.user, liker)
