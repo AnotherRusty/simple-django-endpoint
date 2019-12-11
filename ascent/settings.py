@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "pingpong",
     "reflections",
     "shoutouts",
+    "attendance",
 ]
 
 MIDDLEWARE = [
