@@ -7,4 +7,4 @@ class SignUp(forms.Form):
     headline = forms.CharField()
     bio = forms.CharField()
     codepen = forms.URLField()
-    github = forms.URLField()
+    github_repository = forms.URLField()

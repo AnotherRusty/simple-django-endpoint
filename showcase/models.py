@@ -7,7 +7,7 @@ class Profile(models.Model):
     headline = models.TextField()
     bio = models.TextField()
     codepen = models.URLField()
-    github = models.URLField()
+    github_repository = models.URLField()
 
     def __str__(self):
         return self.headline

@@ -16,9 +16,9 @@ def sign_up(request):
             headline = form.cleaned_data["headline"]
             bio = form.cleaned_data["bio"]
             codepen = form.cleaned_data["codepen"]
-            github = form.cleaned_data["github"]
+            github_repository = form.cleaned_data["github_repository"]
             profile = Profile.objects.create(
-                user=user, headline=headline, bio=bio, codepen=codepen, github=github
+                user=user, headline=headline, bio=bio, codepen=codepen, github_repository=github_repository
             )
             return redirect("showcase:profile-list")
         else:
