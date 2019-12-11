@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Reflection, Submission, Question, QuestionSubmission
+from .models import Reflection, Submission, Question, QuestionSubmission, User
 from django.utils import timezone, dateformat
 from datetime import datetime
 
@@ -14,7 +14,13 @@ def home(request):
 
 def submit_reflection(request, id):
     # Process form
-    submission = Submission.objects.create(reflection=Reflection, user=User)
-    for submission in submissions:
-        QuestionSubmission.objects.create(question=reflection.question_set(), submission=)
-    return redirect("reflections:home"
+    reflection = Reflection.objects.get(id=id)
+    submission = reflection.submission_set.create(user=request.user)
+    for key, value in request.POST.items():
+        if key.startswith("question-"):
+            question_id = int(key.split("-")[1])
+            question = question_id
+            question.questionsubmission_set.create(
+                question=question, submission=submission, answer=none
+            )
+    return redirect("home")
