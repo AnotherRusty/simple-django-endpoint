@@ -9,5 +9,9 @@ class Profile(models.Model):
     codepen = models.URLField()
     github_repository = models.URLField()
 
+class StudentOfTheDay(models.Model):
+    Student = models.ForeignKey(Profile, on_delete=models.PROTECT)
+    date = models.DateField()
+
     def __str__(self):
         return self.headline
