@@ -26,16 +26,12 @@ class DistanceToWorkCreateView(LoginRequiredMixin, CreateView):
 
 class DriveToWorkView(LoginRequiredMixin, View):
     def post(self, request):
-        form = DriveToWorkForm(request.POST)
-        if form.is_valid():
-            date = form.cleaned_data["date"]
-            DriveToWork.objects.create(user=request.user, date=date)
-            messages.success(request, f"Welcome to Base Camp, {request.user}")
-            return redirect("home")
-        else:
-            messages.error(request, "Failure to verify your commute")
-            return redirect("home")
+        distance = request.user.distancetowork.miles
+        DriveToWork.objects.create(
+        user=request.user, date=timezone.now(), distance=distance
+            )
+        messages.success(request, f"Welcome to Base Camp, {request.user}")
+        return redirect("home")
+        
 
-    def get(self, request):
-        return render(request, "mileage_tracker/submit_commute.html")
 
