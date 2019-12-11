@@ -14,7 +14,7 @@ def home(request):
 
 def submit_reflection(request, id):
     # Process form
-    #submission = Submission.objects.create(reflection=Reflection, user=User)
-    #for submission in submissions:
-        #QuestionSubmission.objects.create(question=reflection.question_set(), submission=)
-    #return redirect("reflections:home"
+    submission = Submission.objects.create(reflection=Reflection, user=User)
+    for submission in submissions:
+        QuestionSubmission.objects.create(question=reflection.question_set(), submission=)
+    return redirect("reflections:home"
