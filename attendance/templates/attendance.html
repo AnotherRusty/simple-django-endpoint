@@ -1,31 +1,14 @@
 {% extends 'home.html' %}
-{% block content %}
 {% load static %}
+{% block content %}
+<p>Good Morning, Welcome to Base Camp Coding Academy</p>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'attendance.css' %}">
-</head>
-
-<body>
-    <div>
-        <p>Good Morning, Welcome to Base Camp Coding Academy</p>
-
-        {% if not user_is_checked_in %}
-            <form action="{% url 'attendance:check-in' %}" method="POST">
-                {% csrf_token %}
-                <p> Please Click the <button id="button">Check In</button> to Check In! </p>
-            </form>
-        {% else %}
-            <p> {{user.username}}, you have already checked in for today!</p>
-        {% endif %}
-    </div>
-</body>
-</html>
+{% if not user_is_checked_in %}
+    <form action="{% url 'attendance:check-in' %}" method="POST">
+        {% csrf_token %}
+        <p> Please Click the <button class="btn btn-primary">Check In</button> to Check In! </p>
+    </form>
+{% else %}
+    <p> {{user.username}}, you have already checked in for today!</p>
+{% endif %}
 {% endblock content %}

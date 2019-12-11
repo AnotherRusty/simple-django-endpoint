@@ -31,7 +31,7 @@ class TestStudentChecksIn(TestCase):
         response = self.client.get(reverse("attendance:check-in"))
 
         self.assertNotContains(
-            response, "<button id='button'>Check In</button>", html=True
+            response, "<button class='btn btn-primary'>Check In</button>", html=True
         )
 
     def test_user_sees_button_if_not_checked_in(self):
@@ -42,6 +42,6 @@ class TestStudentChecksIn(TestCase):
         response = self.client.get(reverse("attendance:check-in"))
 
         self.assertContains(
-            response, "<button id='button'>Check In</button>", html=True
+            response, "<button class='btn btn-primary'>Check In</button>", html=True
         )
 
