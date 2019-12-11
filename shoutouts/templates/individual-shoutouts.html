@@ -6,11 +6,25 @@
     <div class="col col-lg-4 col-sm-12">
         <div class="card">
             <div class="card-body">
-                <p class="card-text">{{ shoutout.content }}</p>
-                <a href="{% url 'shoutouts:likes' shoutout.id %}" class="card-link btn btn-primary">{{ shoutout.likes }} 👍</a>
+                <p class="card-content">{{ shoutout.content }}</p>
+                <a href="{% url 'shoutouts:likes' shoutout.id %}" class="total-likes">{{ shoutout.likes }} 👍</a>
             </div>
         </div>
     </div>
     {% endfor %}
 </div>
+
+<style>
+    .card-content{
+        font-size: 16pt;
+        margin-bottom: 3rem;
+    }
+    .card-detail {
+        font-size: 10pt;
+    }
+    .like-button {
+        background-color: var(--blue);
+        border-radius: 20%;
+    }
+</style>
 {% endblock content %}
