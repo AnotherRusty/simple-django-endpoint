@@ -1,18 +1,3 @@
-"""ascent URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/2.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView, RedirectView
@@ -26,9 +11,11 @@ urlpatterns = [
     ),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path("magic-link/", include("magic_links.urls"), name="magic-link"),
+    path("showcase/", include("showcase.urls"), name="showcase"),
+    path("initiatives/", include("initiative.urls"), name="initiatives"),
+    path("mileage_tracker/", include("mileage_tracker.urls"), name="mileage_tracker"),
     path("pingpong/", include("pingpong.urls"), name="pingpong"),
     path("reflections/", include("reflections.urls"), name="reflections"),
-    path("mileage_tracker/", include("mileage_tracker.urls"), name="mileage_tracker"),
+    path("shoutouts", include("shoutouts.urls"), name="shoutouts"),
     path("attendance/", include("attendance.urls"), name="attendance"),
-    path("shoutouts", include("shoutouts.urls"), name="shoutouts")
 ]

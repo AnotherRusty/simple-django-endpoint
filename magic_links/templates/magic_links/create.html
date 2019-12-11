@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
+{% load crispy_forms_filters %}
 {% block content %}
-<h1>Request a Magic Link</h1>
+<h1 class="h3">Request a Magic Link</h1>
 <form action="{% url 'magic-link:create' %}" method="POST">
     {% csrf_token %}
-    {{ form }}
-    <button>Request</button>
+    {{ form|crispy }}
+    <button class="btn btn-primary">Request</button>
 </form>
 {% endblock content %}
