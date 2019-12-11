@@ -48,11 +48,14 @@
     </nav>
     {% if messages %}
     <aside>
-        <ul class="messages">
-            {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
+        {% for message in messages %}
+            <p class="alert {{ message.level_tag }} alert-dismissible" role="alert">
+                {{ message }}
+                <button class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </p>
+        {% endfor %}
     </aside>
     {% endif %}
     <main class="container mt-3">
