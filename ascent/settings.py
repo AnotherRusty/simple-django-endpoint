@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import dj_database_url
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -46,9 +47,11 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "crispy_forms",
     "magic_links",
+    "showcase",
+    "initiative",
+    "mileage_tracker",
     "pingpong",
     "reflections",
-    "mileage_tracker",
     "shoutouts",
 ]
 
@@ -139,3 +142,11 @@ DEFAULT_FROM_EMAIL = "no-reply@basecampcodingacademy.org"
 LOGIN_REDIRECT_URL = "/"
 LOGIN_URL = "/login/"
 LOGOUT_REDIRECT_URL = "/"
+
+MESSAGE_TAGS = {
+    messages.DEBUG: "" if DEBUG else "d-none",
+    messages.INFO: "alert-info",
+    messages.SUCCESS: "alert-success",
+    messages.WARNING: "alert-warning",
+    messages.ERROR: "alert-danger",
+}
