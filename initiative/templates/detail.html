@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'initiative.css' %}">
+{% endblock extra_css %}
+{% block content %}
+
+<div class="container">
+    {% if initiative %}
+    <div class="initiative">
+        <p> {{ initiative.name }} </p>
+        <p> Leader ~ {{ initiative.team_leader }} </p>
+        <p> Goal: {{ initiative.title }}</p>
+        <p> Description: {{ initiative.description }}</p>
+        <p> Complete: {% if initiative.completion %} ✅ {% else %} ❌ {% endif %}
+        {% if initiative.team_leader == request.user %}
+        <button class="initiative-button">
+            <a href="{% url 'initiatives:edit' initiative.id %}">
+                Edit
+            </a>
+        </button>
+        <form action="{% url 'initiatives:delete' initiative.id %}" method="POST">
+            {% csrf_token %}
+            <button class="initiative-button">
+                Delete
+            </button>
+        </form>
+        <a href="{% url 'initiatives:toggle' initiative.id %}"><button class="initiative-button">Toggle Complete</button></a>
+        <a href="{% url 'initiatives:status' initiative.id %}"><button class="initiative-button">Status Report</button></a>
+        {% endif %}
+    </div>
+    {% endif %}
+    <div style="display: flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;">
+        {% for status in initiative.statusreport_set.all %}
+        <p> Status Report: {{ status.content }}</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

@@ -9,9 +9,9 @@
     <p> Leader ~ {{ post.team_leader }} </p>
     <p> Description: {{ post.description }}</p>
 </div>
-<form action="{% url 'initiatives:update' object.id %}" method='POST'>
+<form action="{% url 'initiatives:edit' object.id %}" method='POST'>
     {% csrf_token %}
     {{ form|crispy }}
-    <button class="btn btn-primary">Update</button>
+    <button class="btn btn-primary">Edit</button>
 </form>
 {% endblock %}

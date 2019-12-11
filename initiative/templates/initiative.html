@@ -12,23 +12,12 @@
 
 <div class="container">
     {% for initiative in initiatives %}
+    <a href="{% url 'initiatives:detail' initiative.id %}">
     <div class="initiative">
         <p> {{ initiative.name }} </p>
         <p> Leader ~ {{ initiative.team_leader }} </p>
         <p> Goal: {{ initiative.title }}</p>
-        <p> Description: {{ initiative.description }}</p>
-        <button class="initiative-button">
-            <a href="{% url 'initiatives:update' initiative.id %}">
-                Update
-            </a>
-        </button>
-        <form action="{% url 'initiatives:delete' initiative.id %}" method="POST">
-            {% csrf_token %}
-            <button class="initiative-button">
-                Delete
-            </button>
-        </form>
-    </div>
+    </div></a>
     {% endfor %}
 </div>
 {% endblock content %}
