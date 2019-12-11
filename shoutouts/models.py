@@ -17,4 +17,3 @@ class Shoutout(models.Model):
 
 class Like(models.Model):
     shoutout = models.ForeignKey(Shoutout, on_delete=models.PROTECT)
-    Shoutout.likes += 1
