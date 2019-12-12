@@ -10,9 +10,13 @@ from django.utils import timezone
 @login_required
 def checkin(request):
     if request.method == "GET":
+        users = User.objects.all()
+        report = Checkin.daily_report()
         user_is_checked_in = Checkin.is_user_checked_in(request.user)
         return render(
-            request, "attendance.html", {"user_is_checked_in": user_is_checked_in}
+            request,
+            "attendance.html",
+            {"user_is_checked_in": user_is_checked_in, "report": report,},
         )
     elif request.method == "POST":
         Checkin.checkin_user(request.user)
