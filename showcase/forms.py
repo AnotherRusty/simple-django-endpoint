@@ -8,6 +8,3 @@ class SignUp(forms.Form):
     bio = forms.CharField()
     codepen = forms.URLField()
     github_repository = forms.URLField()
-
-class StudentOfTheDay(forms.Form):
-    date = forms.DateField()

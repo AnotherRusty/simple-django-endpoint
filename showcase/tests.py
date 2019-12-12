@@ -16,7 +16,7 @@ class TestStudentCreatesProfile(TestCase):
                 "headline": "I like code and such you know",
                 "bio": "I'm from a small town and such, ya know",
                 "codepen": "https://codepen.io/ilesh",
-                "github_repository": "https://github.com/devinbooker616/benchmark-small-business"
+                "github_repository": "https://github.com/devinbooker616/benchmark-small-business",
             },
         )
 
@@ -65,13 +65,18 @@ class TestProfileStrShowsHeadline(SimpleTestCase):
 
         self.assertEqual(str(profile), "totes my headline")
 
-class TestProfileDetailpage(TestCase):
-    
-    def test_form_is_rendered_on_profile_page(self):
-        user = User.objects.create_user("jimbob")
-        self.client.force_login(user)
 
-        response = self.client.get(reverse(f"showcase:profile-page <{user.id}>"))
+class TestUserSeesStudentProfile(TestCase):
+    def test_successfully(self):
+        user = User.objects.create_user("devin")
+        profile = Profile.objects.create(
+            user=user, headline="Totes the coolest", bio="you heard me"
+        )
 
-        self.assertTemplateUsed(response, "profile-page.html")
-        self.assertIn("form", response.context)
+        response = self.client.get(
+            reverse("showcase:profile-page", kwargs={"id": profile.id})
+        )
+
+        self.assertContains(response, "devin")
+        self.assertContains(response, "Totes the coolest")
+        self.assertContains(response, "you heard me")
