@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
 from showcase.forms import SignUp
-from showcase.models import Profile
+from showcase.models import Profile, StudentOfTheDay
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+import random
+import sched
+import time
 
 
 @login_required
@@ -18,7 +21,11 @@ def sign_up(request):
             codepen = form.cleaned_data["codepen"]
             github_repository = form.cleaned_data["github_repository"]
             profile = Profile.objects.create(
-                user=user, headline=headline, bio=bio, codepen=codepen, github_repository=github_repository
+                user=user,
+                headline=headline,
+                bio=bio,
+                codepen=codepen,
+                github_repository=github_repository,
             )
             return redirect("showcase:profile-list")
         else:
@@ -34,3 +41,11 @@ def profile_page(request, id):
     if request.method == "GET":
         profile = Profile.objects.get(id=id)
         return render(request, "profile-page.html", {"profile": profile})
+
+
+def student_of_the_day(request):
+    if request.method == "GET":
+        return render(request, "user-profile.html", student_of_the_day())
+    elif request.method == "POST":
+        randoms = Profile.objects.order_by("?").first()
+        return redirect("showcase:profile-list")
