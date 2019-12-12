@@ -5,7 +5,8 @@ from django.utils import timezone
 
 # Create your models here.
 def today_utc():
-    return datetime.utcnow().date()
+    return datetime.utcnow().date() # pragma: no cover
+
 
 class Reflection(models.Model):
     date = models.DateField(default=timezone.now)
