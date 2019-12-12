@@ -64,3 +64,61 @@ class TestStudentSubmitsReflection(TestCase):
         self.assertEqual(answer2.answer, "Terrific")
         self.assertEqual(answer3.answer, "Come at me, bro!")
 
+
+class TestStudentSeesReflectionQuestions(TestCase):
+    def test_successfully(self):
+        user = User.objects.create_user("janet")
+        reflection = models.Reflection.objects.create(date=timezone.now())
+        question1 = reflection.question_set.create(
+            prompt="What is the meaning of Python?"
+        )
+        question2 = reflection.question_set.create(prompt="How was lunch?")
+        question3 = reflection.question_set.create(prompt="Do you even lift, bro?")
+        questions = [question1, question2, question3]
+
+        self.client.force_login(user)
+
+        response = self.client.get(reverse("reflections:home"))
+
+        for q in questions:
+            self.assertContains(response, q.prompt)
+
+    def test_no_reflection_for_today(self):
+        user = User.objects.create_user("janet")
+
+        self.client.force_login(user)
+
+        response = self.client.get(reverse("reflections:home"))
+
+        self.assertContains(response, "No Reflection today")
+
+
+class TestReflectionStr(TestCase):
+    def test_example(self):
+        now = timezone.now()
+        reflection = models.Reflection(date=now)
+
+        self.assertEqual(str(reflection), f"Reflection {now}")
+
+
+class TestSubmissionStr(TestCase):
+    def test_example(self):
+        now = timezone.now()
+        user = User.objects.create_user("janet")
+        reflection = models.Reflection(date=now)
+        submission = models.Submission(reflection=reflection, user=user)
+
+        self.assertEqual(
+            str(submission), f"{user.username} | Reflection {reflection.date}"
+        )
+
+
+class TestQuestionSubmissionStr(TestCase):
+    def test_example(self):
+        question = models.Question(prompt="hellur")
+        test_question = models.QuestionSubmission(question=question)
+
+        self.assertEqual(
+            test_question.question__prompt(), test_question.question.prompt
+        )
+
