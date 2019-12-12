@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static crispy_forms_filters %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'initiative.css' %}">
+{% endblock extra_css %}
+{% block content %}
+<div class="initiative">
+    <p> Goal: {{ post.title }}</p>
+    <p> Leader ~ {{ post.team_leader }} </p>
+    <p> Description: {{ post.description }}</p>
+</div>
+<form action="{% url 'initiatives:edit' object.id %}" method='POST'>
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button class="btn btn-primary">Edit</button>
+</form>
+{% endblock %}
