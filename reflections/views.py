@@ -19,8 +19,8 @@ def submit_reflection(request, id):
     for key, value in request.POST.items():
         if key.startswith("question-"):
             question_id = int(key.split("-")[1])
-            question = question_id
+            question = Question.objects.get(id=question_id)
             question.questionsubmission_set.create(
-                question=question, submission=submission, answer=none
+                question=question, submission=submission, answer=value
             )
     return redirect("home")
