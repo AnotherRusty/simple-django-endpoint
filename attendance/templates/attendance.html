@@ -1,0 +1,14 @@
+{% extends 'home.html' %}
+{% load static %}
+{% block content %}
+<p>Good Morning, Welcome to Base Camp Coding Academy</p>
+
+{% if not user_is_checked_in %}
+    <form action="{% url 'attendance:check-in' %}" method="POST">
+        {% csrf_token %}
+        <p> Please Click the <button class="btn btn-primary">Check In</button> to Check In! </p>
+    </form>
+{% else %}
+    <p> {{user.username}}, you have already checked in for today!</p>
+{% endif %}
+{% endblock content %}

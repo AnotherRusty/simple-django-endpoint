@@ -17,4 +17,8 @@ urlpatterns = [
     path("pingpong/", include("pingpong.urls"), name="pingpong"),
     path("reflections/", include("reflections.urls"), name="reflections"),
     path("shoutouts", include("shoutouts.urls"), name="shoutouts"),
+<<<<<<< HEAD
+=======
+    path("attendance/", include("attendance.urls"), name="attendance"),
+>>>>>>> 099756303b40462a83185339a1a2a5f97f1c5447
 ]
