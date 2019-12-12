@@ -18,7 +18,12 @@
             <h4 class="card-title">To <a class="recipient-name"
                     href="{% url 'shoutouts:individual_shoutouts' shoutout.recipient.id %}">{{ shoutout.recipient }}</a></h4>
                 <p class="card-content">{{ shoutout.content }}</p>
-                <p class="total-likes"> {{ shoutout.likes }} <button class="like-button">👍</button></p>
+                
+                <form action="{% url 'shoutouts:likes' shoutout.id %}" method="POST" class="total-likes">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.path }}">
+                <button class="like-button">{{ shoutout.like_set.count }} 👍</button>
+                </form>
                 <p class="card-detail">From, {{ shoutout.user }} on {{ shoutout.datetime }}</p>
             </div>
         </div>
@@ -29,12 +34,11 @@
 <div id="shoutouts-container" class="row">
     {% for shoutout in shoutouts %}
     <div class="col col-lg-4 col-sm-12 m-auto">
-        <div class="card">
-            <div class="card-body">
+        <div id="card" class="card">
+            <div id="card-body" class="card-body">
             <h4 class="card-title">To <a class="recipient-name"
                     href="{% url 'shoutouts:individual_shoutouts' shoutout.recipient.id %}">{{ shoutout.recipient }}</a></h4>
                 <p class="card-content">{{ shoutout.content }}</p>
-                <p class="total-likes"> {{ shoutout.likes }} <button class="like-button">👍</button></p>
                 <p class="card-detail">From, {{ shoutout.user }} on {{ shoutout.datetime }}</p>
             </div>
         </div>
@@ -44,16 +48,27 @@
 {% endif %}
 </div>
 <style>
+    .card-body {
+        height: 15rem;
+    }
+    .card {
+        padding-bottom: 5px;
+        margin-bottom: 2rem;
+    }
     .card-content{
-        font-size: 16pt;
+        font-size: 12pt;
         margin-bottom: 3rem;
     }
     .card-detail {
         font-size: 10pt;
+        position: absolute;
+        bottom: 0;
     }
     .like-button {
-        background-color: var(--blue);
-        border-radius: 20%;
+        border: none;
+        position: absolute;
+        top: 11rem;
+        right: 0;
     }
     select {
         width: 10rem;

@@ -16,6 +16,7 @@ django-crispy-forms = "*"
 pytest = "*"
 pytest-django = "*"
 pytest-cov = "*"
+autopep8 = "*"
 
 [requires]
 python_version = "3.7"

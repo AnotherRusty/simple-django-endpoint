@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import View
 from shoutouts.forms import ShoutoutForm
 from shoutouts.models import Shoutout, Like
@@ -25,12 +25,12 @@ class Shoutouts(View):
                 content=content,
                 datetime=timezone.now(),
                 user=request.user,
-                likes=0,
             )
             return redirect("shoutouts:home")
         elif not form.is_valid():
             return render(
-                request, "shoutouts.html", {"form": form, "shoutouts": shoutouts}
+                request, "shoutouts.html", {
+                    "form": form, "shoutouts": shoutouts}
             )
 
 
@@ -47,5 +47,5 @@ class ViewStudentShoutouts(View):
 class LikeUpVote(View):
     def post(self, request, shoutout_id):
         shoutout = get_object_or_404(Shoutout, pk=shoutout_id)
-        shoutout.like_set.create(user=request.user)
-        return redirect("shoutouts:likes")
+        shoutout.like_set.get_or_create(user=request.user)
+        return redirect(request.POST.get("next", "shoutouts:home"))

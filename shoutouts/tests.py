@@ -4,6 +4,8 @@ from django.urls import reverse
 from django.utils import timezone
 
 # Create your tests here.
+
+
 class TestStudentCreatesShoutout(TestCase):
     def test_successfully(self):
         shouter = User.objects.create_user("happy joe")
@@ -45,7 +47,6 @@ class TestStudentsCanSeeShoutouts(TestCase):
         shouter.shoutouts_given.create(
             recipient=shoutee,
             content="jane is totes the dutifulest",
-            likes=0,
             datetime=timezone.now(),
         )
 
@@ -65,7 +66,6 @@ class TestStudentLikesAShoutout(TestCase):
         shoutout = shouter.shoutouts_given.create(
             recipient=shoutee,
             content="jane is totes the dutifulest",
-            likes=0,
             datetime=timezone.now(),
         )
 
