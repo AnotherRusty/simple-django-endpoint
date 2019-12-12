@@ -36,13 +36,11 @@ class InitiativeCreateView(LoginRequiredMixin, views.View):
             )
 
 
-class InitiativeDetailView(LoginRequiredMixin, views.View):
+class InitiativeDetailView(views.View):
     def get(self, request, id):
         initiative = Initiative.objects.get(id=id)
         return render(
-            request,
-            "detail.html",
-            {"initiative": initiative, "form": InitiativeForm()},
+            request, "detail.html", {"initiative": initiative, "form": InitiativeForm()}
         )
 
 
@@ -61,11 +59,11 @@ class InitiativeDeleteView(LoginRequiredMixin, DeleteView):
 
 
 class InitiativeToggleView(LoginRequiredMixin, views.View):
-    def get(self, request, id):
+    def post(self, request, id):
         initiative = Initiative.objects.get(id=id)
         initiative.completion = not initiative.completion
         initiative.save()
-        return redirect("home")
+        return redirect("initiatives:home")
 
 
 class InitiativeStatusReportView(LoginRequiredMixin, CreateView):
@@ -85,5 +83,6 @@ class InitiativeStatusReportView(LoginRequiredMixin, CreateView):
             )
             return redirect("initiatives:home")
         else:
-            return render(request, "status.html", {"form": form})
+            initiative = Initiative.objects.get(id=id)
+            return render(request, "status.html", {"form": form, "initiative": initiative})
 

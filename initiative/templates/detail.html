@@ -25,7 +25,10 @@
                 Delete
             </button>
         </form>
-        <a href="{% url 'initiatives:toggle' initiative.id %}"><button class="initiative-button">Toggle Complete</button></a>
+        <form action="{% url 'initiatives:toggle' initiative.id %}" method="POST">
+            {% csrf_token %}
+            <button class="initiative-button">Toggle Complete</button>
+        </form>
         <a href="{% url 'initiatives:status' initiative.id %}"><button class="initiative-button">Status Report</button></a>
         {% endif %}
     </div>

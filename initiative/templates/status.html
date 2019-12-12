@@ -5,10 +5,11 @@
 <link rel="stylesheet" href="{% static 'initiative.css' %}">
 {% endblock extra_css %}
 {% block content %}
+<h1>Status Reports: {{ initiative.title }}</h1>
 
 <form action="{% url 'initiatives:status' initiative.id %}" method="POST" class="input-form">
     {% csrf_token %}
     {{ form|crispy }}
-    <button class="btn btn-success">Submit</button>
+    <button class="btn btn-success">Post Status Report</button>
 </form>
 {% endblock %}
