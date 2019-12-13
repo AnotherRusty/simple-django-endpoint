@@ -24,7 +24,12 @@
                 <input type="hidden" name="next" value="{{ request.path }}">
                 <button class="like-button">{{ shoutout.like_set.count }} 👍</button>
                 </form>
-                <p class="card-detail">From, {{ shoutout.user }} on {{ shoutout.datetime }}</p>
+
+                {% if shoutout.anonymous %}
+                    <p class="card-detail">From, Anonymous on {{ shoutout.datetime }}</p>
+                {% else %}
+                    <p class="card-detail">From, {{ shoutout.user }} on {{ shoutout.datetime }}</p>
+                {% endif %}
             </div>
         </div>
     </div>
