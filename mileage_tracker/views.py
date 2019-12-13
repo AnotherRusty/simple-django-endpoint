@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import CreateView, View
+from django.contrib.auth.models import User
 from mileage_tracker.models import DistanceToWork, DriveToWork
 from mileage_tracker.forms import DriveToWorkForm
 
@@ -28,10 +29,24 @@ class DriveToWorkView(LoginRequiredMixin, View):
     def post(self, request):
         distance = request.user.distancetowork.miles
         DriveToWork.objects.create(
-        user=request.user, date=timezone.now(), distance=distance
-            )
+            user=request.user, date=timezone.now(), distance=distance
+        )
         messages.success(request, f"Welcome to Base Camp, {request.user}")
         return redirect("home")
-        
 
 
+class CheckIfAdmin(UserPassesTestMixin, View):
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def get(self, request):
+        if self.test_func():
+            profiles = User.objects.all()
+            drives = DriveToWork.objects.all()
+            return render(
+                request,
+                "mileage_tracker/user_list.html",
+                {"profiles": profiles, "drives": drives},
+            )
+        else:
+            return redirect("home")
