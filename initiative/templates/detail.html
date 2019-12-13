@@ -12,6 +12,7 @@
         <p> Leader ~ {{ initiative.team_leader }} </p>
         <p> Goal: {{ initiative.title }}</p>
         <p> Description: {{ initiative.description }}</p>
+        <p> Timeline: {{ initiative.timeline }}</p>
         <p> Complete: {% if initiative.completion %} ✅ {% else %} ❌ {% endif %}
         {% if initiative.team_leader == request.user %}
         <button class="initiative-button">

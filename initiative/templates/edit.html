@@ -8,6 +8,7 @@
     <p> Goal: {{ post.title }}</p>
     <p> Leader ~ {{ post.team_leader }} </p>
     <p> Description: {{ post.description }}</p>
+    <p> Timeline: {{ post.timeline }}</p>
 </div>
 <form action="{% url 'initiatives:edit' object.id %}" method='POST'>
     {% csrf_token %}

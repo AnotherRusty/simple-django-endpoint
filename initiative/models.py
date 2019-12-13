@@ -9,6 +9,7 @@ class Initiative(models.Model):
     team_leader = models.ForeignKey(User, on_delete=models.PROTECT)
     completion = models.BooleanField(default=False)
     date = models.DateField(default=timezone.now)
+    timeline = models.TextField()
 
 
 class StatusReport(models.Model):
