@@ -1,29 +1,75 @@
 {% extends 'base.html' %}
+{% load crispy_forms_filters %}
 {% block content %}
 
+{% if user.is_authenticated %}
 <div class="form-container">
     <form action="{% url 'shoutouts:home' %}" method="POST">
         {% csrf_token %}
-        <div id="form">{{ form }}</div>
+        <div id="form">{{ form|crispy }}</div>
         <button class="submit-btn">Submit</button>
     </form>
-
 </div>
-
-<div id="shoutouts-container">
-    <ul id="shoutout-list">
-        {% for shoutout in shoutouts %}
-        <li class="shoutout">
-            <p>To {{ shoutout.recipient }}:</p>
-            <p id="content">{{ shoutout.content }}</p>
-            <p id="likes">{{ shoutout.likes }} <button>👍</button></p>
-            <p id="shoutout-detail">From, {{ shoutout.user }} on {{ shoutout.datetime }}</p>
-        </li>
-        {% endfor %}
-    </ul>
+<div id="shoutouts-container" class="row">
+    {% for shoutout in shoutouts %}
+    <div class="col col-lg-4 col-sm-12 m-auto">
+        <div class="card">
+            <div class="card-body">
+            <h4 class="card-title">To <a class="recipient-name"
+                    href="{% url 'shoutouts:individual_shoutouts' shoutout.recipient.id %}">{{ shoutout.recipient }}</a></h4>
+                <p class="card-content">{{ shoutout.content }}</p>
+                
+                <form action="{% url 'shoutouts:likes' shoutout.id %}" method="POST" class="total-likes">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.path }}">
+                <button class="like-button">{{ shoutout.like_set.count }} 👍</button>
+                </form>
+                <p class="card-detail">From, {{ shoutout.user }} on {{ shoutout.datetime }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
 </div>
-
+{% else %}
+<div id="shoutouts-container" class="row">
+    {% for shoutout in shoutouts %}
+    <div class="col col-lg-4 col-sm-12 m-auto">
+        <div id="card" class="card">
+            <div id="card-body" class="card-body">
+            <h4 class="card-title">To <a class="recipient-name"
+                    href="{% url 'shoutouts:individual_shoutouts' shoutout.recipient.id %}">{{ shoutout.recipient }}</a></h4>
+                <p class="card-content">{{ shoutout.content }}</p>
+                <p class="card-detail">From, {{ shoutout.user }} on {{ shoutout.datetime }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+</div>
 <style>
+    .card-body {
+        height: 15rem;
+    }
+    .card {
+        padding-bottom: 5px;
+        margin-bottom: 2rem;
+    }
+    .card-content{
+        font-size: 12pt;
+        margin-bottom: 3rem;
+    }
+    .card-detail {
+        font-size: 10pt;
+        position: absolute;
+        bottom: 0;
+    }
+    .like-button {
+        border: none;
+        position: absolute;
+        top: 11rem;
+        right: 0;
+    }
     select {
         width: 10rem;
     }
@@ -31,55 +77,16 @@
     label {
         font-size: 28px;
     }
-
-    #likes {
-        font-size: 18px;
-    }
-
-    #content {
-        font-size: 20px;
-    }
-
-    .shoutout {
-        overflow-wrap: break-word;
-        border: black 1px solid;
-        border-radius: 1rem;
-        padding: 1rem;
-        width: 12.5rem;
-        margin: 1rem;
-        background-color: rgba(155, 152, 152, 0.26);
-    }
-
-    #shoutout-label {
-        text-align: center;
-        margin-bottom: 2rem;
-        margin-top: 2rem;
-    }
-
-    #shoutout-list {
-        list-style-type: none;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        margin-left: 8.5rem;
-    }
-
-    textarea {
-        padding: 5px;
-        font-size: 12px;
-        width: 20rem;
-    }
-
+   
     .form-container {
         display: flex;
-        justify-content: center;
         flex-direction: column;
         align-items: flex-start;
-        padding: 35px;
-        margin: auto;
+        padding-top: 35px;
+        padding-bottom: 35px;
     }
 
     .form-container form {
-        margin: auto;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -94,8 +101,9 @@
         border-radius: 2px;
     }
 
-    #shoutout-detail {
-        font-size: 12pt;
+    .recipient-name {
+        color: black;
+        text-decoration: underline;
     }
 </style>
-{% endblock content %}å
+{% endblock content %}
