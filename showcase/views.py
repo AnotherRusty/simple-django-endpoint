@@ -3,7 +3,7 @@ from showcase.forms import SignUp
 from showcase.models import Profile, StudentOfTheDay
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-import random
+from random import choice
 import sched
 import time
 
@@ -34,7 +34,10 @@ def sign_up(request):
 
 def user_profiles(request):
     profiles = Profile.objects.all()
-    return render(request, "user-profiles.html", {"profiles": profiles})
+    student = choice(profiles)
+    return render(
+        request, "user-profiles.html", {"profiles": profiles, "student": student}
+    )
 
 
 def profile_page(request, id):
@@ -42,10 +45,3 @@ def profile_page(request, id):
         profile = Profile.objects.get(id=id)
         return render(request, "profile-page.html", {"profile": profile})
 
-
-def student_of_the_day(request):
-    if request.method == "GET":
-        return render(request, "user-profile.html", student_of_the_day())
-    elif request.method == "POST":
-        randoms = Profile.objects.order_by("?").first()
-        return redirect("showcase:profile-list")
