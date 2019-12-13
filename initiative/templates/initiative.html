@@ -12,13 +12,12 @@
 
 <div class="container">
     {% for initiative in initiatives %}
+    <a href="{% url 'initiatives:detail' initiative.id %}">
     <div class="initiative">
         <p> {{ initiative.name }} </p>
         <p> Leader ~ {{ initiative.team_leader }} </p>
         <p> Goal: {{ initiative.title }}</p>
-        <p> Description: {{ initiative.description }}</p>
-    </div>
+    </div></a>
     {% endfor %}
 </div>
 {% endblock content %}
-    
