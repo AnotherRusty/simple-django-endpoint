@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class InitiativeForm(forms.Form):
     title = forms.CharField()
     description = forms.CharField()
-    timeline = forms.CharField()
+    timeline = forms.CharField(required=False)
 
 
 class StatusReportForm(forms.Form):

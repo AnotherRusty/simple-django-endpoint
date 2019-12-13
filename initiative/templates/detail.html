@@ -7,36 +7,45 @@
 
 <div class="container">
     {% if initiative %}
-    <div class="initiative">
-        <p> {{ initiative.name }} </p>
-        <p> Leader ~ {{ initiative.team_leader }} </p>
-        <p> Goal: {{ initiative.title }}</p>
-        <p> Description: {{ initiative.description }}</p>
-        <p> Timeline: {{ initiative.timeline }}</p>
+    <div class="initiative card w-25 p-2">
+        <p class="card-header">Goal: {{ initiative.title }} </p>
+        <p class="card-title mt-1"> Leader: {{ initiative.team_leader }} </p>
+        <p class="card-subtitle"> Description: {{ initiative.description }}</p>
+        {% if initiative.timeline %}
+        <p class="card-text"> Timeline: {{ initiative.timeline }}</p>
+        {% endif %}
         <p> Complete: {% if initiative.completion %} ✅ {% else %} ❌ {% endif %}
         {% if initiative.team_leader == request.user %}
-        <button class="initiative-button">
-            <a href="{% url 'initiatives:edit' initiative.id %}">
-                Edit
+        <div class="btn-group d-flex justify-content-center align-items-center">
+            <form action="{% url 'initiatives:edit' initiative.id %}">
+                <button class="initiative-button btn btn-warning">Edit</button>
+            </form>
+            <form action="{% url 'initiatives:delete' initiative.id %}" method="POST">
+                {% csrf_token %}
+                <button class="initiative-button btn btn-danger ml-2">
+                    Delete
+                </button>
+            </form>
+        </div>
+        <div class="btn-group d-flex justify-content-center align-items-center mt-2">
+            <form action="{% url 'initiatives:toggle' initiative.id %}" method="POST">
+                {% csrf_token %}
+                <button class="initiative-button btn btn-success">Toggle Complete</button>
+            </form>
+            <a href="{% url 'initiatives:status' initiative.id %}">
+                <button class="initiative-button btn btn-info ml-2">
+                    Status Report
+                </button>
             </a>
-        </button>
-        <form action="{% url 'initiatives:delete' initiative.id %}" method="POST">
-            {% csrf_token %}
-            <button class="initiative-button">
-                Delete
-            </button>
-        </form>
-        <form action="{% url 'initiatives:toggle' initiative.id %}" method="POST">
-            {% csrf_token %}
-            <button class="initiative-button">Toggle Complete</button>
-        </form>
-        <a href="{% url 'initiatives:status' initiative.id %}"><button class="initiative-button">Status Report</button></a>
+        </div>
         {% endif %}
     </div>
     {% endif %}
     <div style="display: flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;">
         {% for status in initiative.statusreport_set.all %}
-        <p> Status Report: {{ status.content }}</p>
+        <div class="card mt-2 w-25">
+            <p class="card-body m-0"> Status Report: {{ status.content }}</p>
+        </div>
         {% endfor %}
     </div>
 </div>

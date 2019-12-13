@@ -7,17 +7,18 @@
 <form action="{% url 'initiatives:create' %}" method="POST" class="input-form">
     {% csrf_token %}
     {{ form }}
-    <button>Submit</button>
+    <button class="btn btn-primary">Submit</button>
 </form>
 
-<div class="container">
+<div style="display:grid; grid-template-columns: 1fr 1fr 1fr 1fr;">
     {% for initiative in initiatives %}
-    <a href="{% url 'initiatives:detail' initiative.id %}">
-    <div class="initiative">
-        <p> {{ initiative.name }} </p>
-        <p> Leader ~ {{ initiative.team_leader }} </p>
-        <p> Goal: {{ initiative.title }}</p>
-    </div></a>
+    <div class="card m-2 p-2">
+        <p class="card-title"> Goal: {{ initiative.title }}</p>
+        <p class="card-text"> Leader: {{ initiative.team_leader }} </p>
+        <a href="{% url 'initiatives:detail' initiative.id %}" class="btn btn-info">
+            Details
+        </a>
+    </div>
     {% endfor %}
 </div>
 {% endblock content %}
