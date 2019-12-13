@@ -70,3 +70,10 @@ class TestDriveToWork(TestCase):
         now = timezone.now()
         drive = models.DriveToWork(date=now, distance=42)
         self.assertEqual(str(drive), f"{now} | 42")
+
+class TestIfAdmin(TestCase):
+    pass
+
+
+class TestIfAdminSees(TestCase):
+    pass

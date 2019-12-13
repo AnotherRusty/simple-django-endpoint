@@ -13,4 +13,12 @@ class Shoutout(models.Model):
     user = models.ForeignKey(
         User, related_name="shoutouts_given", on_delete=models.PROTECT
     )
-    likes = models.IntegerField()
+
+
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    shoutout = models.ForeignKey(Shoutout, on_delete=models.PROTECT)
+    created = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        unique_together = ('user', 'shoutout',)

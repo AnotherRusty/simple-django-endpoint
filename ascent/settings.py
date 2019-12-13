@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     "reflections",
     "shoutouts",
     "mathfilters",
+    "attendance",
 ]
 
 MIDDLEWARE = [

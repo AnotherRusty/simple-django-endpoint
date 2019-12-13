@@ -13,16 +13,22 @@ class QuestionAdmin(admin.ModelAdmin):
     pass
 
 
+class QuestionSubmissionAdmin(admin.TabularInline):
+    model = QuestionSubmission
+    fields = []
+    readonly_fields = ("question__prompt", "answer")
+    extra = 0
+
+
 class SubmissionAdmin(admin.ModelAdmin):
-    pass
+    inlines = [QuestionSubmissionAdmin]
+    readonly_fields = ("reflection", "user")
+
+    list_filter = ["reflection"]
 
 
-class QuestionSubmissionAdmin(admin.ModelAdmin):
-    pass
-
-
+# admin.site.register(QuestionSubmissionAdmin, SubmissionAdmin)
 admin.site.register(Reflection, ReflectionAdmin)
 admin.site.register(Question, QuestionAdmin)
-admin.site.register(QuestionSubmission, QuestionSubmissionAdmin)
 admin.site.register(Submission, SubmissionAdmin)
 
