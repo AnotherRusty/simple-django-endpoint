@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if user.is_authenticated %}
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                {% if reflection %}
+                    <div class="card text-white bg-dark mt-3 mb-3" style="max-width: 30rem;">
+                        <div class="card-header">Reflection {{reflection.date}} </div>
+                        <div class="card-body">
+                        <p class="card-text">
+                            <form action="{% url 'reflections:submit_reflection' reflection.id %}" method="POST">
+                            {% csrf_token %}
+                            {% for question in reflection.question_set.all %} 
+                                <p>Question {{ forloop.counter }}:</p>
+                                <p><small>{{question.prompt}}</small></p>
+                                <div class="form-group">
+                                    <label class="col-form-label" for="inputDefault">Answer:</label>
+                                    <input name="question-{{question.id}}" type="text" class="form-control" style="max-width: 25rem;" id="inputDefault">
+                                </div>
+                            {% endfor %}
+                                <button style="background-color:#81d5f1; min-width:20rem" class="btn">Submit</button>
+                            </form>                       
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <p>No Reflection today.</p>
+                {% endif %}
+            </div>
+        </div>
+
+
+{% endif %}
+{% endblock content %}

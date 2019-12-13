@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+<div class="col col-lg-4 col-sm-6">
+  <div class="card">
+    <div class="card-header">
+      <p>{{ profile.user.username}}</p>
+    </div>
+    <div class="card-body">
+      <div>
+        <img class="w-75 rounded-circle border border-primary"
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTT9MmOp5TcW6fY622cSYjpz06DAd5A1PAo4s-MWKK6iQJRThq8">
+      </div>
+      <div>
+        <h5 class="card-title">{{profile.headline}}</h5>
+        <p class="card-text">{{profile.bio}}</p>
+        <ul>
+              <li>
+                <a href={{profile.codepen}} class="card-text">codepen</a>
+              </li>
+              <li>
+                <a href={{profile.github_repository}} class="card-text">github repo</a>
+              </li>
+            </ul>
+
+
+
+        {% endblock content %}
