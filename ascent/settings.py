@@ -32,9 +32,7 @@ if "SENTRY_DSN" in os.environ:
     import sentry_sdk
     from sentry_sdk.integrations.django import DjangoIntegration
 
-    sentry_sdk.init(
-        dsn=os.environ["SENTRY_DSN"], integrations=[DjangoIntegration()],
-    )
+    sentry_sdk.init(dsn=os.environ["SENTRY_DSN"], integrations=[DjangoIntegration()])
 
 # Application definition
 
@@ -53,6 +51,7 @@ INSTALLED_APPS = [
     "pingpong",
     "reflections",
     "shoutouts",
+    "mathfilters",
 ]
 
 MIDDLEWARE = [
