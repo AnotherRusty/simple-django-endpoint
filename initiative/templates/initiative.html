@@ -13,7 +13,11 @@
 <div style="display:grid; grid-template-columns: 1fr 1fr 1fr 1fr;">
     {% for initiative in initiatives %}
     <div class="card m-2 p-2">
-        <p class="card-title"> Goal: {{ initiative.title }}</p>
+        {% if initiative.completion %}
+        <p class="card-title text-success"> Goal: {{ initiative.title }}</p>
+        {% else %}
+        <p class="card-title text-danger"> Goal: {{ initiative.title }}</p>
+        {% endif %}
         <p class="card-text"> Leader: {{ initiative.team_leader }} </p>
         <a href="{% url 'initiatives:detail' initiative.id %}" class="btn btn-info">
             Details

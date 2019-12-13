@@ -15,5 +15,5 @@ class Initiative(models.Model):
 class StatusReport(models.Model):
     content = models.TextField()
     author = models.ForeignKey(User, on_delete=models.PROTECT)
-    initiative = models.ForeignKey(Initiative, on_delete=models.PROTECT)
+    initiative = models.ForeignKey(Initiative, on_delete=models.CASCADE)
     date = models.DateField(auto_now=True)
