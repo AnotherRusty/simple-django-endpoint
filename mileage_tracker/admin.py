@@ -1,7 +1,12 @@
 from django.contrib import admin
-from .models import DriveToWork
+from .models import DriveToWork, DistanceToWork
+
 
 @admin.register(DriveToWork)
 class DriveToWorkAdmin(admin.ModelAdmin):
     pass
-# Register your models here.
+
+
+@admin.register(DistanceToWork)
+class DistanceToWorkAdmin(admin.ModelAdmin):
+    pass
