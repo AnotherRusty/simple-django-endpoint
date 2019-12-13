@@ -11,12 +11,21 @@ class Match(models.Model):
     )
     player1_score = models.IntegerField()
     player2_score = models.IntegerField()
-
+    player_1_verification = models.BooleanField()
+    player_2_verification = models.BooleanField()
+    
     def winner(self):
-        if self.player1_score - 1 != self.player2_score:
+        if self.player1_score >= self.player2_score + 2:
             if self.player1_score >= 11:
-                winner = self.player1
-        elif self.player2_score - 1 != self.player1_score:
+                return self.player1
+        elif self.player2_score >= self.player1_score + 2:
             if self.player2_score >= 11:
-                winner = self.player2
-        return winner
+                return self.player2
+
+    def loser(self):
+        if self.player1_score >= self.player2_score + 2:
+            if self.player1_score >= 11:
+                return self.player2
+        elif self.player2_score >= self.player1_score + 2:
+            if self.player2_score >= 11:
+                return self.player1

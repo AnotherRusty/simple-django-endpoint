@@ -4,14 +4,23 @@ from django.urls import reverse_lazy
 from pingpong.models import Match
 from django.contrib.auth.models import User
 
-def compute_leaderboard(request):
-    matches = Match.objects.all()
+
+def compute_leaderboard(matches):
     wins = {}
     for match in matches:
-        wins[match.winner()] = wins.get(match.winner(), 0) + 1
-        wins[match.loser()] = wins.get(match.loser(), 0)
-    return wins
-                
+        if match.winner():
+            wins[match.winner()] = wins.get(match.winner(), 0) + 1
+            wins[match.loser()] = wins.get(match.loser(), 0)
+
+    leaderboard = []
+
+    for key, value in wins.items():
+        thewinner = {"user": key, "wins": value}
+        leaderboard.append(thewinner)
+    
+    sorted_board = sorted(leaderboard, key=lambda i: i["wins"], reverse=True)
+    return sorted_board
+
 
 class Home(ListView):
     model = Match
@@ -26,9 +35,7 @@ class Home(ListView):
 
 class MatchCreateView(CreateView):
     model = Match
-    fields = ["player1", "player2", "player1_score", "player2_score"]
+    fields = ["player1", "player2", "player1_score", "player2_score", 'player_1_verification', 'player_2_verification']
     template_name = "pingpong/create-match.html"
     success_url = reverse_lazy("pingpong:home")
-
-
 
