@@ -6,6 +6,7 @@
 {% endblock extra_css %}
 {% block content %}
 
+<h1>New {{ initiative.title }} Status Report</h1>
 <form action="{% url 'initiatives:status' initiative.id %}" method="POST" class="input-form">
     {% csrf_token %}
     {{ form|crispy }}
