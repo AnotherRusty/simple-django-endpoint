@@ -17,7 +17,7 @@ def compute_leaderboard(matches):
     for key, value in wins.items():
         thewinner = {"user": key, "wins": value}
         leaderboard.append(thewinner)
-    
+
     sorted_board = sorted(leaderboard, key=lambda i: i["wins"], reverse=True)
     return sorted_board
 
@@ -35,7 +35,6 @@ class Home(ListView):
 
 class MatchCreateView(CreateView):
     model = Match
-    fields = ["player1", "player2", "player1_score", "player2_score", 'player_1_verification', 'player_2_verification']
+    fields = ["player1", "player2", "player1_score", "player2_score"]
     template_name = "pingpong/create-match.html"
     success_url = reverse_lazy("pingpong:home")
-
