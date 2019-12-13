@@ -6,7 +6,7 @@
     <div class="col col-lg-4 col-sm-6">
       <div class="card">
         <div class="card-header">
-          {{ profile.user.username}}
+          <p>{{ profile.user.username}}</p>
         </div>
         <div class="card-body">
           <div>
@@ -16,12 +16,22 @@
           <div>
             <h5 class="card-title">{{profile.headline}}</h5>
             <p class="card-text">{{profile.bio}}</p>
-            <a href="#" class="btn btn-primary">See details</a>
+            <ul>
+              <li>
+                <a href={{profile.codepen}} class="card-text">codepen</a>
+              </li>
+              <li>
+                <a class="card-text" href={{profile.github_repository}}>github repo</a>
+              </li>
+            </ul>
+            <a href="{% url 'showcase:profile-page' profile.id %}" class="btn btn-outline-primary">See details</a>
+
           </div>
         </div>
       </div>
     </div>
     {% endfor %}
   </div>
+
 </div>
 {% endblock content %}
