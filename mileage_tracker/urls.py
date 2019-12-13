@@ -6,5 +6,6 @@ app_name = "mileage_tracker"
 urlpatterns = [
     path("", views.DistanceToWorkCreateView.as_view(), name="home"),
     path("user_commute", views.DriveToWorkView.as_view(), name="did_commute"),
+    path("admin/", views.CheckIfAdmin.as_view(), name="admin"),
 ]
 
