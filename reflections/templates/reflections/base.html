@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
+{% if user.is_superuser %}
+<a href="{% url 'reflections:admin_view' %}">Admin Page</a>
+{% endif %}
 {% if user.is_authenticated %}
         <div class="container">
             <div class="row">

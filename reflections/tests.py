@@ -122,3 +122,7 @@ class TestQuestionSubmissionStr(TestCase):
             test_question.question__prompt(), test_question.question.prompt
         )
 
+
+class TestIfStudentSubmitedCurrentReflection(TestCase):
+    def test_example(self):
+        pass

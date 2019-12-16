@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Reflection, Submission, Question, QuestionSubmission, User
 from django.utils import timezone, dateformat
 from datetime import datetime
+from django.contrib.auth.models import User
 
 
 def home(request):
@@ -24,3 +25,46 @@ def submit_reflection(request, id):
                 question=question, submission=submission, answer=value
             )
     return redirect("home")
+
+
+def admin_view(request):
+    users = User.objects.all()
+    submissions = Submission.objects.all()
+    try:
+        reflection = Reflection.objects.get(date=timezone.now())
+        reflection_date = reflection.date
+    except Reflection.DoesNotExist:
+        reflection = None
+    correction_list = []
+    for user in users:
+        if user.submission_set.filter(reflection=reflection).exists():
+            done = "Yes"
+            correction_list.append(done)
+        else:
+            done = "No"
+            correction_list.append(done)
+    return render(
+        request,
+        "reflections/admin_view.html",
+        {
+            "users": users,
+            "reflection": reflection,
+            "submissions": submissions,
+            "correction_list": correction_list,
+        },
+    )
+
+
+def submission_detail(request, id):
+    try:
+        reflection = Reflection.objects.get(date=timezone.now())
+    except Reflection.DoesNotExist:
+        reflection = None
+    user = User.objects.get(id=id)
+    submission = Submission.objects.get(user=user, reflection=reflection)
+    return render(
+        request,
+        "reflections/submission_detail.html",
+        {"reflection": reflection, "user": user, "submission": submission},
+    )
+
