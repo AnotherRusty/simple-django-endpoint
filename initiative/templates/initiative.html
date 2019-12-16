@@ -10,15 +10,15 @@
     <button class="btn btn-primary">Submit</button>
 </form>
 
-<div style="display:grid; grid-template-columns: 1fr 1fr 1fr 1fr;">
+<div style="display:flex; flex-direction: column; .hidden-xs-down">
     {% for initiative in initiatives %}
-    <div class="card m-2 p-2">
+    <div class="card m-2 p-2 .hidden-xs-down">
         {% if initiative.completion %}
-        <p class="card-title text-success"> Goal: {{ initiative.title }}</p>
+        <p class="card-title text-success .hidden-xs-down"> Goal: {{ initiative.title }}</p>
         {% else %}
-        <p class="card-title text-danger"> Goal: {{ initiative.title }}</p>
+        <p class="card-title text-danger .hidden-xs-down"> Goal: {{ initiative.title }}</p>
         {% endif %}
-        <p class="card-text"> Leader: {{ initiative.team_leader }} </p>
+        <p class="card-text .hidden-xs-down"> Leader: {{ initiative.team_leader }} </p>
         <a href="{% url 'initiatives:detail' initiative.id %}" class="btn btn-info">
             Details
         </a>
