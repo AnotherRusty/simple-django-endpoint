@@ -16,7 +16,7 @@ def checkin(request):
         return render(
             request,
             "attendance.html",
-            {"user_is_checked_in": user_is_checked_in, "report": report,},
+            {"user_is_checked_in": user_is_checked_in, "report": report},
         )
     elif request.method == "POST":
         Checkin.checkin_user(request.user)

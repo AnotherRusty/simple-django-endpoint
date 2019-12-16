@@ -6,7 +6,6 @@ from attendance.choices import *
 
 class Checkin(models.Model):
     EIGHT_THIRTY = timezone.now().replace(hour=8, minute=30)
-
     student = models.ForeignKey(User, on_delete=models.CASCADE)
     datetime = models.DateTimeField(default=timezone.now)
     verified = models.BooleanField(default=False)
@@ -37,4 +36,4 @@ class Checkin(models.Model):
             return "Present"
         else:
             return "Tardy"
-    
+
