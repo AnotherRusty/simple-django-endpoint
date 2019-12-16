@@ -1,20 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
-<p>Here is the submission details</p>
 <div class="card text-white bg-dark mb-3 d-inline-block" style="max-width: 20rem;">
-  <div class="card-header">Reflection Date: {{reflection.date}}</div>
+  <div class="card-header" style="font-size: 1.5rem">{{user.username}}'s Reflection <br> Reflection Date: {{reflection.date}}</div>
   <div class="card-body">
     <h4 class="card-title">
     {% for question in reflection.question_set.all%}
     <p>Question {{ forloop.counter }}:</p>
     <p><small>{{question.prompt}}</small></p>
-    {% endfor %}
+     {% endfor %}
     {% for answers in submission.questionsubmission_set.filter %}
-        {{answers}}
+    <p>Answer {{forloop.counter}}: <br>{{answers}}</p>
     {% endfor %}
+   
     </h4>
-      <label for="exampleTextarea">Example textarea</label>
-      <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+      <textarea name="feedback" class="form-control" id="exampleTextarea" rows="3"></textarea>
+      <button type="button" class="btn btn-success" style="margin: 10px;margin-left:100px; padding: 5px; font-size: 1.5rem;">Send</button>
   </div>
 </div>
 
