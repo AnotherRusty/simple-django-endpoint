@@ -23,7 +23,7 @@ class Question(models.Model):
 class Submission(models.Model):
     reflection = models.ForeignKey(Reflection, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    feedback = models.TextField(null=True)
+    feedback = models.TextField(blank=True)
 
     def __str__(self):
         return f"{self.user.username} | Reflection {self.reflection.date}"
@@ -36,7 +36,7 @@ class QuestionSubmission(models.Model):
 
     def question__prompt(self):
         return self.question.prompt
-        
+
     def __str__(self):
         return self.answer
     
