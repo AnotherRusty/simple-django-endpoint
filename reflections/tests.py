@@ -123,6 +123,10 @@ class TestQuestionSubmissionStr(TestCase):
         )
 
 
-class TestIfStudentSubmitedCurrentReflection(TestCase):
+class TestIfStudentSubmitedReflection(TestCase):
     def test_example(self):
-        pass
+        user = User.objects.create_user("janet")
+        reflection = models.Reflection(date=now)
+        submission = models.Submission(reflection=reflection, user=user)
+        self.client.get
+        
