@@ -65,6 +65,6 @@ def submission_detail(request, id):
     return render(
         request,
         "reflections/submission_detail.html",
-        {"reflection": reflection, "user": user, "submission": submission},
+        {"reflection": reflection, "user": user, "submission": submission },
     )
 
