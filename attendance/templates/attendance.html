@@ -2,7 +2,7 @@
 {% block content %}
 <p class="container mt-5">
     <p class="text-center">Good Morning, Welcome to Base Camp Coding Academy!</p>
-    <p class="text-center"> Here are Todays Check-Ins</p>
+    <p class="text-center"> Here are Today's Check-Ins</p>
 {% if user.is_staff  %}
         <div class="container">
             <table class="table table-bordered">
@@ -13,7 +13,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for user, status in report.items %}
+                    {% for user, status in daily_report.items %}
                     <tr>
                         <td scope="row">{{user.username}}</td>
                         <td scope="row">{{ status }}</td>
