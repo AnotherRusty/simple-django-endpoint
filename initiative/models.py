@@ -24,8 +24,8 @@ class StatusReport(models.Model):
         verbose_name_plural = 'goals'
 
     def __str__(self):
-        return '%s %s' % (self.author, self.initiative)
+        return '%s %s' % (self.author, self.content)
 
     def get_absolute_url(self):
-        return reverse('detail', args=[str(self.id)])
+        return reverse('initiative:status', args=[str(self.id)])
 
