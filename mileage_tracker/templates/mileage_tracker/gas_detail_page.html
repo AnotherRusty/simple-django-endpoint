@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="jumbotron" style="background-color: white;">
+    <h1 class="display-3">{{ user }}</h1>
+    <hr class="my-2">
+    <p><strong>Round Trip Distance:</strong> {{ distance }} </p>
+    <p><strong>Total Days Driven:</strong> {{ days_driven }} </p>
+    <p><strong>Total Compensated Mileage:</strong> {{ compensated_miles }} </p>
+    {% if total_mileage >= 250 %}
+    <p><strong>Total Uncompensated Mileage:</strong> {{ total_mileage }} </p>
+    <p><strong>Total Gas Cards User Has Recieved:</strong> {{ gas_cards_given }} </p>
+    <h2 class="alert alert-danger" role="alert"> Student Eligible For Card</h2>
+    {% else %}
+    <p><strong>Total Uncompensated Mileage:</strong> {{ total_mileage }} </p>
+    <p><strong>Total Gas Cards User Has Recieved:</strong> {{ gas_cards_given }} </p>
+    <h2 class="alert alert-success" role="alert"> Student Is Not Eligible For Card</h2>
+    {% endif %}
+    <form action="{% url 'mileage_tracker:gas_detail' user.id %}" method="post">
+        {% csrf_token %}
+        <p class="lead">
+            <button class="btn btn-primary btn-lg">Verify Card</button>
+        </p>
+    </form>
+
+</div>
+{% endblock content %}

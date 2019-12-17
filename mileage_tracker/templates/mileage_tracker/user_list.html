@@ -9,16 +9,8 @@ grid-gap: 2rem; padding: 0; margin: 0;">
     <li class="card">
         <div class="card-body" style="display: flex; flex-direction: column;">
             <h3 class="card-title">{{ profile }}</h3>
-            <p style="flex: 1; margin-bottom: 2rem">
-                Days Commuted: {{ profile.drivetowork_set.count }}
-            </p>
-            <p style="flex: 1; margin-bottom: 2rem">
-                Round Trip Miles: {{profile.distancetowork.miles}}
-            </p>
-            <p style="flex: 1; margin-bottom: 2rem">
-                Total mileage: {{ profile.drivetowork_set.count|mul:profile.distancetowork.miles }}
-            </p>
-            <a href="">Click here</a> to verify student has recieved a gas card.
+            <a href="{% url "mileage_tracker:gas_detail" profile.id %}">Click here</a>
+            to check students mileage detail
         </div>
     </li>
     {% endfor %}
