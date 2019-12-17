@@ -16,6 +16,11 @@ django-crispy-forms = "*"
 pytest = "*"
 pytest-django = "*"
 pytest-cov = "*"
+black = "*"
+mypy = "*"
 
 [requires]
 python_version = "3.7"
+
+[pipenv]
+allow_prereleases = true

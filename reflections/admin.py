@@ -5,12 +5,10 @@ from .models import QuestionSubmission
 from .models import Submission
 
 
-class ReflectionAdmin(admin.ModelAdmin):
-    pass
-
-
-class QuestionAdmin(admin.ModelAdmin):
-    pass
+class QuestionAdmin(admin.TabularInline):
+    model = Question
+    fields = []
+    extra = 0
 
 
 class QuestionSubmissionAdmin(admin.TabularInline):
@@ -20,6 +18,12 @@ class QuestionSubmissionAdmin(admin.TabularInline):
     extra = 0
 
 
+class ReflectionAdmin(admin.ModelAdmin):
+    inlines = [QuestionAdmin]
+    readonly_fields = ()
+    list_filter = []
+
+
 class SubmissionAdmin(admin.ModelAdmin):
     inlines = [QuestionSubmissionAdmin]
     readonly_fields = ("reflection", "user")
@@ -27,8 +31,6 @@ class SubmissionAdmin(admin.ModelAdmin):
     list_filter = ["reflection"]
 
 
-# admin.site.register(QuestionSubmissionAdmin, SubmissionAdmin)
 admin.site.register(Reflection, ReflectionAdmin)
-admin.site.register(Question, QuestionAdmin)
 admin.site.register(Submission, SubmissionAdmin)
 

@@ -19,11 +19,16 @@ class Question(models.Model):
     reflection = models.ForeignKey(Reflection, on_delete=models.CASCADE)
     prompt = models.TextField()
 
+    def __str__(self):
+        ids = list(self.reflection.question_set.all().values("id"))
+        index = ids.index({ "id": self.id})
+        return f"Question {index + 1}"
+
 
 class Submission(models.Model):
     reflection = models.ForeignKey(Reflection, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    feedback = models.TextField(blank=True)
+    feedback = models.TextField(blank=True,null=True,default="Blank")
 
     def __str__(self):
         return f"{self.user.username} | Reflection {self.reflection.date}"

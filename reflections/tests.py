@@ -17,7 +17,6 @@ class TestAdminCreatesReflection(TestCase):
 
     def test_models_are_registered_with_admin_site(self):
         self.assertIn(models.Reflection, admin.site._registry)
-        self.assertIn(models.Question, admin.site._registry)
 
 
 class TestStudentSubmitsReflection(TestCase):
@@ -113,7 +112,7 @@ class TestSubmissionStr(TestCase):
         )
 
 
-class TestQuestionSubmissionStr(TestCase):
+class TestQuestionSubmissionPrompt(TestCase):
     def test_example(self):
         question = models.Question(prompt="hellur")
         test_question = models.QuestionSubmission(question=question)
@@ -123,10 +122,15 @@ class TestQuestionSubmissionStr(TestCase):
         )
 
 
-class TestIfStudentSubmitedReflection(TestCase):
+class TestQuestionSubmissionStr(TestCase):
     def test_example(self):
+        now = timezone.now()
         user = User.objects.create_user("janet")
         reflection = models.Reflection(date=now)
         submission = models.Submission(reflection=reflection, user=user)
-        self.client.get
-        
+        question = models.Question(prompt="hellur")
+        questionsubmission = models.QuestionSubmission(
+            question=question, submission=submission, answer="Hellor"
+        )
+
+        self.assertEqual( str(questionsubmission), f"{questionsubmission.answer}")
