@@ -132,4 +132,38 @@ class TestUserSeesLeaderboard(TestCase):
         self.assertContains(response, "0")
 
 
+class TestUsersVerifyMatch(TestCase):
+    def test_successfully(self):
+        winner = User.objects.create(username="winnie", id=1)
+        loser = User.objects.create(username="lucy", id=3)
+        match = Match.objects.create(player1=winner, player2=loser, player2_score=7, player1_score=11)
+        
+        with self.subTest("winner sees verification prompt"):
+            self.client.force_login(winner)
+            response = self.client.get(reverse("pingpong:home"))
+            self.assertContains(response, "Verify match")
 
+        with self.subTest("loser sees verification prompt"):
+            self.client.force_login(loser)
+            response = self.client.get(reverse("pingpong:home"))
+            self.assertContains(response, "Verify match")
+
+        with self.subTest("winnie verifies match"):
+            self.client.force_login(winner)
+            response = self.client.post(reverse("pingpong:verify", args=[match.id]))
+            self.assertFalse(match.player_1_verification)
+
+        with self.subTest("winnie no longer sees prompt"):
+            self.client.force_login(winner)
+            response = self.client.get(reverse("pingpong:home"))
+            self.assertNotContains(response, "Verify match")
+
+        with self.subTest("lucy verifies match"):
+            self.client.force_login(loser)
+            response = self.client.post(reverse("pingpong:verify", args=[match.id]))
+            self.assertTrue(match.player_2_verification)
+
+        with self.subTest("lucy no longer sees prompt"):
+            self.client.force_login(loser)
+            response = self.client.get(reverse("pingpong:home"))
+            self.assertNotContains(response, "Verify match")

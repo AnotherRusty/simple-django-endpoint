@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    {% for match in matches %}
+        {% if user == match.player1 %}
+
+            {{match.player_1_verification}}
+            
+        {% endif %}
+    {% endfor %}
+
+{% endblock content %}

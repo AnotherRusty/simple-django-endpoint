@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, View
 from django.urls import reverse_lazy
 from pingpong.models import Match
 from django.contrib.auth.models import User
@@ -38,3 +38,19 @@ class MatchCreateView(CreateView):
     fields = ["player1", "player2", "player1_score", "player2_score"]
     template_name = "pingpong/create-match.html"
     success_url = reverse_lazy("pingpong:home")
+    def verify_match(request):
+        if request.user == model['player1']:
+            model['player_1_verification'] = True
+        elif request.user == model['player2']:
+            model['player_2_verification'] = True
+
+class VerifyMatch(View):
+    def post(request, self, id):
+        match = Match.objects.get(id=id)
+        if request.user == match['player1']:
+            match['match.player_1_verification'] = True
+        elif  request.user == match['player2']:
+            match['match.player_2_verification'] = True     
+
+
+
