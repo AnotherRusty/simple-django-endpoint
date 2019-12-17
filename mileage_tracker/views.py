@@ -3,9 +3,14 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import CreateView, View
+from django.views.generic import CreateView, View, DetailView
 from django.contrib.auth.models import User
-from mileage_tracker.models import DistanceToWork, DriveToWork
+from mileage_tracker.models import (
+    DistanceToWork,
+    DriveToWork,
+    GasCardGiven,
+    need_a_gas_card,
+)
 from mileage_tracker.forms import DriveToWorkForm
 
 
@@ -34,19 +39,47 @@ class DriveToWorkView(LoginRequiredMixin, View):
         messages.success(request, f"Welcome to Base Camp, {request.user}")
         return redirect("home")
 
+    def get(self, request):
+        return render(request, "mileage_tracker/submit_commute.html")
+
 
 class CheckIfAdmin(UserPassesTestMixin, View):
     def test_func(self):
         return self.request.user.is_staff
 
     def get(self, request):
-        if self.test_func():
-            profiles = User.objects.all()
-            drives = DriveToWork.objects.all()
-            return render(
-                request,
-                "mileage_tracker/user_list.html",
-                {"profiles": profiles, "drives": drives},
-            )
-        else:
-            return redirect("home")
+        profiles = User.objects.all()
+        drives = DriveToWork.objects.all()
+        gas_cards = GasCardGiven.objects.all()
+        return render(
+            request,
+            "mileage_tracker/user_list.html",
+            {"profiles": profiles, "drives": drives, "gas_cards": gas_cards},
+        )
+
+
+class UserGasDetail(UserPassesTestMixin, View):
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def get(self, request, profile_id):
+        user = User.objects.get(id=profile_id)
+        days_driven, distance, compensated_miles, total_mileage, gas_cards_given = need_a_gas_card(user)
+        return render(
+            request,
+            "mileage_tracker/gas_detail_page.html",
+            {
+                "user": user,
+                "days_driven": days_driven,
+                "distance": distance,
+                "compensated_miles": compensated_miles,
+                "total_mileage": total_mileage,
+                "gas_cards_given": gas_cards_given
+            },
+        )
+
+    def post(self, request, profile_id):
+        user = User.objects.get(id=profile_id)
+        GasCardGiven.objects.create(user=user, date_given=timezone.now())
+        return redirect("mileage_tracker:admin")
+
