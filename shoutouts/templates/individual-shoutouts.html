@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ recipient.username }}'s Shoutouts</h2>
+<div id="shoutouts-container" class="row">
+    {% for shoutout in recipient.shoutouts_received.all %}
+    <div class="col col-lg-4 col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <p class="card-content">{{ shoutout.content }}</p>
+                <form action="{% url 'shoutouts:likes' shoutout.id %}" method="POST" class="total-likes">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.path }}">
+                <button class="like-button">{{ shoutout.like_set.count }} 👍</button>
+                </form>
+                <p class="card-detail">From, {{ shoutout.user }} on {{ shoutout.datetime }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<style>
+    .card-body {
+        height: 15rem;
+    }
+    .card {
+        padding-bottom: 5px;
+        margin-bottom: 2rem;
+    }
+    .card-content{
+        font-size: 12pt;
+        margin-bottom: 3rem;
+    }
+    .card-detail {
+        font-size: 10pt;
+        position: absolute;
+        bottom: 0;
+    }
+    .like-button {
+        border: none;
+        position: absolute;
+        top: 11rem;
+        right: 0;
+    }
+</style>
+{% endblock content %}
