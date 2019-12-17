@@ -35,36 +35,26 @@ def admin_view(request):
         reflection_date = reflection.date
     except Reflection.DoesNotExist:
         reflection = None
-    correction_list = []
     for user in users:
         if user.submission_set.filter(reflection=reflection).exists():
             done = "Yes"
-            correction_list.append(done)
+
         else:
             done = "No"
-            correction_list.append(done)
+
     return render(
         request,
         "reflections/admin_view.html",
-        {
-            "users": users,
-            "reflection": reflection,
-            "submissions": submissions,
-            "correction_list": correction_list,
-        },
+        {"users": users, "reflection": reflection, "submissions": submissions},
     )
 
 
-def submission_detail(request, id):
-    try:
-        reflection = Reflection.objects.get(date=timezone.now())
-    except Reflection.DoesNotExist:
-        reflection = None
-    user = User.objects.get(id=id)
-    submission = Submission.objects.get(user=user, reflection=reflection)
+def submission_detail(request):
+    reflection = Reflection.objects.get(date=timezone.now())
+    submission = Submission.objects.get(user=request.user, reflection=reflection)
     return render(
         request,
         "reflections/submission_detail.html",
-        {"reflection": reflection, "user": user, "submission": submission },
+        {"reflection": reflection, "submission": submission},
     )
 

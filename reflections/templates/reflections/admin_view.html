@@ -24,7 +24,7 @@
       {% endif %}
       </td>
       <td>
-      <form action="{% url 'reflections:submission_detail' user.id %}" method="POST">
+      <form action="{% url 'reflections:submission_detail' %}" method="POST">
       {% csrf_token %}
       {% if user.submission_set.exists %}
       <button class="btn btn-outline-dark">Feedback</button>
