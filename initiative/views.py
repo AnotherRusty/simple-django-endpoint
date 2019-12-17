@@ -10,7 +10,7 @@ from django.utils import timezone
 
 class InitiativeView(views.View):
     def get(self, request):
-        initiatives = Initiative.objects.all()
+        initiatives = Initiative.objects.all().order_by("date")
         return render(
             request,
             "initiative.html",
