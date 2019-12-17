@@ -7,33 +7,33 @@
 
 <div class="container">
     {% if initiative %}
-    <div class="initiative card p-2 .hidden-xs-down">
-        <p class="card-header .hidden-xs-down">Goal: {{ initiative.title }} </p>
-        <p class="card-title mt-1 .hidden-xs-down"> Leader: {{ initiative.team_leader }} </p>
-        <p class="card-subtitle .hidden-xs-down"> Description: {{ initiative.description }}</p>
+    <div class="initiative card p-2 hidden-xs-down">
+        <p class="card-header hidden-xs-down">Goal: {{ initiative.title }} </p>
+        <p class="card-title mt-1 hidden-xs-down"> Leader: {{ initiative.team_leader }} </p>
+        <p class="card-subtitle hidden-xs-down"> Description: {{ initiative.description }}</p>
         {% if initiative.timeline %}
-        <p class="card-text .hidden-xs-down"> Timeline: {{ initiative.timeline }}</p>
+        <p class="card-text hidden-xs-down"> Timeline: {{ initiative.timeline }}</p>
         {% endif %}
         <p> Complete: {% if initiative.completion %} ✅ {% else %} ❌ {% endif %}
         {% if initiative.team_leader == request.user %}
-        <div class="btn-group d-flex justify-content-center align-items-center .hidden-xs-down">
+        <div class="btn-group d-flex justify-content-center align-items-center hidden-xs-down">
             <form action="{% url 'initiatives:edit' initiative.id %}">
-                <button class="initiative-button btn btn-warning .hidden-xs-down">Edit</button>
+                <button class="initiative-button btn btn-warning hidden-xs-down">Edit</button>
             </form>
             <form action="{% url 'initiatives:delete' initiative.id %}" method="POST">
                 {% csrf_token %}
-                <button class="initiative-button btn btn-danger ml-2 .hidden-xs-down">
+                <button class="initiative-button btn btn-danger ml-2 hidden-xs-down">
                     Delete
                 </button>
             </form>
         </div>
-        <div class="btn-group d-flex justify-content-center align-items-center mt-2 .hidden-xs-down">
+        <div class="btn-group d-flex justify-content-center align-items-center mt-2 hidden-xs-down">
             <form action="{% url 'initiatives:toggle' initiative.id %}" method="POST">
                 {% csrf_token %}
-                <button class="initiative-button btn btn-success .hidden-xs-down">Toggle Complete</button>
+                <button class="initiative-button btn btn-success hidden-xs-down">Toggle Complete</button>
             </form>
             <a href="{% url 'initiatives:status' initiative.id %}">
-                <button class="initiative-button btn btn-info ml-2 .hidden-xs-down">
+                <button class="initiative-button btn btn-info ml-2 hidden-xs-down">
                     Status Report
                 </button>
             </a>
@@ -41,10 +41,10 @@
         {% endif %}
     </div>
     {% endif %}
-    <div style="display: flex;flex-direction:column;align-items:flex-start;justify-content:flex-start; .hidden-xs-down">
+    <div class="hidden-xs-down d-flex flex-column">
         {% for status in initiative.statusreport_set.all %}
-        <div class="card mt-2 .hidden-xs-down">
-            <p class="card-body m-0 .hidden-xs-down"> Status Report: {{ status.content }}</p>
+        <div class="card mt-2 hidden-xs-down">
+            <p class="card-body m-0 hidden-xs-down"> Status Report: {{ status.content }}</p>
         </div>
         {% endfor %}
     </div>
