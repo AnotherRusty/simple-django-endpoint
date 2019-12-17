@@ -51,7 +51,6 @@ INSTALLED_APPS = [
     "pingpong",
     "reflections",
     "shoutouts",
-    "mathfilters",
     "attendance",
 ]
 
