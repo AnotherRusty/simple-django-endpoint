@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 class InitiativeForm(forms.Form):
     title = forms.CharField()
     description = forms.CharField()
+    timeline = forms.CharField(required=False)
 
 
 class StatusReportForm(forms.Form):
@@ -16,5 +17,5 @@ class StatusReportForm(forms.Form):
 class InitiativeEditForm(forms.ModelForm):
     class Meta:
         model = Initiative
-        fields = ["team_leader", "title", "description"]
+        fields = ["team_leader", "title", "description", "timeline"]
         widgets = {"title": forms.TextInput()}

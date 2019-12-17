@@ -20,9 +20,11 @@ class Shoutouts(View):
         if form.is_valid():
             recipient = form.cleaned_data["recipient"]
             content = form.cleaned_data["content"]
+            anonymous = form.cleaned_data["anonymous"]
             create_new_shoutout = Shoutout.objects.create(
                 recipient=recipient,
                 content=content,
+                anonymous=anonymous,
                 datetime=timezone.now(),
                 user=request.user,
             )
