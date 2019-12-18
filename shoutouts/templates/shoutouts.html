@@ -26,7 +26,7 @@
                 <form action="{% url 'shoutouts:likes' shoutout.id %}" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="next" value="{{ request.path }}">
-                    <button>{{ shoutout.like_set.count }} 👍</button>
+                    {{ shoutout.like_set.count }} <button class="btn btn-secondary border-0 p-1"> 👍</button>
                 </form>
                 {% if shoutout.anonymous %}
                 <p class="card-detail">From, Anonymous on {{ shoutout.datetime }}</p>
@@ -38,20 +38,22 @@
     </div>
     {% endfor %}
 </div>
+
+{% comment %} USER NOT LOGGED IN {% endcomment %}
+
 {% else %}
 <div class="row">
     {% for shoutout in shoutouts %}
-    <div class="col col-lg-4 col-sm-12 m-auto">
+    <div class="col mx-auto my-3 col-lg-10  col-sm-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">To <a
-                        href="{% url 'shoutouts:individual_shoutouts' shoutout.recipient.id %}">{{ shoutout.recipient }}</a>
+                <h4 class="card-title">To {{ shoutout.recipient }}
                 </h4>
                 <p class="card-content">{{ shoutout.content }}</p>
                 <form action="{% url 'shoutouts:likes' shoutout.id %}" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="next" value="{{ request.path }}">
-                    <button class="btn btn-lg btn-primary" disabled>{{ shoutout.like_set.count }} 👍</button>
+                    <button class="btn btn-secondary border-0 p-1" disabled>{{ shoutout.like_set.count }} 👍</button>
                 </form>
                 <p class="card-detail">From, {{ shoutout.user }} on {{ shoutout.datetime }}</p>
             </div>
