@@ -1,101 +1,66 @@
 {% extends 'base.html' %}
+{% load crispy_forms_filters %}
 {% block content %}
 
-<div class="form-container">
+{% if user.is_authenticated %}
+<div class="container">
     <form action="{% url 'shoutouts:home' %}" method="POST">
         {% csrf_token %}
-        <div id="form">{{ form }}</div>
-        <button class="submit-btn">Submit</button>
+        <div id="form">{{ form|crispy }}</div>
+        <button class="btn btn-primary" class="submit-btn">Submit</button>
     </form>
-
 </div>
 
-<div id="shoutouts-container">
-    <ul id="shoutout-list">
-        {% for shoutout in shoutouts %}
-        <li class="shoutout">
-            <p>To {{ shoutout.recipient }}:</p>
-            <p id="content">{{ shoutout.content }}</p>
-            <p id="likes">{{ shoutout.likes }} <button>👍</button></p>
-            <p id="shoutout-detail">From, {{ shoutout.user }} on {{ shoutout.datetime }}</p>
-        </li>
-        {% endfor %}
-    </ul>
+<div class="column">
+    {% for shoutout in shoutouts %}
+    <div class="col mx-auto my-3 col-lg-10  col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">
+                    To <a href="{% url 'shoutouts:individual_shoutouts' shoutout.recipient.id %}">
+                        {{ shoutout.recipient }}
+                    </a>
+                </h4>
+                <p class="card-content">{{ shoutout.content }}</p>
+
+                <form action="{% url 'shoutouts:likes' shoutout.id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ request.path }}">
+                    {{ shoutout.like_set.count }} <button class="btn btn-secondary border-0 p-1"> 👍</button>
+                </form>
+                {% if shoutout.anonymous %}
+                <p class="card-detail">From, Anonymous on {{ shoutout.datetime }}</p>
+                {% else %}
+                <p class="card-detail">From, {{ shoutout.user }} on {{ shoutout.datetime }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
 </div>
 
-<style>
-    select {
-        width: 10rem;
-    }
+{% comment %} USER NOT LOGGED IN {% endcomment %}
 
-    label {
-        font-size: 28px;
-    }
-
-    #likes {
-        font-size: 18px;
-    }
-
-    #content {
-        font-size: 20px;
-    }
-
-    .shoutout {
-        overflow-wrap: break-word;
-        border: black 1px solid;
-        border-radius: 1rem;
-        padding: 1rem;
-        width: 12.5rem;
-        margin: 1rem;
-        background-color: rgba(155, 152, 152, 0.26);
-    }
-
-    #shoutout-label {
-        text-align: center;
-        margin-bottom: 2rem;
-        margin-top: 2rem;
-    }
-
-    #shoutout-list {
-        list-style-type: none;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        margin-left: 8.5rem;
-    }
-
-    textarea {
-        padding: 5px;
-        font-size: 12px;
-        width: 20rem;
-    }
-
-    .form-container {
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 35px;
-        margin: auto;
-    }
-
-    .form-container form {
-        margin: auto;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-    }
-
-    .submit-btn {
-        background-color: var(--blue);
-        color: white;
-        padding: 5px;
-        font-size: 16px;
-        border-radius: 2px;
-    }
-
-    #shoutout-detail {
-        font-size: 12pt;
-    }
-</style>
-{% endblock content %}å
+{% else %}
+<div class="row">
+    {% for shoutout in shoutouts %}
+    <div class="col mx-auto my-3 col-lg-10  col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">To {{ shoutout.recipient }}
+                </h4>
+                <p class="card-content">{{ shoutout.content }}</p>
+                <form action="{% url 'shoutouts:likes' shoutout.id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ request.path }}">
+                    <button class="btn btn-secondary border-0 p-1" disabled>{{ shoutout.like_set.count }} 👍</button>
+                </form>
+                <p class="card-detail">From, {{ shoutout.user }} on {{ shoutout.datetime }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+</div>
+{% endblock content %}

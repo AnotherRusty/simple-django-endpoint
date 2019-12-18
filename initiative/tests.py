@@ -103,9 +103,9 @@ class TestTeamLeaderPostsStatusReport(TestCase):
             {"content": "All we do is win"},
         )
 
-        self.assertEqual(initiative.statusreport_set.count(), 1)
+        self.assertEqual(initiative.status_reports.count(), 1)
 
-        report = initiative.statusreport_set.first()
+        report = initiative.status_reports.first()
 
         self.assertEqual(report.content, "All we do is win")
 
@@ -121,4 +121,35 @@ class TestTeamLeaderPostsStatusReport(TestCase):
 
         response = self.client.post(reverse("initiatives:status", args=[initiative.id]))
 
-        self.assertEqual(initiative.statusreport_set.count(), 0)
+        self.assertEqual(initiative.status_reports.count(), 0)
+
+
+class TestTeamLeaderCreatesInitiativeTimeline(TestCase):
+    def test_successfully(self):
+        user = User.objects.create_user("butterflyman")
+
+        self.client.force_login(user)
+
+        self.client.post(
+            reverse("initiatives:create"),
+            {"title": "sweeping", "description": "get rid of dust", "timeline": "12/03/2000"},
+        )
+
+        self.assertEqual(user.initiative_set.count(), 1)
+
+        initiative = user.initiative_set.first()
+
+        self.assertEqual(initiative.title, "sweeping")
+        self.assertEqual(initiative.description, "get rid of dust")
+        self.assertEqual(initiative.timeline, "12/03/2000")
+
+    def test_with_no_data(self):
+        user = User.objects.create_user("butterflyman")
+
+        self.client.force_login(user)
+
+        response = self.client.post(reverse("initiatives:create"))
+
+        self.assertEqual(user.initiative_set.count(), 0)
+
+        self.assertContains(response, "is required")

@@ -10,7 +10,9 @@ from django.utils import timezone
 
 class InitiativeView(views.View):
     def get(self, request):
-        initiatives = Initiative.objects.all()
+        initiatives = (
+            Initiative.objects.all().select_related("team_leader").order_by("date")
+        )
         return render(
             request,
             "initiative.html",
@@ -21,16 +23,17 @@ class InitiativeView(views.View):
 class InitiativeCreateView(LoginRequiredMixin, views.View):
     def post(self, request):
         form = InitiativeForm(request.POST)
-        initiatives = Initiative.objects.all()
         if form.is_valid():
             Initiative.objects.create(
                 title=form.cleaned_data["title"],
                 description=form.cleaned_data["description"],
                 team_leader=request.user,
+                timeline=form.cleaned_data["timeline"],
                 date=timezone.now(),
             )
             return redirect("initiatives:home")
         else:
+            initiatives = Initiative.objects.all().select_related("team_leader")
             return render(
                 request, "initiative.html", {"initiatives": initiatives, "form": form}
             )
@@ -38,7 +41,7 @@ class InitiativeCreateView(LoginRequiredMixin, views.View):
 
 class InitiativeDetailView(views.View):
     def get(self, request, id):
-        initiative = Initiative.objects.get(id=id)
+        initiative = Initiative.objects.select_related("team_leader").get(id=id)
         return render(
             request, "detail.html", {"initiative": initiative, "form": InitiativeForm()}
         )
@@ -84,5 +87,6 @@ class InitiativeStatusReportView(LoginRequiredMixin, CreateView):
             return redirect("initiatives:home")
         else:
             initiative = Initiative.objects.get(id=id)
-            return render(request, "status.html", {"form": form, "initiative": initiative})
-
+            return render(
+                request, "status.html", {"form": form, "initiative": initiative}
+            )

@@ -10,7 +10,24 @@ class Shoutout(models.Model):
     )
     content = models.TextField()
     datetime = models.DateTimeField()
+    anonymous = models.BooleanField(default=False)
     user = models.ForeignKey(
         User, related_name="shoutouts_given", on_delete=models.PROTECT
     )
-    likes = models.IntegerField()
+
+    class Meta:
+        ordering = ['-datetime', ]
+
+
+class PinnedShoutout(models.Model):
+    user = models.OneToOneField(User, on_delete=models.PROTECT)
+    shoutout = models.OneToOneField(Shoutout, on_delete=models.PROTECT)
+
+
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    shoutout = models.ForeignKey(Shoutout, on_delete=models.PROTECT)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'shoutout',)

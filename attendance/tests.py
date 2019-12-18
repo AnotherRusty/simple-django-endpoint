@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils import timezone
+from .models import Checkin
 
 
 class TestStudentChecksIn(TestCase):
@@ -44,4 +45,21 @@ class TestStudentChecksIn(TestCase):
         self.assertContains(
             response, "<button class='btn btn-primary'>Check In</button>", html=True
         )
+
+
+class TestDailyCheckinRepot(TestCase):
+    def test_one_present_one_absent_one_tardy(self):
+        abe = User.objects.create_user("abe")
+        betty = User.objects.create_user("betty")
+        clara = User.objects.create_user("clara")
+
+        seven_fortyfive = timezone.now().replace(hour=7, minute=45)
+        nine_fifteen = timezone.now().replace(hour=9, minute=15)
+
+        abe.checkin_set.create(datetime=seven_fortyfive)
+        betty.checkin_set.create(datetime=nine_fifteen)
+
+        report = Checkin.daily_report()
+
+        self.assertDictEqual(report, {abe: "Present", betty: "Tardy", clara: "Absent"})
 

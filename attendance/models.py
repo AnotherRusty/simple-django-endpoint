@@ -5,6 +5,7 @@ from attendance.choices import *
 
 
 class Checkin(models.Model):
+    EIGHT_THIRTY = timezone.now().replace(hour=8, minute=30)
     student = models.ForeignKey(User, on_delete=models.CASCADE)
     datetime = models.DateTimeField(default=timezone.now)
     verified = models.BooleanField(default=False)
@@ -16,5 +17,23 @@ class Checkin(models.Model):
 
     @staticmethod
     def is_user_checked_in(user):
-        return user.checkin_set.filter(datetime__date=timezone.now().date()).exists()
+        return user.checkin_set.filter(datetime__date=timezone.now()).exists()
+
+    @staticmethod
+    def daily_report():
+        daily_report = {}
+        users = User.objects.all()
+        for user in users:
+            if user.checkin_set.filter(datetime__date=timezone.now()).exists():
+                checkin = user.checkin_set.filter(datetime__date=timezone.now()).first()
+                daily_report[user] = checkin.compute_status()
+            else:
+                daily_report[user] = "Absent"
+        return daily_report
+
+    def compute_status(self):
+        if self.datetime < Checkin.EIGHT_THIRTY:
+            return "Present"
+        else:
+            return "Tardy"
 

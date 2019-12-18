@@ -9,10 +9,22 @@ class Initiative(models.Model):
     team_leader = models.ForeignKey(User, on_delete=models.PROTECT)
     completion = models.BooleanField(default=False)
     date = models.DateField(default=timezone.now)
+    timeline = models.TextField(blank=True)
 
 
 class StatusReport(models.Model):
     content = models.TextField()
     author = models.ForeignKey(User, on_delete=models.PROTECT)
-    initiative = models.ForeignKey(Initiative, on_delete=models.PROTECT)
+    initiative = models.ForeignKey(
+        Initiative,
+        on_delete=models.CASCADE,
+        related_name="status_reports",
+        related_query_name="status_report",
+    )
     date = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.author} {self.content}"  # pragma: no cover
+
+    def get_absolute_url(self):
+        return reverse("initiative:status", args=[str(self.id)])  # pragma: no cover
