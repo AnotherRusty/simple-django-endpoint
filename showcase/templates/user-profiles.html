@@ -38,6 +38,7 @@
                 <img class="w-25 rounded-circle border border-primary"
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTT9MmOp5TcW6fY622cSYjpz06DAd5A1PAo4s-MWKK6iQJRThq8">
                 <p class="card-title">{{ profile.user.username }}</p>
+                <p>{{ profile.headline}}</p>
                 <a href="{% url 'showcase:profile-page' profile.id %}"
                   class="btn btn-outline-primary btn-sm">Details</a>
               </div>
