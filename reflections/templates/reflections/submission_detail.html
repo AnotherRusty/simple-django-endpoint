@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="card text-white bg-dark mb-3 d-inline-block" style="max-width: 20rem;">
+<div class="card text-white bg-dark mb-3 d-inline-block" style="min-width: 60%;">
   <div class="card-header" style="font-size: 1.5rem">{{user.username}}'s Reflection <br> Reflection Date: {{reflection.date}}</div>
   <div class="card-body">
     <h4 class="card-title">
@@ -13,8 +13,11 @@
     {% endfor %}
    
     </h4>
-      <textarea name="feedback" class="form-control" id="exampleTextarea" rows="3"></textarea>
-      <button type="button" class="btn btn-success" style="margin: 10px;margin-left:100px; padding: 5px; font-size: 1.5rem;">Send</button>
+    {% comment %} <form action="{% url 'reflections:individual_feedback' %}" method="POST">
+    {% csrf_token %}
+      <textarea name="individual_feedback" class="form-control" id="exampleTextarea" rows="3"></textarea>
+       <input class="btn btn-success" style="margin-top: 20px; margin-left: 35%;" type="submit" value="Submit">
+    </form> {% endcomment %}
   </div>
 </div>
 
