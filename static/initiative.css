@@ -1,4 +1,4 @@
-.input-form {
+/* .input-form {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -49,4 +49,30 @@
 .container {
     display: inline-flex;
     margin-left: -.5rem;
+} */
+
+/* .container {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 30px;
+  } */
+
+/* *, ::after, ::before {
+    box-sizing: unset;
+    display: inline-table;
+    justify-content: center;
+} */
+
+/* @media print {
+    .container {
+      width: auto;
+    }
+  } */
+
+.container {
+    grid-auto-columns: auto;
 }
