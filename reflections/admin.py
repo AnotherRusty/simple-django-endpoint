@@ -3,7 +3,7 @@ from .models import Reflection
 from .models import Question
 from .models import QuestionSubmission
 from .models import Submission
-
+from .models import Feedback
 
 class QuestionAdmin(admin.TabularInline):
     model = Question
@@ -17,9 +17,15 @@ class QuestionSubmissionAdmin(admin.TabularInline):
     readonly_fields = ("question__prompt", "answer")
     extra = 0
 
+class FeedbackAdmin(admin.TabularInline):
+    model = Feedback
+    fields = []
+    readonly_fields = ()
+    extra = 0
+
 
 class ReflectionAdmin(admin.ModelAdmin):
-    inlines = [QuestionAdmin]
+    inlines = [QuestionAdmin, FeedbackAdmin]
     readonly_fields = ()
     list_filter = []
 
