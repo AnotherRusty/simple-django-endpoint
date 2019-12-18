@@ -19,10 +19,15 @@ class Shoutout(models.Model):
         ordering = ['-datetime', ]
 
 
+class PinnedShoutout(models.Model):
+    user = models.OneToOneField(User, on_delete=models.PROTECT)
+    shoutout = models.OneToOneField(Shoutout, on_delete=models.PROTECT)
+
+
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     shoutout = models.ForeignKey(Shoutout, on_delete=models.PROTECT)
     created = models.DateTimeField(auto_now_add=True)
-    
+
     class Meta:
         unique_together = ('user', 'shoutout',)

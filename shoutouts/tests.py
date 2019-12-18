@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils import timezone
+from . import models
 
 # Create your tests here.
 
@@ -97,3 +98,51 @@ class TestUserSeesAStudentsShoutouts(TestCase):
         self.assertContains(response, "dutiful jane")
         self.assertContains(response, "happy joe")
         self.assertContains(response, "jane is totes the dutifulest")
+
+
+class TestUserPinsShoutout(TestCase):
+    def test_successfully(self):
+        shouter = User.objects.create_user("happy joe")
+        shoutee = User.objects.create_user("dutiful jane")
+
+        shoutout = shouter.shoutouts_given.create(
+            recipient=shoutee,
+            content="jane is totes the dutifulest",
+            datetime=timezone.now(),
+        )
+
+        self.client.force_login(shoutee)
+
+        self.client.post(reverse("shoutouts:pin", args=[shoutout.id]))
+
+        shoutee.refresh_from_db()
+
+        self.assertEqual(shoutee.pinnedshoutout.shoutout, shoutout)
+
+    def test_replaces_pin(self):
+        shouter = User.objects.create_user("happy joe")
+        shoutee = User.objects.create_user("dutiful jane")
+
+        pinned = shouter.shoutouts_given.create(
+            recipient=shoutee,
+            content="jane is totes the dutifulest",
+            datetime=timezone.now(),
+        )
+
+        models.PinnedShoutout.objects.create(
+            user=shoutee, shoutout=pinned
+        )
+
+        to_pin = shouter.shoutouts_given.create(
+            recipient=shoutee,
+            content="jane is totes the dutifulest, again!",
+            datetime=timezone.now(),
+        )
+
+        self.client.force_login(shoutee)
+
+        self.client.post(reverse("shoutouts:pinned", args=[to_pin.id]))
+
+        shoutee.refresh_from_db()
+
+        self.assertEqual(shoutee.pinnedshoutout.shoutout, to_pin)
