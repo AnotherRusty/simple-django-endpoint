@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Reflection, Submission, Question, QuestionSubmission, User
+from .models import Reflection, Submission, Question, QuestionSubmission, User,Feedback
 from django.utils import timezone, dateformat
 from datetime import datetime
 from django.contrib.auth.models import User
@@ -10,7 +10,11 @@ def home(request):
         reflection = Reflection.objects.get(date=timezone.now())
     except Reflection.DoesNotExist:
         reflection = None
-    return render(request, "reflections/base.html", {"reflection": reflection})
+    try:
+        feedback_class = Feedback.objects.get(reflection=reflection)
+    except Feedback.DoesNotExist:
+        feedback_class = None
+    return render(request, "reflections/base.html", {"reflection": reflection, "feedback_class": feedback_class})
 
 
 def submit_reflection(request, id):
@@ -57,4 +61,3 @@ def submission_detail(request):
         "reflections/submission_detail.html",
         {"reflection": reflection, "submission": submission},
     )
-
