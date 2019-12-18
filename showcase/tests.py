@@ -49,6 +49,8 @@ class TestUserSeesExistingProfiles(TestCase):
                 headline=f"Headline #{i}",
                 bio=f"I'm from small town #{i}",
                 user=User.objects.create_user(f"tob{i}as"),
+                github_repository=f"https://github.com/devinbooker616/ascent #{i}",
+                codepen=f"https://codepen.io/cobra_winfrey/pen/BayQeyr #{i}",
             )
             for i in range(3)
         ]
@@ -70,7 +72,11 @@ class TestUserSeesStudentProfile(TestCase):
     def test_successfully(self):
         user = User.objects.create_user("devin")
         profile = Profile.objects.create(
-            user=user, headline="Totes the coolest", bio="you heard me"
+            user=user,
+            headline="Totes the coolest",
+            bio="you heard me",
+            github_repository="https://github.com/devinbooker616/ascent",
+            codepen="https://codepen.io/cobra_winfrey/pen/BayQeyr",
         )
 
         response = self.client.get(
@@ -80,35 +86,46 @@ class TestUserSeesStudentProfile(TestCase):
         self.assertContains(response, "devin")
         self.assertContains(response, "Totes the coolest")
         self.assertContains(response, "you heard me")
+        self.assertContains(response, "https://github.com/devinbooker616/ascent")
+        self.assertContains(response, "https://codepen.io/cobra_winfrey/pen/BayQeyr")
+
 
 class TestUserSeesStudentOfTheDay(TestCase):
     def test_first_request_of_the_day(self):
+        user = User.objects.create_user("devin")
+        profile = Profile.objects.create(
+            user=user,
+            headline="Totes the coolest",
+            bio="you heard me",
+            github_repository="https://github.com/devinbooker616/ascent",
+            codepen="https://codepen.io/cobra_winfrey/pen/BayQeyr",
+        )
         self.assertEqual(StudentOfTheDay.objects.count(), 0)
 
-        self.client.get(reverse("showcase:home"))
+        self.client.get(reverse("showcase:profile-list"))
 
         self.assertEqual(StudentOfTheDay.objects.count(), 1)
-
 
     def test_later_requests(self):
         for i in range(3):
             user = User.objects.create_user(f"devin{i}")
             profile = Profile.objects.create(
-                user=user, headline="Totes the coolest", bio="you heard me"
+                user=user,
+                headline="Totes the coolest",
+                bio="you heard me",
+                github_repository="https://github.com/devinbooker616/ascent",
+                codepen="https://codepen.io/cobra_winfrey/pen/BayQeyr",
             )
 
-        self.client.get(reverse("showcase:home"))
+        self.client.get(reverse("showcase:profile-list"))
 
         student = StudentOfTheDay.objects.first()
 
-
-        self.client.get(reverse("showcase:home"))
+        self.client.get(reverse("showcase:profile-list"))
         self.assertEqual(StudentOfTheDay.objects.count(), 1)
         self.assertEqual(StudentOfTheDay.objects.first(), student)
 
-        self.client.get(reverse("showcase:home"))
+        self.client.get(reverse("showcase:profile-list"))
         self.assertEqual(StudentOfTheDay.objects.count(), 1)
         self.assertEqual(StudentOfTheDay.objects.first(), student)
-
-
 
