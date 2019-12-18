@@ -4,8 +4,9 @@ from showcase.models import Profile, StudentOfTheDay
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from random import choice
-import sched
-import time
+from datetime import datetime
+from django.utils import timezone
+import random
 
 
 @login_required
@@ -34,7 +35,7 @@ def sign_up(request):
 
 def user_profiles(request):
     profiles = Profile.objects.all()
-    student = choice(profiles)
+    student = StudentOfTheDay.get_student_of_the_day()
     return render(
         request, "user-profiles.html", {"profiles": profiles, "student": student}
     )

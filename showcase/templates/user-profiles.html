@@ -5,7 +5,7 @@
     <div class="col-lg-6 col-sm-12">
       <div class="shadow card border-warning mb-5">
         <div class="card-header text-white bg-warning">
-          <p>{{ student.user.username}}</p>
+          <p>{{student.student.user.username}}</p>
         </div>
         <div class="card-body">
           <div class="text-center">
@@ -13,8 +13,8 @@
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTT9MmOp5TcW6fY622cSYjpz06DAd5A1PAo4s-MWKK6iQJRThq8">
           </div>
           <div>
-            <h5 class="card-title">{{student.headline}}</h5>
-            <p class="card-text">{{student.bio}}</p>
+            <h5 class="card-title">{{student.student.headline}}</h5>
+            <p class="card-text">{{student.student.bio}}</p>
             <ul>
               <li>
                 <a target="_blank" href={{student.codepen}} class="card-text">codepen</a>

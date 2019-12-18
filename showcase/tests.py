@@ -1,7 +1,7 @@
 from django.test import TestCase, SimpleTestCase
 from django.contrib.auth.models import User
 from django.urls import reverse
-from .models import Profile
+from .models import Profile, StudentOfTheDay
 
 # Create your tests here.
 class TestStudentCreatesProfile(TestCase):
@@ -80,3 +80,35 @@ class TestUserSeesStudentProfile(TestCase):
         self.assertContains(response, "devin")
         self.assertContains(response, "Totes the coolest")
         self.assertContains(response, "you heard me")
+
+class TestUserSeesStudentOfTheDay(TestCase):
+    def test_first_request_of_the_day(self):
+        self.assertEqual(StudentOfTheDay.objects.count(), 0)
+
+        self.client.get(reverse("showcase:home"))
+
+        self.assertEqual(StudentOfTheDay.objects.count(), 1)
+
+
+    def test_later_requests(self):
+        for i in range(3):
+            user = User.objects.create_user(f"devin{i}")
+            profile = Profile.objects.create(
+                user=user, headline="Totes the coolest", bio="you heard me"
+            )
+
+        self.client.get(reverse("showcase:home"))
+
+        student = StudentOfTheDay.objects.first()
+
+
+        self.client.get(reverse("showcase:home"))
+        self.assertEqual(StudentOfTheDay.objects.count(), 1)
+        self.assertEqual(StudentOfTheDay.objects.first(), student)
+
+        self.client.get(reverse("showcase:home"))
+        self.assertEqual(StudentOfTheDay.objects.count(), 1)
+        self.assertEqual(StudentOfTheDay.objects.first(), student)
+
+
+
