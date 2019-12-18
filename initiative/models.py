@@ -15,17 +15,16 @@ class Initiative(models.Model):
 class StatusReport(models.Model):
     content = models.TextField()
     author = models.ForeignKey(User, on_delete=models.PROTECT)
-    initiative = models.ForeignKey(Initiative, on_delete=models.CASCADE, related_name='goals',
-        related_query_name='Post',)
+    initiative = models.ForeignKey(
+        Initiative,
+        on_delete=models.CASCADE,
+        related_name="status_reports",
+        related_query_name="status_report",
+    )
     date = models.DateField(auto_now=True)
 
-    class Meta: # new
-        verbose_name = 'goal'
-        verbose_name_plural = 'goals'
-
     def __str__(self):
-        return '%s %s' % (self.author, self.content)
+        return f"{self.author} {self.content}"  # pragma: no cover
 
     def get_absolute_url(self):
-        return reverse('initiative:status', args=[str(self.id)])
-
+        return reverse("initiative:status", args=[str(self.id)])  # pragma: no cover

@@ -42,7 +42,7 @@
     </div>
     {% endif %}
     <div class="hidden-xs-down d-flex flex-column">
-        {% for status in initiative.statusreport_set.all %}
+        {% for status in initiative.status_reports.all %}
         <div class="card mt-2 hidden-xs-down">
             <p class="card-body m-0 hidden-xs-down"> Status Report: {{ status.content }}</p>
         </div>
