@@ -113,7 +113,7 @@ class TestUserPinsShoutout(TestCase):
 
         self.client.force_login(shoutee)
 
-        self.client.post(reverse("shoutouts:pin", args=[shoutout.id]))
+        self.client.post(reverse("shoutouts:pinned", args=[shoutout.id]))
 
         shoutee.refresh_from_db()
 
