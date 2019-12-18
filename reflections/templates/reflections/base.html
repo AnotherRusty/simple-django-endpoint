@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-6">
                 {% if reflection %}
-                    <div class="card text-white bg-dark mt-3 mb-3" style="max-width: 30rem;">
+                    <div class="card text-white bg-dark mt-3 mb-3 w-75 p-7">
                         <div class="card-header">Reflection {{reflection.date}} </div>
                         <div class="card-body">
                         <p class="card-text">
@@ -31,7 +31,7 @@
                 <p>No Reflection today.</p>
                 {% endif %}
                 {% if feedback_class %}
-                <div class="card text-white bg-dark mt-3 mb-3" style="min-width: 30rem;">
+                <div class="card text-white bg-dark mt-3 mb-3 w-25 p-1 h-25">
                     <div class="card-header">Class Wide Feeback</div>
                         <div class="card-body">
                             <p class="card-text">{{feedback_class.feedback_txt}}</p>

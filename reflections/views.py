@@ -36,16 +36,8 @@ def admin_view(request):
     submissions = Submission.objects.all()
     try:
         reflection = Reflection.objects.get(date=timezone.now())
-        reflection_date = reflection.date
     except Reflection.DoesNotExist:
         reflection = None
-    for user in users:
-        if user.submission_set.filter(reflection=reflection).exists():
-            done = "Yes"
-
-        else:
-            done = "No"
-
     return render(
         request,
         "reflections/admin_view.html",

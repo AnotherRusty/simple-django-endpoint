@@ -27,12 +27,19 @@ class Question(models.Model):
         index = ids.index({ "id": self.id})
         return f"Question {index + 1}"
 
+class SubmissionManager(models.Manager):
+    
+    use_for_related_fields = True
+
+    def for_today(self):
+        return self.filter(reflection__date=timezone.now())
+
 
 class Submission(models.Model):
     reflection = models.ForeignKey(Reflection, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     feedback = models.TextField(blank=True,null=True,default="Blank")
-
+    objects = SubmissionManager()
     def __str__(self):
         return f"{self.user.username} | Reflection {self.reflection.date}"
 
