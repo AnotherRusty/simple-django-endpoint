@@ -198,3 +198,26 @@ class AdminCanSeeStudentsSubmission(TestCase):
 
         self.assertContains(response, "hellur")
         self.assertContains(response, "Hellor")
+
+class TestStudentSeesFeedbackForClass(TestCase):
+    def test_successfully(self):
+        user = User.objects.create_user("janet")
+        reflection = models.Reflection.objects.create(date=timezone.now())
+        feedback = models.Feedback.objects.create(reflection=reflection, feedback_txt="Thank you for the reflections class!!")
+
+        self.client.force_login(user)
+
+        response = self.client.get(reverse("reflections:home"))
+
+        self.assertContains(response, feedback.feedback_txt)
+
+    def test_no_feedback_for_today(self):
+        user = User.objects.create_user("janet")
+        reflection = models.Reflection.objects.create(date=timezone.now())
+        self.client.force_login(user)
+
+        response = self.client.get(reverse("reflections:home"))
+
+        self.assertContains(response, "No Feedback Today")
+
+
