@@ -2,7 +2,7 @@
 {% block content %}
 <u><h1 class="text-center my-5">{{ recipient.username }}'s Shoutouts</h1></u>
 <div id="shoutouts-container" class="row">
-        {% if user.pinnedshoutout%}
+        {% if user.pinnedshoutout and user == recipient %}
             {% with shoutout=user.pinnedshoutout.shoutout %}
                 <div class="ccol mx-auto my-3 col-lg-10  col-sm-12">
                     <div class="card border border-primary">
