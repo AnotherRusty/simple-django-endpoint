@@ -6,6 +6,7 @@ from django.utils import timezone
 from django.urls import reverse
 from django.contrib.auth.models import User
 
+
 # Create your tests here.
 class TestAdminCreatesReflection(TestCase):
     def test_basic_models_exist(self):
@@ -17,7 +18,6 @@ class TestAdminCreatesReflection(TestCase):
 
     def test_models_are_registered_with_admin_site(self):
         self.assertIn(models.Reflection, admin.site._registry)
-        self.assertIn(models.Question, admin.site._registry)
 
 
 class TestStudentSubmitsReflection(TestCase):
@@ -113,7 +113,7 @@ class TestSubmissionStr(TestCase):
         )
 
 
-class TestQuestionSubmissionStr(TestCase):
+class TestQuestionSubmissionPrompt(TestCase):
     def test_example(self):
         question = models.Question(prompt="hellur")
         test_question = models.QuestionSubmission(question=question)
@@ -121,4 +121,103 @@ class TestQuestionSubmissionStr(TestCase):
         self.assertEqual(
             test_question.question__prompt(), test_question.question.prompt
         )
+
+
+class TestQuestionSubmissionStr(TestCase):
+    def test_example(self):
+        now = timezone.now()
+        user = User.objects.create_user("janet")
+        reflection = models.Reflection(date=now)
+        submission = models.Submission(reflection=reflection, user=user)
+        question = models.Question(prompt="hellur")
+        questionsubmission = models.QuestionSubmission(
+            question=question, submission=submission, answer="Hellor"
+        )
+
+        self.assertEqual(str(questionsubmission), f"{questionsubmission.answer}")
+
+
+class TestQuestionStr(TestCase):
+    def test_example(self):
+        now = timezone.now()
+        reflection = models.Reflection(date=now)
+        reflection.save()
+        question = models.Question(prompt="hellur", reflection=reflection)
+        question.save()
+        ids = list(question.reflection.question_set.all().values("id"))
+        index = ids.index({"id": question.id})
+
+        self.assertEqual(str(question), f"Question {index + 1}")
+
+
+class TestIfUserHasSubmittedReflection(TestCase):
+    def test_for_no(self):
+        user = User.objects.create_user("janet")
+        now = timezone.now()
+        reflection = models.Reflection(date=now)
+        submission = models.Submission(reflection=reflection, user=user)
+
+        self.client.force_login(user)
+
+        response = self.client.get(reverse("reflections:admin_view"))
+        self.assertContains(response, "No")
+
+    def test_for_yes(self):
+        user = User.objects.create_user("janet")
+        user.save()
+        now = timezone.now()
+        reflection = models.Reflection(date=now)
+        reflection.save()
+        submission = models.Submission(reflection=reflection, user=user)
+        submission.save()
+
+        self.client.force_login(user)
+
+        response = self.client.get(reverse("reflections:admin_view"))
+        self.assertContains(response, "Yes")
+
+
+class AdminCanSeeStudentsSubmission(TestCase):
+    def test_successfully(self):
+        user = User.objects.create_user("janet")
+        user.save()
+        reflection = models.Reflection.objects.create(date=timezone.now())
+        question = models.Question(prompt="hellur", reflection=reflection)
+        question.save()
+
+        submission = models.Submission(reflection=reflection, user=user)
+        submission.save()
+        questionsubmission = models.QuestionSubmission(
+            question=question, submission=submission, answer="Hellor"
+        )
+        questionsubmission.save()
+
+        self.client.force_login(user)
+
+        response = self.client.get(reverse("reflections:submission_detail"))
+
+        self.assertContains(response, "hellur")
+        self.assertContains(response, "Hellor")
+
+class TestStudentSeesFeedbackForClass(TestCase):
+    def test_successfully(self):
+        user = User.objects.create_user("janet")
+        reflection = models.Reflection.objects.create(date=timezone.now())
+        feedback = models.Feedback.objects.create(reflection=reflection, feedback_txt="Thank you for the reflections class!!")
+
+        self.client.force_login(user)
+
+        response = self.client.get(reverse("reflections:home"))
+
+        self.assertContains(response, feedback.feedback_txt)
+
+    def test_no_feedback_for_today(self):
+        user = User.objects.create_user("janet")
+        reflection = models.Reflection.objects.create(date=timezone.now())
+        self.client.force_login(user)
+
+        response = self.client.get(reverse("reflections:home"))
+
+        self.assertContains(response, "No Feedback Today")
+
 
