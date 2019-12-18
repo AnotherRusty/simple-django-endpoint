@@ -14,7 +14,10 @@ class Reflection(models.Model):
     def __str__(self):
         return f"Reflection {self.date}"
 
-
+class Feedback(models.Model):
+    reflection = models.ForeignKey(Reflection,on_delete=models.CASCADE)
+    feedback_txt = models.TextField()
+    
 class Question(models.Model):
     reflection = models.ForeignKey(Reflection, on_delete=models.CASCADE)
     prompt = models.TextField()
