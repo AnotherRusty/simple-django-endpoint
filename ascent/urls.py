@@ -1,7 +1,10 @@
+from django.conf import settings
+from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView, RedirectView
 from django.contrib.auth import views as auth_views
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -19,3 +22,10 @@ urlpatterns = [
     path("attendance/", include("attendance.urls"), name="attendance"),
     path("shoutouts/", include("shoutouts.urls"), name="shoutouts"),
 ]
+
+if settings.DEBUG:
+    import debug_toolbar  # pragma: no cover
+    urlpatterns.append(
+        path("__debug__/", include(debug_toolbar.urls))
+    )  # pragma: no cover
+
