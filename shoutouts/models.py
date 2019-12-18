@@ -10,9 +10,13 @@ class Shoutout(models.Model):
     )
     content = models.TextField()
     datetime = models.DateTimeField()
+    anonymous = models.BooleanField(default=False)
     user = models.ForeignKey(
         User, related_name="shoutouts_given", on_delete=models.PROTECT
     )
+
+    class Meta:
+        ordering = ['-datetime', ]
 
 
 class Like(models.Model):

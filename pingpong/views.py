@@ -7,11 +7,11 @@ from django.contrib.auth.models import User
 
 def compute_leaderboard(matches):
     wins = {}
+
     for match in matches:
         if match.winner():
             wins[match.winner()] = wins.get(match.winner(), 0) + 1
             wins[match.loser()] = wins.get(match.loser(), 0)
-
     leaderboard = []
 
     for key, value in wins.items():
@@ -19,7 +19,7 @@ def compute_leaderboard(matches):
         leaderboard.append(thewinner)
 
     sorted_board = sorted(leaderboard, key=lambda i: i["wins"], reverse=True)
-    return sorted_board
+    return sorted_board[0:5]
 
 
 class Home(ListView):
@@ -38,19 +38,24 @@ class MatchCreateView(CreateView):
     fields = ["player1", "player2", "player1_score", "player2_score"]
     template_name = "pingpong/create-match.html"
     success_url = reverse_lazy("pingpong:home")
-    def verify_match(request):
-        if request.user == model['player1']:
-            model['player_1_verification'] = True
-        elif request.user == model['player2']:
-            model['player_2_verification'] = True
+
 
 class VerifyMatch(View):
-    def post(request, self, id):
+    def post(self, request, id):
+
         match = Match.objects.get(id=id)
-        if request.user == match['player1']:
-            match['match.player_1_verification'] = True
-        elif  request.user == match['player2']:
-            match['match.player_2_verification'] = True     
 
+        if request.user == match.player1:
 
+            match.player_1_verification = True
+            match.save()
+
+            return redirect("pingpong:home")
+
+        elif request.user == match.player2:
+
+            match.player_2_verification = True
+            match.save()
+
+            return redirect("pingpong:home")
 

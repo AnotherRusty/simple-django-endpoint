@@ -27,6 +27,7 @@ class InitiativeCreateView(LoginRequiredMixin, views.View):
                 title=form.cleaned_data["title"],
                 description=form.cleaned_data["description"],
                 team_leader=request.user,
+                timeline=form.cleaned_data["timeline"],
                 date=timezone.now(),
             )
             return redirect("initiatives:home")

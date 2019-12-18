@@ -151,7 +151,8 @@ class TestUsersVerifyMatch(TestCase):
         with self.subTest("winnie verifies match"):
             self.client.force_login(winner)
             response = self.client.post(reverse("pingpong:verify", args=[match.id]))
-            self.assertFalse(match.player_1_verification)
+            match.refresh_from_db()
+            self.assertTrue(match.player_1_verification)
 
         with self.subTest("winnie no longer sees prompt"):
             self.client.force_login(winner)
@@ -161,6 +162,7 @@ class TestUsersVerifyMatch(TestCase):
         with self.subTest("lucy verifies match"):
             self.client.force_login(loser)
             response = self.client.post(reverse("pingpong:verify", args=[match.id]))
+            match.refresh_from_db()
             self.assertTrue(match.player_2_verification)
 
         with self.subTest("lucy no longer sees prompt"):
