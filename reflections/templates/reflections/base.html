@@ -1,8 +1,5 @@
 {% extends 'base.html' %}
 {% block content %}
-{% if user.is_superuser %}
-<a href="{% url 'reflections:admin_view' %}">Admin Page</a>
-{% endif %}
 {% if user.is_authenticated %}
         <div class="container">
             <div class="row">
@@ -26,9 +23,22 @@
                             </form>                       
                         </div>
                     </div>
+                {% if user.is_superuser %}
+                <a href="{% url 'reflections:admin_view' %}">Admin Page</a>
+                {% endif %}
                 </div>
                 {% else %}
                 <p>No Reflection today.</p>
+                {% endif %}
+                {% if feedback_class %}
+                <div class="card text-white bg-dark mt-3 mb-3" style="min-width: 30rem;">
+                    <div class="card-header">Class Wide Feeback</div>
+                        <div class="card-body">
+                            <p class="card-text">{{feedback_class.feedback_txt}}</p>
+                        </div>
+                </div>
+                {% else %}
+                <p>No Feedback Today</p>
                 {% endif %}
             </div>
         </div>
