@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if user.is_superuser %}
+<a href="{% url 'reflections:admin_view' %}">Admin Page</a>
+{% endif %}
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Reflection Done</th>
+      <th scope="col">Feedback</th>
+    </tr>
+  </thead>
+{% for user in users %}
+  <tbody>
+    <tr class="table-active">
+      <th scope="row">{{user.username}}</th>
+      <td>
+      {% if user.submission_set.for_today.exists %}
+      Yes
+      {% else %}
+      No
+      {% endif %}
+      </td>
+      <td>
+      <form action="{% url 'reflections:submission_detail' %}" method="POST">
+      {% csrf_token %}
+      {% if user.submission_set.for_today.exists %}
+      <button class="btn btn-outline-dark">Feedback</button>
+      {% else %}
+      <button class="btn btn-outline-dark" disabled>Feedback</button>
+      {% endif %}
+      </form></td>
+    </tr>
+  </tbody>
+  {% endfor %}
+
+</table> 
+{% endblock %}
