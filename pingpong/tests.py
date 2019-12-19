@@ -48,7 +48,7 @@ class TestComputeLeaderboard(TestCase):
         leaderboard = compute_leaderboard(matches)
 
         self.assertListEqual(
-            leaderboard, [{"user": winner, "wins": 1}, {"user": loser, "wins": 0}]
+            leaderboard, [{"user": winner, "wins": 1, "losses": 0}, {'user': loser, 'wins': 0, 'losses': 1}]   
         )
 
     def test_two_match(self):
@@ -67,15 +67,15 @@ class TestComputeLeaderboard(TestCase):
         self.assertListEqual(
             leaderboard,
             [
-                {"user": two_wins, "wins": 2},
-                {"user": one_win, "wins": 1},
-                {"user": no_wins, "wins": 0},
+                {"user": two_wins, "wins": 2, 'losses': 0},
+                {"user": one_win, "wins": 1, 'losses': 1},
+                {"user": no_wins, "wins": 0, 'losses': 2},
             ],
         )
 
     def test_no_winner_matches_dont_show_up(self):
-        not_winner = User(username="winnie", id=1)
-        not_loser = User(username="lucy", id=3)
+        not_winner = User.objects.create_user("winnie")
+        not_loser = User.objects.create_user("Lucy  ")
         matches = [
             Match(
                 player1=not_winner, player2=not_loser, player2_score=3, player1_score=3
