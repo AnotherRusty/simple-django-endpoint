@@ -103,9 +103,9 @@ class TestTeamLeaderPostsStatusReport(TestCase):
             {"content": "All we do is win"},
         )
 
-        self.assertEqual(initiative.statusreport_set.count(), 1)
+        self.assertEqual(initiative.status_reports.count(), 1)
 
-        report = initiative.statusreport_set.first()
+        report = initiative.status_reports.first()
 
         self.assertEqual(report.content, "All we do is win")
 
@@ -121,7 +121,7 @@ class TestTeamLeaderPostsStatusReport(TestCase):
 
         response = self.client.post(reverse("initiatives:status", args=[initiative.id]))
 
-        self.assertEqual(initiative.statusreport_set.count(), 0)
+        self.assertEqual(initiative.status_reports.count(), 0)
 
 
 class TestTeamLeaderCreatesInitiativeTimeline(TestCase):

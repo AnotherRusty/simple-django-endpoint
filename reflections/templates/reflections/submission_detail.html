@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card text-white bg-dark mb-3 d-inline-block" style="min-width: 60%;">
+  <div class="card-header" style="font-size: 1.5rem">{{user.username}}'s Reflection <br> Reflection Date: {{reflection.date}}</div>
+  <div class="card-body">
+    <h4 class="card-title">
+    {% for question in reflection.question_set.all%}
+    <p>Question {{ forloop.counter }}:</p>
+    <p><small>{{question.prompt}}</small></p>
+     {% endfor %}
+    {% for answers in submission.questionsubmission_set.filter %}
+    <p>Answer {{forloop.counter}}: <br>{{answers}}</p>
+    {% endfor %}
+   
+    </h4>
+    {% comment %} <form action="{% url 'reflections:individual_feedback' %}" method="POST">
+    {% csrf_token %}
+      <textarea name="individual_feedback" class="form-control" id="exampleTextarea" rows="3"></textarea>
+       <input class="btn btn-success" style="margin-top: 20px; margin-left: 35%;" type="submit" value="Submit">
+    </form> {% endcomment %}
+  </div>
+</div>
+
+{% endblock %}
