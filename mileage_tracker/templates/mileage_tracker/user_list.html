@@ -1,13 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
-{% load mathfilters %}
 
 <h1> Registered Profiles </h1>
 <ul style="display: grid; grid-template-columns: repeat(3, 1fr);
 grid-gap: 2rem; padding: 0; margin: 0;">
     {% for profile in profiles %}
     <li class="card">
-        <div class="card-body" style="display: flex; flex-direction: column;">
+        <div class="card-body">
             <h3 class="card-title">{{ profile }}</h3>
             <a href="{% url "mileage_tracker:gas_detail" profile.id %}">Click here</a>
             to check students mileage detail

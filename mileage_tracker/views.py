@@ -9,7 +9,7 @@ from mileage_tracker.models import (
     DistanceToWork,
     DriveToWork,
     GasCardGiven,
-    need_a_gas_card,
+    calculate_user_mileage_data,
 )
 from mileage_tracker.forms import DriveToWorkForm
 
@@ -43,7 +43,7 @@ class DriveToWorkView(LoginRequiredMixin, View):
         return render(request, "mileage_tracker/submit_commute.html")
 
 
-class CheckIfAdmin(UserPassesTestMixin, View):
+class ShowUserList(UserPassesTestMixin, View):
     def test_func(self):
         return self.request.user.is_staff
 
@@ -64,17 +64,17 @@ class UserGasDetail(UserPassesTestMixin, View):
 
     def get(self, request, profile_id):
         user = User.objects.get(id=profile_id)
-        days_driven, distance, compensated_miles, total_mileage, gas_cards_given = need_a_gas_card(user)
+        data = calculate_user_mileage_data(user)
         return render(
             request,
             "mileage_tracker/gas_detail_page.html",
             {
                 "user": user,
-                "days_driven": days_driven,
-                "distance": distance,
-                "compensated_miles": compensated_miles,
-                "total_mileage": total_mileage,
-                "gas_cards_given": gas_cards_given
+                "days_driven": data.get("days_driven"),
+                "distance": data.get("distance"),
+                "compensated_miles": data.get("compensated_miles"),
+                "total_mileage": data.get("total_mileage"),
+                "gas_cards_given": data.get("gas_cards_given"),
             },
         )
 

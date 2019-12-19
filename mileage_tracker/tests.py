@@ -5,7 +5,6 @@ from django.utils import timezone
 
 from . import models
 
-# Create your tests here.
 class TestStudentSpecifiesCommuteDistance(TestCase):
     def test_successfully(self):
         examples = [
@@ -129,7 +128,6 @@ class TestStudentNeedsAGasCard(TestCase):
         for _ in range(25):
             self.ten_miles_user.drivetowork_set.create()
         models.GasCardGiven.objects.create(user=self.ten_miles_user)
-        # self.ten_miles_user.gascard_set.create()
 
         self.assertFalse(
             models.needs_a_gas_card(self.ten_miles_user),
@@ -141,7 +139,6 @@ class TestStudentNeedsAGasCard(TestCase):
             self.fifteen_miles_user.drivetowork_set.create()
 
         models.GasCardGiven.objects.create(user=self.fifteen_miles_user)
-        # self.fifteen_miles_user.gascard_set.create()
 
         self.assertTrue(
             models.needs_a_gas_card(self.fifteen_miles_user),
@@ -152,7 +149,6 @@ class TestStudentNeedsAGasCard(TestCase):
             self.ten_miles_user.drivetowork_set.create()
 
         models.GasCardGiven.objects.create(user=self.fifteen_miles_user)
-        # self.ten_miles_user.gascard_set.create()
 
         self.assertTrue(
             models.needs_a_gas_card(self.ten_miles_user),
@@ -165,7 +161,6 @@ class TestStudentNeedsAGasCard(TestCase):
 
         for _ in range(3):
             models.GasCardGiven.objects.create(user=self.fifteen_miles_user)
-        # self.fifteen_miles_user.gascard_set.create()
 
         self.assertTrue(
             models.needs_a_gas_card(self.fifteen_miles_user),
@@ -177,7 +172,6 @@ class TestStudentNeedsAGasCard(TestCase):
 
         for _ in range(2):
             models.GasCardGiven.objects.create(user=self.fifteen_miles_user)
-        # self.ten_miles_user.gascard_set.create()
 
         self.assertTrue(
             models.needs_a_gas_card(self.ten_miles_user),
@@ -190,7 +184,6 @@ class TestStudentNeedsAGasCard(TestCase):
 
         for _ in range(6):
             models.GasCardGiven.objects.create(user=self.fifteen_miles_user)
-        # self.fifteen_miles_user.gascard_set.create()
 
         self.assertFalse(
             models.needs_a_gas_card(self.fifteen_miles_user),
@@ -202,7 +195,6 @@ class TestStudentNeedsAGasCard(TestCase):
 
         for _ in range(4):
             models.GasCardGiven.objects.create(user=self.ten_miles_user)
-        # self.ten_miles_user.gascard_set.create()
 
         self.assertFalse(
             models.needs_a_gas_card(self.ten_miles_user),

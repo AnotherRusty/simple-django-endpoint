@@ -30,11 +30,18 @@ def needs_a_gas_card(test_user):
     total_mileage = (days_driven * distance) - compensated_miles
     return total_mileage >= 250
 
-def need_a_gas_card(user):
+
+def calculate_user_mileage_data(user):
     gas_card = 250
     days_driven = user.drivetowork_set.count()
     distance = user.distancetowork.miles
     gas_cards_given = user.gascardgiven_set.count()
     compensated_miles = gas_cards_given * gas_card
     total_mileage = (days_driven * distance) - compensated_miles
-    return days_driven, distance, compensated_miles, total_mileage, gas_cards_given
+    return {
+        "days_driven": days_driven,
+        "distance": distance,
+        "compensated_miles": compensated_miles,
+        "total_mileage": total_mileage,
+        "gas_cards_given": gas_cards_given,
+    }
