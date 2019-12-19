@@ -13,11 +13,11 @@
     {% endfor %}
    
     </h4>
-    {% comment %} <form action="{% url 'reflections:individual_feedback' %}" method="POST">
+    <form action="{% url 'reflections:individual_feedback' submission.id %}" method="POST">
     {% csrf_token %}
       <textarea name="individual_feedback" class="form-control" id="exampleTextarea" rows="3"></textarea>
-       <input class="btn btn-success" style="margin-top: 20px; margin-left: 35%;" type="submit" value="Submit">
-    </form> {% endcomment %}
+      <input class="btn btn-success" style="margin-top: 20px; margin-left: 35%;" type="submit" value="Submit">
+    </form>
   </div>
 </div>
 
