@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1> Registered Profiles </h1>
+<ul>
+    {% for profile in profiles %}
+    <li class="card">
+        <div class="card-body">
+            <h3 class="card-title">{{ profile }}</h3>
+            <a href="{% url "mileage_tracker:gas_detail" profile.id %}">Click here</a>
+            to check students mileage detail
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock content %}
