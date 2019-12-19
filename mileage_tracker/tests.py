@@ -5,6 +5,7 @@ from django.utils import timezone
 
 from . import models
 
+
 class TestStudentSpecifiesCommuteDistance(TestCase):
     def test_successfully(self):
         examples = [
@@ -54,7 +55,9 @@ class TestStudentSubmitsCommuteForTheDay(TestCase):
         models.DistanceToWork.objects.create(user=user, miles=300)
 
         self.client.force_login(user)
-
+        
+        self.client.get(reverse("mileage_tracker:user_commute"))
+        
         self.client.post(reverse("mileage_tracker:user_commute"))
 
         self.assertEqual(user.drivetowork_set.count(), 1)
@@ -200,3 +203,82 @@ class TestStudentNeedsAGasCard(TestCase):
             models.needs_a_gas_card(self.ten_miles_user),
             msg="100 10 mile trips (1000 miles) is not enough even after recieving 4 gas cards (1000 miles)",
         )
+
+
+class TestStudentMileageReport(TestCase):
+    def test_example(self):
+        user = User.objects.create_user("nate")
+        models.DistanceToWork.objects.create(user=user, miles=15)
+
+        for _ in range(100):
+            user.drivetowork_set.create()
+
+        for _ in range(3):
+            user.gascardgiven_set.create()
+
+        report = models.calculate_user_mileage_data(user)
+
+        self.assertDictEqual(
+            {
+                "days_driven": 100,
+                "distance": 15,
+                "compensated_miles": 750,
+                "uncompensated_miles": 750,
+                "gas_cards_given": 3,
+            },
+            report,
+        )
+
+
+class TestAdminCanSeeStudentMileageReport(TestCase):
+    def test_successfully(self):
+        user = User.objects.create_user("nate")
+        models.DistanceToWork.objects.create(user=user, miles=15)
+        for _ in range(3):
+            user.drivetowork_set.create()
+
+        admin = User.objects.create_superuser("admin")
+
+        self.client.force_login(admin)
+
+        response = self.client.get(
+            reverse("mileage_tracker:gas_detail", args=[user.id])
+        )
+
+        self.assertContains(response, "Total Gas Cards User Has Recieved:")
+        self.assertContains(response, "0")
+        self.assertContains(response, "Round Trip Distance:")
+        self.assertContains(response, "15")
+        self.assertContains(response, "Total Uncompensated Mileage:")
+        self.assertContains(response, "45")
+
+class TestAdminVerifysGasCard(TestCase):
+    def test_succesfully(self):
+        user = User.objects.create_user("tyler")
+        models.DistanceToWork.objects.create(user=user, miles=130)
+        for _ in range(3):
+            user.drivetowork_set.create()
+
+        admin = User.objects.create_superuser("admin")
+
+        self.client.force_login(admin)
+
+        self.client.post(reverse("mileage_tracker:gas_detail", args=[user.id]))
+
+class TestAdminCanSeeUserList(TestCase):
+    def test_successfully(self):
+        student_1 = User.objects.create_user("JD")
+        student_2 = User.objects.create_user("Christian")
+        student_3 = User.objects.create_user("Destiny")
+        admin = User.objects.create_superuser("admin")
+
+        self.client.force_login(admin)
+
+        response = self.client.get(reverse("mileage_tracker:admin"))
+
+        self.assertContains(response, "JD")
+        self.assertContains(response, "Christian")
+        self.assertContains(response, "Destiny")
+
+
+    

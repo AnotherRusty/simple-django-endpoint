@@ -49,12 +49,10 @@ class ShowUserList(UserPassesTestMixin, View):
 
     def get(self, request):
         profiles = User.objects.all()
-        drives = DriveToWork.objects.all()
-        gas_cards = GasCardGiven.objects.all()
         return render(
             request,
             "mileage_tracker/user_list.html",
-            {"profiles": profiles, "drives": drives, "gas_cards": gas_cards},
+            {"profiles": profiles},
         )
 
 
@@ -73,7 +71,7 @@ class UserGasDetail(UserPassesTestMixin, View):
                 "days_driven": data.get("days_driven"),
                 "distance": data.get("distance"),
                 "compensated_miles": data.get("compensated_miles"),
-                "total_mileage": data.get("total_mileage"),
+                "uncompensated_miles": data.get("uncompensated_miles"),
                 "gas_cards_given": data.get("gas_cards_given"),
             },
         )

@@ -37,11 +37,11 @@ def calculate_user_mileage_data(user):
     distance = user.distancetowork.miles
     gas_cards_given = user.gascardgiven_set.count()
     compensated_miles = gas_cards_given * gas_card
-    total_mileage = (days_driven * distance) - compensated_miles
+    uncompensated_miles = (days_driven * distance) - compensated_miles
     return {
         "days_driven": days_driven,
         "distance": distance,
         "compensated_miles": compensated_miles,
-        "total_mileage": total_mileage,
+        "uncompensated_miles": uncompensated_miles,
         "gas_cards_given": gas_cards_given,
     }
