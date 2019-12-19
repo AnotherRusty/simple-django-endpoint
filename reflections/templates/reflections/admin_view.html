@@ -18,9 +18,9 @@
       <th scope="row">{{user.username}}</th>
       <td>
       {% if user.submission_set.for_today.exists %}
-      Yes
+      <p class="text-success">Yes</p>
       {% else %}
-      No
+      <p class="text-danger">No</p>
       {% endif %}
       </td>
       <td>

@@ -10,14 +10,11 @@ def today_utc():
 
 class Reflection(models.Model):
     date = models.DateField(default=timezone.now)
+    feedback = models.TextField(blank=True)
 
     def __str__(self):
         return f"Reflection {self.date}"
 
-class Feedback(models.Model):
-    reflection = models.ForeignKey(Reflection,on_delete=models.CASCADE)
-    feedback_txt = models.TextField()
-    
 class Question(models.Model):
     reflection = models.ForeignKey(Reflection, on_delete=models.CASCADE)
     prompt = models.TextField()
@@ -38,7 +35,7 @@ class SubmissionManager(models.Manager):
 class Submission(models.Model):
     reflection = models.ForeignKey(Reflection, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    feedback = models.TextField(blank=True,null=True,default="Blank")
+    feedback = models.TextField(blank=True)
     objects = SubmissionManager()
     def __str__(self):
         return f"{self.user.username} | Reflection {self.reflection.date}"

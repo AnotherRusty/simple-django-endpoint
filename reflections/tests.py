@@ -202,14 +202,13 @@ class AdminCanSeeStudentsSubmission(TestCase):
 class TestStudentSeesFeedbackForClass(TestCase):
     def test_successfully(self):
         user = User.objects.create_user("janet")
-        reflection = models.Reflection.objects.create(date=timezone.now())
-        feedback = models.Feedback.objects.create(reflection=reflection, feedback_txt="Thank you for the reflections class!!")
+        reflection = models.Reflection.objects.create(date=timezone.now(), feedback="Thank you for the reflections class!!")
 
         self.client.force_login(user)
 
         response = self.client.get(reverse("reflections:home"))
 
-        self.assertContains(response, feedback.feedback_txt)
+        self.assertContains(response, reflection.feedback)
 
     def test_no_feedback_for_today(self):
         user = User.objects.create_user("janet")
@@ -218,6 +217,21 @@ class TestStudentSeesFeedbackForClass(TestCase):
 
         response = self.client.get(reverse("reflections:home"))
 
-        self.assertContains(response, "No Feedback Today")
+        self.assertContains(response, "No Class Wide Feedback Yet!")
+class TestStudentGetsFeedbackForClass(TestCase):
+    def test_successfully(self):
+        user = User.objects.create_user("janet")
+        admin = User.objects.create_superuser("admin")
+        feedback = "That was really great Brock!"
+        reflection = models.Reflection.objects.create(date=timezone.now())
+        submission = models.Submission.objects.create(reflection=reflection, user=user)
 
+        self.client.force_login(admin)
+        self.client.post(reverse(f"reflections:individual_feedback", args=[submission.id]),{"individual_feedback": feedback})
+        
+        submission.refresh_from_db()
+        self.assertEqual(submission.feedback, feedback)
+
+
+        
 
