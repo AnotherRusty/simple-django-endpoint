@@ -6,13 +6,7 @@ from django.contrib.auth.models import User
 
 
 def compute_leaderboard(matches):
-    # winsandlosses = {}
-    # for match in matches:
-    #     if match.winner():
-    #         winsandlosses[match.winner()] = winsandlosses.get(match.winner(), 0)
-    #         winsandlosses[match.loser()] = winsandlosses.get(match.loser(), 0)
-    #         winsandlosses["wins"] = winsandlosses.get(match.winner(), 0) + 1
-    #         winsandlosses["losses"] = winsandlosses.get(match.loser(), 0) + 1
+    
     leaderboard = []
 
     def all_players(matches):
@@ -46,7 +40,7 @@ def compute_leaderboard(matches):
             "wins": total_wins(player, matches),
             "losses": total_losses(player, matches),
         }
-            leaderboard.append(player_stats)
+        leaderboard.append(player_stats)
 
     sorted_board = sorted(leaderboard, key=lambda i: i["wins"], reverse=True)
     return sorted_board[:5]
