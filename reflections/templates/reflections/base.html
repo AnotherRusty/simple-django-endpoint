@@ -26,7 +26,7 @@
                                 <p class="h4 text-center"><small>{{question.prompt}}</small></p>
                                 <div class="form-group">
                                     <label class="col-form-label" for="inputDefault">Answer:</label>
-                                    <input name="question-{{question.id}}" type="text" class="form-control mw-75" id="inputDefault">
+                                    <textarea name="question-{{question.id}}" rows="3" class="form-control mw-75" id="inputDefault" required></textarea>
                                 </div>
                             {% endfor %}
                                 <button class="btn-info w-50 offset-3 p-2">Submit</button>
