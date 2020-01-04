@@ -48,7 +48,7 @@ class TestComputeLeaderboard(TestCase):
         leaderboard = compute_leaderboard(matches)
 
         self.assertListEqual(
-            leaderboard, [{"user": winner, "wins": 1}, {"user": loser, "wins": 0}]
+            leaderboard, [{"user": winner, "wins": 1, "losses": 0}, {'user': loser, 'wins': 0, 'losses': 1}]   
         )
 
     def test_two_match(self):
@@ -67,15 +67,15 @@ class TestComputeLeaderboard(TestCase):
         self.assertListEqual(
             leaderboard,
             [
-                {"user": two_wins, "wins": 2},
-                {"user": one_win, "wins": 1},
-                {"user": no_wins, "wins": 0},
+                {"user": two_wins, "wins": 2, 'losses': 0},
+                {"user": one_win, "wins": 1, 'losses': 1},
+                {"user": no_wins, "wins": 0, 'losses': 2},
             ],
         )
 
     def test_no_winner_matches_dont_show_up(self):
-        not_winner = User(username="winnie", id=1)
-        not_loser = User(username="lucy", id=3)
+        not_winner = User.objects.create_user("winnie")
+        not_loser = User.objects.create_user("Lucy  ")
         matches = [
             Match(
                 player1=not_winner, player2=not_loser, player2_score=3, player1_score=3
@@ -132,4 +132,40 @@ class TestUserSeesLeaderboard(TestCase):
         self.assertContains(response, "0")
 
 
+class TestUsersVerifyMatch(TestCase):
+    def test_successfully(self):
+        winner = User.objects.create(username="winnie", id=1)
+        loser = User.objects.create(username="lucy", id=3)
+        match = Match.objects.create(player1=winner, player2=loser, player2_score=7, player1_score=11)
+        
+        with self.subTest("winner sees verification prompt"):
+            self.client.force_login(winner)
+            response = self.client.get(reverse("pingpong:home"))
+            self.assertContains(response, "Verify match")
 
+        with self.subTest("loser sees verification prompt"):
+            self.client.force_login(loser)
+            response = self.client.get(reverse("pingpong:home"))
+            self.assertContains(response, "Verify match")
+
+        with self.subTest("winnie verifies match"):
+            self.client.force_login(winner)
+            response = self.client.post(reverse("pingpong:verify", args=[match.id]))
+            match.refresh_from_db()
+            self.assertTrue(match.player_1_verification)
+
+        with self.subTest("winnie no longer sees prompt"):
+            self.client.force_login(winner)
+            response = self.client.get(reverse("pingpong:home"))
+            self.assertNotContains(response, "Verify match")
+
+        with self.subTest("lucy verifies match"):
+            self.client.force_login(loser)
+            response = self.client.post(reverse("pingpong:verify", args=[match.id]))
+            match.refresh_from_db()
+            self.assertTrue(match.player_2_verification)
+
+        with self.subTest("lucy no longer sees prompt"):
+            self.client.force_login(loser)
+            response = self.client.get(reverse("pingpong:home"))
+            self.assertNotContains(response, "Verify match")

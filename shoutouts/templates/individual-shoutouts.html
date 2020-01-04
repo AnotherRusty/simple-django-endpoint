@@ -1,46 +1,60 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>{{ recipient.username }}'s Shoutouts</h2>
+
+<u>
+    <h1 class="text-center my-5">{{ recipient.username }}'s Shoutouts</h1>
+</u>
 <div id="shoutouts-container" class="row">
-    {% for shoutout in recipient.shoutouts_received.all %}
-    <div class="col col-lg-4 col-sm-12">
-        <div class="card">
+    {% if recipient.pinnedshoutout %}
+    {% with shoutout=recipient.pinnedshoutout.shoutout %}
+    <div class="col mx-auto my-3 col-lg-10  col-sm-12">
+        <div class="card border border-primary">
             <div class="card-body">
-                <p class="card-content">{{ shoutout.content }}</p>
-                <form action="{% url 'shoutouts:likes' shoutout.id %}" method="POST" class="total-likes">
-                {% csrf_token %}
-                <input type="hidden" name="next" value="{{ request.path }}">
-                <button class="like-button">{{ shoutout.like_set.count }} 👍</button>
+                <h3 class="text-center">Pinned Shoutout</h3>
+                <p class="card-content mb-5">{{ shoutout.content }}</p>
+                <form class="my-5 mb-5" action="{% url 'shoutouts:likes' shoutout.id %}" method="POST"
+                    class="total-likes">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ request.path }}">
+                    {{ shoutout.like_set.count }} <button class="btn btn-secondary border-0 p-1"> 👍</button>
                 </form>
+                {% if shoutout.anonymous %}
+                <p class="card-detail">From, Anonymous on {{ shoutout.datetime }}</p>
+                {% else %}
                 <p class="card-detail">From, {{ shoutout.user }} on {{ shoutout.datetime }}</p>
+                {% endif %}
             </div>
         </div>
     </div>
+    {% endwith %}
+    {% endif %}
+    {% for shoutout in recipient.shoutouts_received.all %}
+    {% if shoutout != user.pinnedshoutout.shoutout %}
+    <div class="col mx-auto my-3 col-lg-10  col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <p class="card-content mb-5">{{ shoutout.content }}</p>
+                {% if user == recipient %}
+                <form action="{% url 'shoutouts:pinned' shoutout.id %}" method="POST" class="pinned-form">
+                    {% csrf_token %}
+                    <button class=" btn btn-primary pinned-btn float-right">Pin</button>
+                </form>
+                {% endif %}
+                <form class="my-5 mb-5" action="{% url 'shoutouts:likes' shoutout.id %}" method="POST"
+                    class="total-likes">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ request.path }}">
+                    {{ shoutout.like_set.count }} <button class="btn btn-secondary border-0 p-1"> 👍</button>
+                </form>
+                {% if shoutout.anonymous %}
+                <p class="card-detail">From, Anonymous on {{ shoutout.datetime }}</p>
+                {% else %}
+                <p class="card-detail">From, {{ shoutout.user }} on {{ shoutout.datetime }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
     {% endfor %}
 </div>
-
-<style>
-    .card-body {
-        height: 15rem;
-    }
-    .card {
-        padding-bottom: 5px;
-        margin-bottom: 2rem;
-    }
-    .card-content{
-        font-size: 12pt;
-        margin-bottom: 3rem;
-    }
-    .card-detail {
-        font-size: 10pt;
-        position: absolute;
-        bottom: 0;
-    }
-    .like-button {
-        border: none;
-        position: absolute;
-        top: 11rem;
-        right: 0;
-    }
-</style>
 {% endblock content %}

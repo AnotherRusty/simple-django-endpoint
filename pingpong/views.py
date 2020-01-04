@@ -1,25 +1,49 @@
 from django.shortcuts import render, redirect
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, View
 from django.urls import reverse_lazy
 from pingpong.models import Match
 from django.contrib.auth.models import User
 
 
 def compute_leaderboard(matches):
-    wins = {}
-    for match in matches:
-        if match.winner():
-            wins[match.winner()] = wins.get(match.winner(), 0) + 1
-            wins[match.loser()] = wins.get(match.loser(), 0)
-
+    
     leaderboard = []
 
-    for key, value in wins.items():
-        thewinner = {"user": key, "wins": value}
-        leaderboard.append(thewinner)
+    def all_players(matches):
+        players = set()
+        for match in matches:
+            if match.winner():
+                players.add(match.winner())
+                players.add(match.loser())
+        return players
+
+    def total_wins(user, matches):
+        wins = 0
+        for match in matches:
+            if user == match.winner():
+                wins += 1
+        return wins
+
+    def total_losses(user, matches):
+        losses = 0
+        for match in matches:
+            if user == match.loser():
+                losses += 1
+        return losses
+
+    player_list = all_players(matches)
+    player_list
+
+    for player in player_list:
+        player_stats = {
+            "user": player,
+            "wins": total_wins(player, matches),
+            "losses": total_losses(player, matches),
+        }
+        leaderboard.append(player_stats)
 
     sorted_board = sorted(leaderboard, key=lambda i: i["wins"], reverse=True)
-    return sorted_board
+    return sorted_board[:5]
 
 
 class Home(ListView):
@@ -38,3 +62,24 @@ class MatchCreateView(CreateView):
     fields = ["player1", "player2", "player1_score", "player2_score"]
     template_name = "pingpong/create-match.html"
     success_url = reverse_lazy("pingpong:home")
+
+
+class VerifyMatch(View):
+    def post(self, request, id):
+
+        match = Match.objects.get(id=id)
+
+        if request.user == match.player1:
+
+            match.player_1_verification = True
+            match.save()
+
+            return redirect("pingpong:home")
+
+        elif request.user == match.player2:
+
+            match.player_2_verification = True
+            match.save()
+
+            return redirect("pingpong:home")
+

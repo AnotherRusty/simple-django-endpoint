@@ -9,6 +9,7 @@
     <tr>
       <th scope="col">Name</th>
       <th scope="col">Wins</th>
+      <th scope="col">Losses</th>
     </tr>
   </thead>
 
@@ -17,6 +18,7 @@
       <tr>
       <td>{{student.user}}</td>
       <td> {{student.wins}}</td>
+      <td>{{student.losses}}</td>
       </tr>
       {% endfor %}
   </tbody>
@@ -30,6 +32,21 @@
 <li class='card card-body col-3 m-2'>
     <h3 class="card-title" style="font-size: 1rem">{{match.player1}} vs {{match.player2}}</h3>
     <p class="card-text">{{match.player1_score}} - {{match.player2_score}}</p>
+
+    {% if user == match.player1 and not match.player_1_verification %}
+      <form action="{% url 'pingpong:verify' match.id %}" method="post">
+        {% csrf_token %}
+        <button>Verify match</button>
+      </form>
+    {% endif %}
+
+      {% if user == match.player2 and not match.player_2_verification %}
+        <form action="{% url 'pingpong:verify' match.id %}" method="post">
+          {% csrf_token %}
+          <button>Verify match</button>
+        </form>
+    {% endif %}
+
 </li>
 {% endfor %}
 </ul>
